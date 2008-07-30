@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sails.Contracts", "Sails.Contracts\Sails.Contracts.csproj", "{EE06546F-58C9-454D-95BD-F408084B2BB5}"
+EndProject
+Project("{325B8569-0C7C-4A6A-8AF8-89C3B6BC9E74}") = "Sails", "Sails\Sails.stproj", "{229934A3-F8B6-4990-938A-B4257816CFFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sails.Helpers", "Sails.Helpers\Sails.Helpers.csproj", "{328B9941-D068-4EDE-9994-A59F1B1AE530}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{229934A3-F8B6-4990-938A-B4257816CFFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{229934A3-F8B6-4990-938A-B4257816CFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{229934A3-F8B6-4990-938A-B4257816CFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{229934A3-F8B6-4990-938A-B4257816CFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

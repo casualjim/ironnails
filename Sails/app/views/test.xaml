@@ -1,0 +1,27 @@
+﻿<Window 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2006" 
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:aero="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+  mc:Ignorable="d" 
+  x:Name="Window" 
+  Title="Sylvester 0.0.1" 
+  Width="330" Height="570" MinWidth="200" MinHeight="200" 
+  WindowStyle="SingleBorderWindow"
+  Left="800" Top="50" >
+    <StackPanel>
+        <TextBlock Text="Testing 123" />
+      <ListBox x:Name="list">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Path=Name, FallbackValue=Name should be here}" />
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      <Button x:Name="my_button">
+        Testing 123
+      </Button>
+  </StackPanel>
+
+</Window>
