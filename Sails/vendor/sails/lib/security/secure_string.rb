@@ -2,7 +2,7 @@ module Sails
   
   module Security
     
-    module SecureString
+    class SecureString
       
       include System::Security::Cryptography
       include System::Runtime::InteropServices

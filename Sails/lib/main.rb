@@ -3,5 +3,5 @@ WpfApplication.new do
   
   #obj = MainWindowController.new
   obj = TestController.new
-  obj.view  
+  obj.current_view  
 end

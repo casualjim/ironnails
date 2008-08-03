@@ -66,6 +66,7 @@
     <Ruby Include="config\boot.rb" />
     <Ruby Include="config\environment.rb" />
     <Ruby Include="lib\main.rb" />
+    <Ruby Include="Rakefile.rb" />
     <Ruby Include="vendor\sails\config\configuration.rb" />
     <Ruby Include="vendor\sails\config\initializer.rb" />
     <Ruby Include="vendor\sails\init.rb" />
@@ -86,8 +87,12 @@
     <Ruby Include="vendor\sails\lib\iron_xml.rb" />
     <Ruby Include="vendor\sails\lib\model\base.rb" />
     <Ruby Include="vendor\sails\lib\observable.rb" />
+    <Ruby Include="vendor\sails\lib\sails.rb" />
     <Ruby Include="vendor\sails\lib\security\secure_string.rb" />
+    <Ruby Include="vendor\sails\lib\view.rb" />
     <Ruby Include="vendor\sails\lib\view\proxy.rb" />
+    <Ruby Include="vendor\sails\lib\view\view_model.rb" />
+    <Ruby Include="vendor\sails\lib\wpf.rb" />
     <Ruby Include="vendor\sails\lib\wpf_application.rb" />
   </ItemGroup>
   <ItemGroup>

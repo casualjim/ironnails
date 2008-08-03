@@ -21,12 +21,12 @@ namespace :build do
 
   desc "Build the helpers project" 
   task :helpers do
-    system "msbuild /verbosity:quiet /nologo ../Sails.Helpers/Sails.Helpers.csproj" 
+    system "msbuild /nologo ../Sails.Helpers/Sails.Helpers.csproj" 
   end
   
   desc "Build the contracts project" 
   task :contracts do
-    system "msbuild /verbosity:quiet /nologo ../Sails.Contracts/Sails.Contracts.csproj" 
+    system "msbuild /nologo ../Sails.Contracts/Sails.Contracts.csproj" 
   end
 
 end

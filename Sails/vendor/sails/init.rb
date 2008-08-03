@@ -19,13 +19,12 @@ require 'System.Security, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5
 require "System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
 require "System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
 require File.dirname(__FILE__) + '/bin/Sails.Helpers.dll'
-
 include Sails::Helpers
-
 require File.dirname(__FILE__) + '/config/configuration'
 require File.dirname(__FILE__) + '/config/initializer'
 require File.dirname(__FILE__) + '/lib/security/secure_string'
 require File.dirname(__FILE__) + '/lib/core_ext'
-require File.dirname(__FILE__) + '/lib/wpf_application'
-require File.dirname(__FILE__) + '/lib/controller'
 require File.dirname(__FILE__) + '/lib/observable'
+require File.dirname(__FILE__) + '/lib/wpf_application'
+require File.dirname(__FILE__) + '/lib/view'
+require File.dirname(__FILE__) + '/lib/controller'

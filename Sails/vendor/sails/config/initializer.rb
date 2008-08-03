@@ -50,7 +50,7 @@ module Sails
     
     def require_files(path, extension)
       Dir.glob("#{File.expand_path(path)}/*.#{extension}").each do |file| 
-        #        puts "#{file}"
+        #puts "#{file}"
         require "#{file}" unless configuration.excluded_file? file
       end
     end

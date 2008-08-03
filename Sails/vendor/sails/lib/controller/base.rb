@@ -6,23 +6,15 @@ module Sails
       
       include Sails::Controller::AsyncOperations
       
-      attr_reader :view, :view_name, :view_extension, :view_path
+      # Gets or sets the view_model for this controller.
+      attr_accessor :view_model
       
       def initialize
-        initialize_controls
-        initialize_events   
+        puts "in base initialize"
       end
       
-      def load_view
-        @view = XamlReader.load_from_path view_path if File.exists? view_path
-      end  
-      
-      def initialize_events
-        
-      end
-      
-      def initialize_controls
-        
+      def current_view 
+        @view_model.view.instance
       end
       
       def view_name
@@ -33,22 +25,26 @@ module Sails
         downcase.gsub(/_controller$/, '')
       end
       
-      def view_extension
-        ".xaml"
+      def view_model_name
+        "#{view_name.camelize}ViewModel"
       end
       
-      def view_path
-        "#{SAILS_VIEWS_ROOT}/#{view_name}#{view_extension}"
+      def init_view_model
+        @view_model = Sails::View::ViewModel.new   
+        @view_model.init_with view_name
+        @view_model
       end
       
-      def method_missing(sym, *args, &blk)
-        @view.find_name(sym.to_s.to_clr_string)
-      end
+      class << self
+        
+        alias_method :old_sails_new, :new
+        def new
+          ctrlr = old_sails_new
+          ctrlr.init_view_model
+          ctrlr
+        end       
       
-      def app_settings
-        APP_SETTINGS
       end
-      
     end
     
   end

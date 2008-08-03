@@ -2,6 +2,7 @@ module Sails
 
   module View
     
+    # The Sails::View::Proxy class wraps a xaml file and brings it alive
     class Proxy
       
       # gets or sets the name of the view
@@ -35,10 +36,24 @@ module Sails
         @view_path
       end
       
+      
       def method_missing(sym, *args, &blk)
         obj = @instance.find_name(sym.to_s.to_clr_string)
         obj.nil? ? super : obj
       end 
+      
+      class << self
+        
+        # creates an instance of the view specified by the +view_name+
+        def load(view_name)
+          puts "loading view"
+          vw = new view_name
+          puts "instantiated view with name"
+          vw.load_view
+          puts "loaded view"
+          vw
+        end
+      end
       
     end
   
