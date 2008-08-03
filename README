@@ -1,14 +1,14 @@
-Sails
-=====
+IronNails
+=========
 
-Sails is a framework inspired by the Rails and rucola frameworks. It offers a rails-like way of developing applications with IronRuby and Windows Presentation Foundation (WPF).
+IronNails is a framework inspired by the Rails and rucola frameworks. It offers a rails-like way of developing applications with IronRuby and Windows Presentation Foundation (WPF).
 This framework uses the pattern Model - ViewModel - View - Controller (M-VM-V-C). It should be able to run on both WPF and Silverlight.
 The idea is that the views can be created using a design tool like Blend for example and just save that xaml as is. The designer should not need to use anything else than drag and drop to create a GUI design. The behaviors are then added to the view by using predefined behaviors in the framework or by defining your own behavior.
 The framework then generates a proxy for the view which will be used to transparently wire up the commands in the behaviors to controller actions. 
 
 You should be able to define a controller a little like this (doesn't work yet and will most likely change in the future):
 
-class MyController < Sails::Controllers::Base
+class MyController < IronNails::Controllers::Base
 
   view_object :some_model, :refresh => :refresh_some_model, :refresh_interval => 2.minutes
 

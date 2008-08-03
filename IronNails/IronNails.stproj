@@ -1,0 +1,154 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{229934a3-f8b6-4990-938a-b4257816cffd}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sails</RootNamespace>
+    <AssemblyName>Sails</AssemblyName>
+    <RubyType>IronRuby</RubyType>
+    <RubyInterpreter>C:\Program Files\SapphireSteel Software\Ruby In Steel\v1.0\IronRuby\rbx.exe</RubyInterpreter>
+    <RubyExeNoDebug>C:\Program Files\SapphireSteel Software\Ruby In Steel\v1.0\IronRuby\rbx.exe</RubyExeNoDebug>
+    <RubyStartFile>Program.rb</RubyStartFile>
+    <Name>IronNails</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\controllers" />
+    <Folder Include="app\models" />
+    <Folder Include="app\views" />
+    <Folder Include="bin\Debug" />
+    <Folder Include="bin\Release" />
+    <Folder Include="config\development" />
+    <Folder Include="lib" />
+    <Folder Include="app" />
+    <Folder Include="config" />
+    <Folder Include="bin" />
+    <Folder Include="obj" />
+    <Folder Include="obj\Debug" />
+    <Folder Include="obj\Release" />
+    <Folder Include="vendor" />
+    <Folder Include="vendor\iron_nails" />
+    <Folder Include="vendor\iron_nails\bin" />
+    <Folder Include="vendor\iron_nails\config" />
+    <Folder Include="vendor\iron_nails\lib" />
+    <Folder Include="vendor\iron_nails\lib\controller" />
+    <Folder Include="vendor\iron_nails\lib\core_ext" />
+    <Folder Include="vendor\iron_nails\lib\core_ext\system" />
+    <Folder Include="vendor\iron_nails\lib\core_ext\system\net" />
+    <Folder Include="vendor\iron_nails\lib\core_ext\system\windows" />
+    <Folder Include="vendor\iron_nails\lib\core_ext\system\security" />
+    <Folder Include="vendor\iron_nails\lib\core_ext\system\windows\markup" />
+    <Folder Include="vendor\iron_nails\lib\model" />
+    <Folder Include="vendor\iron_nails\lib\view" />
+    <Folder Include="vendor\iron_nails\lib\security" />
+  </ItemGroup>
+  <ItemGroup>
+    <Ruby Include="app\controllers\test_controller.rb" />
+    <Ruby Include="app\models\human.rb" />
+    <Ruby Include="app\models\person.rb" />
+    <Ruby Include="config\boot.rb" />
+    <Ruby Include="config\environment.rb" />
+    <Ruby Include="lib\main.rb" />
+    <Ruby Include="Rakefile.rb" />
+    <Ruby Include="vendor\iron_nails\config\configuration.rb" />
+    <Ruby Include="vendor\iron_nails\config\initializer.rb" />
+    <Ruby Include="vendor\iron_nails\init.rb" />
+    <Ruby Include="vendor\iron_nails\lib\controller.rb" />
+    <Ruby Include="vendor\iron_nails\lib\controller\async_operations.rb" />
+    <Ruby Include="vendor\iron_nails\lib\controller\base.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\class.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\fixnum.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\hash.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\object.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\string.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\symbol.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\system\net\web_request.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\system\security\secure_string.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\system\windows\markup\xaml_reader.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\time.rb" />
+    <Ruby Include="vendor\iron_nails\lib\iron_xml.rb" />
+    <Ruby Include="vendor\iron_nails\lib\model\base.rb" />
+    <Ruby Include="vendor\iron_nails\lib\observable.rb" />
+    <Ruby Include="vendor\iron_nails\lib\sails.rb" />
+    <Ruby Include="vendor\iron_nails\lib\security\secure_string.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\proxy.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\view_model.rb" />
+    <Ruby Include="vendor\iron_nails\lib\wpf.rb" />
+    <Ruby Include="vendor\iron_nails\lib\wpf_application.rb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\views\test.xaml" />
+    <Content Include="bin\IronNails.Contracts.dll" />
+    <Content Include="bin\IronNails.Contracts.pdb" />
+    <Content Include="vendor\iron_nails\bin\IronNails.Library.dll" />
+    <Content Include="vendor\iron_nails\bin\IronNails.Library.pdb" />
+  </ItemGroup>
+  <UsingTask TaskName="Sapphire.Steel.SteelRubyBuild" AssemblyName="SteelBuild, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a42f26dbbcba2be, processorArchitecture=x86" />
+  <UsingTask TaskName="Sapphire.Steel.SteelRailsBuild" AssemblyName="SteelBuild, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a42f26dbbcba2be, processorArchitecture=x86" />
+  <UsingTask TaskName="Sapphire.Steel.IronRubyBuild" AssemblyFile="SteelBuild, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a42f26dbbcba2be, processorArchitecture=x86" />
+  <UsingTask TaskName="CreateCSharpManifestResourceName" AssemblyName="Microsoft.Build.Tasks, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <Target Name="BuildRails" Inputs="@(EmbeddedRuby)" Outputs="$(MSBuildProjectDirectory)\SyntaxCheck\%(Identity)">
+    <MakeDir Directories="SyntaxCheck" />
+    <SteelRailsBuild ERBFile="@(EmbeddedRuby)" ProjectDirectory="$(MSBuildProjectDirectory)" ERBProcessor="$(ERBProcessor)" ERBFlags="$(ERBFlags)" ERBLibraryFiles="$(ERBLibraryFiles)" ERBTimeout="$(ERBTimeout)" />
+  </Target>
+  <Target Name="BuildRuby" Inputs="@(Ruby)" Outputs="$(MSBuildProjectDirectory)\SyntaxCheck\%(Identity)">
+    <MakeDir Directories="SyntaxCheck" />
+    <SteelRubyBuild RubyFile="@(Ruby)" ProjectDirectory="$(MSBuildProjectDirectory)" RubyInterpreter="$(RubyInterpreter)" RubyInterpreterFlags="$(RubyInterpreterFlags)" RubyLibraryFiles="$(RubyLibraryFiles)" RubyLibraryPaths="$(LibraryPath)" RubyTimeout="$(RubyTimeout)" />
+  </Target>
+  <Target Name="BuildIronRuby" Inputs="@(Compile);@(ReferencePath);@(ManifestResourceWithNoCulture);@(ManifestNonResxWithNoCultureOnDisk)" Outputs="@(IntermediateAssembly)">
+    <Message Text="Building: @(IntermediateAssembly)" />
+    <IronRubyBuild RubyFile="$(MainFile)" SourceFiles="@(Compile)" RubyInterpreter="$(RubyInterpreter)" RubyInterpreterFlags="$(RubyInterpreterFlags)" OutputAssembly="@(IntermediateAssembly)" ReferencedAssemblies="@(ReferencePath)" ResourceFiles="@(ManifestResourceWithNoCulture);@(ManifestNonResxWithNoCultureOnDisk)" TargetKind="$(OutputType)" DebugSymbols="$(DebugSymbols)" ProjectPath="$(MSBuildProjectDirectory)" />
+  </Target>
+  <Target Name="CoreCompile" Inputs="@(Compile);&#xD;&#xA;              @(ReferencePath)" Outputs="@(IntermediateAssembly)" DependsOnTargets="$(CoreCompileDependsOn);IronRubyCompilerTarget">
+  </Target>
+  <Target Name="Clean">
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\SyntaxCheck" />
+  </Target>
+  <Target Name="Build" DependsOnTargets="$(BuildDependsOn)" Inputs="@(Ruby); @(EmbeddedRuby)" Outputs="$(MSBuildProjectDirectory)\SyntaxCheck\%(Identity)">
+  </Target>
+  <Target Name="Clean">
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\SyntaxCheck" />
+  </Target>
+  <PropertyGroup>
+    <RebuildDependsOn>
+      Clean;
+      Build;
+    </RebuildDependsOn>
+    <BuildDependsOn>
+      BeforeBuild;
+      BuildRuby; 
+      BuildRails;
+			BuildIronRuby;
+      AfterBuild;
+    </BuildDependsOn>
+    <SteelVersion>1.2</SteelVersion>
+  </PropertyGroup>
+  <Target Name="Rebuild" DependsOnTargets="$(RebuildDependsOn)" Inputs="@(Ruby)" Outputs="$(MSBuildProjectDirectory)\SyntaxCheck\%(Identity)">
+  </Target>
+  <Target Name="BeforeBuild" Condition="'$(PreBuildEvent)'!='' ">
+    <Exec Command="$(PreBuildEvent)" />
+  </Target>
+  <Target Name="AfterBuild" Condition="'$(PostBuildEvent)'!='' ">
+    <Exec Command="$(PostBuildEvent)" />
+  </Target>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+</Project>
