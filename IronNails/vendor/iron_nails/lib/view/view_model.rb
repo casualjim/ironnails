@@ -2,6 +2,7 @@ module IronNails
 
   module View
   
+    # The base class for view models in an IronNails application.
     class ViewModel
       
       # the view proxy that this view model is responsible for
@@ -13,40 +14,49 @@ module IronNails
       # gets or sets the models that wil be used in the view to bind to
       attr_accessor :objects
       
+      # loads a new instance of a view proxy into this model
       def load_view(name)
         @view = Proxy.load(name)
       end 
       
-      def initialize
+      def initialize(view_name='')
         @commands, @objects = [], []        
+        load_view view_name unless view_name.empty?
       end
-      
-      
+            
     end
     
     class ViewModelBuilder
       
-      attr_accessor :model
+      # gets the view model instance to manipulate with this builder
+      attr_reader :model
       
+      # loads a new instance of the view into memory
       def load_view(name)
         @model.load_view name
       end
       
-      def view_instance
-        @model.view.instance
+      # adds a command to the view model
+      def add_command(command)
+        @model.commands << command
       end
       
-      def copyvars
-        self.class.instance_variables.each do var
-          instance_variable_set(var, self.class.instance_variable_get(var))
-        end
+      # adds an object to the view model
+      def add_object(object)
+        @model.objects << object
+      end 
+      
+      # gets the view proxy      
+      def view
+        @model.view
       end
       
+      # builds a class with the specified +class_name+ and defines it if necessary. 
+      # After it will load the proxy for the view with +view_name+
       def build_class_with(class_name, view_name)
         Object.const_set class_name, Class.new(IronNails::View::ViewModel) unless Object.const_defined? class_name     
         klass = Object.const_get class_name
-        @model = klass.new     
-        @model.load_view view_name
+        @model = klass.new view_name
         @model
       end
       
@@ -57,11 +67,7 @@ module IronNails
           builder = new
           builder.build_class_with class_name.camelize, view_name
           builder
-        end
-        
-        def singleton_class
-          class << self; self; end;
-        end
+        end       
           
       end
       

@@ -1,5 +1,8 @@
 class TestController < IronNails::Controller::Base
   
+  view_action :show_message, :triggers => [:my_button, { :element => :my_button2, :event => :left_mouse_button_up }]
+  view_object :msg_model, "Hello, World"
+  
   def initialize
     puts "in test controller initialize"
     #load_view    
@@ -15,5 +18,8 @@ class TestController < IronNails::Controller::Base
     
   end 
   
+  def show_message
+    MessageBox.show "This is the great message"
+  end
   
 end
