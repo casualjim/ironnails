@@ -1,9 +1,15 @@
 module IronNails
 
   module View
-  
-    # The base class for view models in an IronNails application.
+    
     class ViewModel
+      def initialize(name = '')
+        super
+      end
+    end
+    
+    # The base class for view models in an IronNails application.
+    module ViewModelMixin 
       
       # the view proxy that this view model is responsible for
       attr_accessor :view
@@ -23,7 +29,25 @@ module IronNails
         @commands, @objects = [], []        
         load_view view_name unless view_name.empty?
       end
-            
+      
+      
+      def wireup_properties
+        @objects.each do |o|
+          o.each do |k, v|
+            send "#{k}=".to_sym, v 
+          end
+        end        
+      end
+      
+      def wireup_events
+      end
+      
+      def wireup_view
+        wireup_properties
+        wireup_events
+        @view.instance.data_context = self
+      end
+             
     end
     
     class ViewModelBuilder
@@ -36,16 +60,16 @@ module IronNails
         @model.load_view name
       end
       
-      # adds a command to the view model
-      def add_command(command)
-        @model.commands << command
-      end
-      
-      # adds an object to the view model
-      def add_object(object)
-        @model.objects << object
-      end 
-      
+#      # adds a command to the view model
+#      def add_command(command)
+#        @model.commands << command
+#      end
+#      
+#      # adds an object to the view model
+#      def add_object(object)
+#        @model.objects << object
+#      end 
+#      
       # gets the view proxy      
       def view
         @model.view
@@ -54,10 +78,23 @@ module IronNails
       # builds a class with the specified +class_name+ and defines it if necessary. 
       # After it will load the proxy for the view with +view_name+
       def build_class_with(class_name, view_name)
-        Object.const_set class_name, Class.new(IronNails::View::ViewModel) unless Object.const_defined? class_name     
-        klass = Object.const_get class_name
-        @model = klass.new view_name
+        # FIXME: The line below will be more useful when we can bind to IronRuby objects
+        # Object.const_set class_name, Class.new(ViewModel) unless Object.const_defined? class_name     
+
+        # TODO: There is an issue with namespacing and CLR classes, they aren't registered as constants with
+        #       IronRuby. This makes it hard to namespace viewmodels. If the namespace is included everything 
+        #       should work as normally. Will revisit this later to properly fix it.        
+        klass = Object.const_get class_name 
+        klass.include IronNails::View::ViewModelMixin
+        @model = klass.new 
+        @model.load_view view_name        
         @model
+      end
+      
+      def initialize_with(commands, objects)
+        @model.commands << commands
+        @model.objects << objects
+        @model.wireup_view
       end
       
       class << self

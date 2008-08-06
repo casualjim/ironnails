@@ -12,7 +12,7 @@
   Left="800" Top="50" >
     <StackPanel>
         <TextBlock Text="Testing 123" />
-      <ListBox x:Name="list">
+      <ListBox x:Name="list" ItemsSource="{Binding Path=People}">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <TextBlock Text="{Binding Path=Name, FallbackValue=Name should be here}" />

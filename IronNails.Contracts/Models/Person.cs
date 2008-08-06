@@ -1,4 +1,4 @@
-namespace IronNails.Contracts.Models
+namespace IronNails.Models
 {
     public class Person
     {

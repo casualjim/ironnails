@@ -51,7 +51,7 @@ module IronNails
     
     #files to exclude from requiring in our app
     def default_excluded_files
-      ['config/environment.rb', 'lib/main.rb', 'config/boot.rb'].collect{ |dir| "#{root_path}/#{dir}" }
+      ['config/environment.rb', 'lib/main.rb', 'config/boot.rb', 'bin/IronNails.Library.dll' ].collect{ |dir| "#{root_path}/#{dir}" }
     end
     
     # returns wheter or not the specified path is an excluded file

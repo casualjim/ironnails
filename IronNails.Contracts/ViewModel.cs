@@ -7,6 +7,6 @@ namespace IronNails.View
     /// </summary>
     public partial class ViewModel
     {
-        public string Testing { get; set; }
+        
     }
 }

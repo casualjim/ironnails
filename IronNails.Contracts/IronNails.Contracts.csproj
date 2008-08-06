@@ -8,7 +8,7 @@
     <ProjectGuid>{EE06546F-58C9-454D-95BD-F408084B2BB5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IronNails.Contracts</RootNamespace>
+    <RootNamespace>IronNails</RootNamespace>
     <AssemblyName>IronNails.Contracts</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -67,6 +67,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Testing.cs" />
+    <Compile Include="ViewModel.cs" />
+    <Compile Include="ViewModels\TestViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

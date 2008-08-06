@@ -73,6 +73,7 @@
     <Ruby Include="vendor\iron_nails\lib\controller.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller\async_operations.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller\base.rb" />
+    <Ruby Include="vendor\iron_nails\lib\controller\view_model_operations.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\class.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\fixnum.rb" />
@@ -99,6 +100,8 @@
     <Content Include="app\views\test.xaml" />
     <Content Include="bin\IronNails.Contracts.dll" />
     <Content Include="bin\IronNails.Contracts.pdb" />
+    <Content Include="bin\IronNails.Library.dll" />
+    <Content Include="bin\IronNails.Library.pdb" />
     <Content Include="vendor\iron_nails\bin\IronNails.Library.dll" />
     <Content Include="vendor\iron_nails\bin\IronNails.Library.pdb" />
   </ItemGroup>

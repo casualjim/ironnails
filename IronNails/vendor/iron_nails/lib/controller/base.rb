@@ -17,11 +17,10 @@ module IronNails
             
       class << self
         
-        alias_method :old_nails_new, :new
+        alias_method :old_nails_controller_new, :new
         def new
-          ctrlr = old_nails_new
+          ctrlr = old_nails_controller_new
           ctrlr.init_view_model
-          ctrlr.copy_vars
           ctrlr
         end  
         
