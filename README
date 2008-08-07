@@ -6,18 +6,26 @@ This framework uses the pattern Model - ViewModel - View - Controller (M-VM-V-C)
 The idea is that the views can be created using a design tool like Blend for example and just save that xaml as is. The designer should not need to use anything else than drag and drop to create a GUI design. The behaviors are then added to the view by using predefined behaviors in the framework or by defining your own behavior.
 The framework then generates a proxy for the view which will be used to transparently wire up the commands in the behaviors to controller actions. 
 
-You should be able to define a controller a little like this (doesn't work yet and will most likely change in the future):
+You are now able to write the following code for a controller:
 
-class MyController < IronNails::Controllers::Base
-
-  view_object :some_model, Model.find_all
-
-  view_action :some_action, :target => :my_button, :action => :some_action_implementation
-
-  def some_action
-    # code here
+class MyController < IronNails::Controller::Base
+  
+  view_action :show_message, :triggers => :my_button do
+    MessageBox.show "This is the great message from a block"
   end
-
+  
+  view_action :change_color, :triggers => { :element => :my_text_block, :event => :mouse_enter }
+  view_action :reset_color, :triggers => { :element => :my_text_block, :event => :mouse_leave } do |view|
+    view.my_text_block.foreground = :black.to_brush
+  end
+  
+  view_object :people, Person.find_all
+    
+  def change_color(view)
+    view.my_text_block.foreground = :red.to_brush
+  end
+  
+  
 end
 
 all help is welcome: ivan@flanders.co.nz

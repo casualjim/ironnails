@@ -38,7 +38,7 @@ module IronNails
           raise ArgumentException.new "You have to specify at least one trigger for a view action" if v[:triggers].nil?
           act = v[:action]||k
           action = act
-          action = self.object.method(act) if act.is_a?(Symbol) || act.is_a?(String)
+          action = self.method(act) if act.is_a?(Symbol) || act.is_a?(String)
           triggers = v[:triggers]
           command_definitions << { :element => triggers, :event => :click, :action => action } if triggers.is_a?(String) || triggers.is_a?(Symbol)
           command_definitions << triggers.merge({:action => action }) if triggers.is_a?(Hash)
