@@ -88,7 +88,7 @@ module IronNails
       end
       
       def initialize_with(command_definitions, objects)
-        @model.commands += IronNails::View::Command.generate_for(command_definitions)
+        @model.commands += IronNails::View::Command.generate_for command_definitions
         @model.objects << objects
         @model.wireup_view
       end

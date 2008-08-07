@@ -10,6 +10,8 @@ class Symbol
       Brushes.green
     when :alice_blue
       Brushes.alice_blue
+    when :red
+      Brushes.red
     end
   end
   

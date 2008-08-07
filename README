@@ -10,15 +10,11 @@ You should be able to define a controller a little like this (doesn't work yet a
 
 class MyController < IronNails::Controllers::Base
 
-  view_object :some_model, :refresh => :refresh_some_model, :refresh_interval => 2.minutes
+  view_object :some_model, Model.find_all
 
   view_action :some_action, :target => :my_button, :action => :some_action_implementation
 
-  def refresh_some_model
-    # code here
-  end
-
-  def some_action_implementation
+  def some_action
     # code here
   end
 

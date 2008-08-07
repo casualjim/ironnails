@@ -11,7 +11,7 @@
   WindowStyle="SingleBorderWindow"
   Left="800" Top="50" >
     <StackPanel>
-        <TextBlock Text="Testing 123" />
+        <TextBlock x:Name="my_text_block" Text="Testing 123" />
       <ListBox x:Name="list" ItemsSource="{Binding Path=People}">
         <ListBox.ItemTemplate>
           <DataTemplate>

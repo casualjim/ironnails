@@ -13,6 +13,9 @@ module IronNails
       # the action that will be triggered 
       attr_accessor :action
       
+      # the view this command is bound to
+      attr_reader :view
+      
       def initialize(options)
         raise ArgumentException.new("An element name is necesary") if options[:element].nil?
         raise ArgumentException.new("An action is necesary") if options[:action].nil?
@@ -22,14 +25,34 @@ module IronNails
         @action = options[:action]
       end 
       
-      # Attaches this command to the view 
+      # Attaches this command to the specified +view+
       def attach_to(view)
+        @view = view
         view.send(element.to_sym).send(trigger.to_sym) { execute }
       end
       
       # executes this command (it calls the action)
       def execute
-        @action.call
+        #FIXME: arity hasn't been implemented on Proc yet.
+        #       So for now when we're dealing with a Proc we'll first try to call
+        #       the method without a parameter and next the method with a parameter
+        if @action.is_a?(Method) && @action.arity > 0
+          @action.call view
+        else 
+          begin
+            if @action.is_a?(Proc)
+              @action.call view 
+            else
+              @action.call
+            end
+          rescue ArgumentError => ae
+            if @action.is_a?(Proc)
+              @action.call 
+            else
+              raise ae
+            end
+          end
+        end
       end
       
       class << self
