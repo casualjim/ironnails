@@ -24,8 +24,9 @@ module IronNails
           ctrlr
         end  
         
-        def view_action(name, options)
+        def view_action(name, options, &b)
           @commands ||= {}
+          options[:action] = b if block_given?
           @commands[name] = options          
         end
         

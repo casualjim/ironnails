@@ -91,6 +91,7 @@
     <Ruby Include="vendor\iron_nails\lib\sails.rb" />
     <Ruby Include="vendor\iron_nails\lib\security\secure_string.rb" />
     <Ruby Include="vendor\iron_nails\lib\view.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\proxy.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_model.rb" />
     <Ruby Include="vendor\iron_nails\lib\wpf.rb" />

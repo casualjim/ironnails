@@ -24,8 +24,30 @@ module IronNails
       def init_view_model
         @view_model = IronNails::View::ViewModelBuilder.for_view_model view_model_name, view_name
         copy_vars
-        @view_model.initialize_with @commands, @objects
+        cmd_defs = generate_command_definitions 
+        @view_model.initialize_with cmd_defs, @objects
       end
+      
+      # Generates the command definitions for our view model.
+      # When it can't find a key :action in the options hash for the view_action
+      # it will default to using the name as the command as the connected option.
+      # It will generate a series of commands for items that have more than one trigger      
+      def generate_command_definitions
+        command_definitions = []
+        @commands.each do |k, v|
+          raise ArgumentException.new "You have to specify at least one trigger for a view action" if v[:triggers].nil?
+          act = v[:action]||k
+          action = act
+          action = lambda { self.send act } if act.is_a? Symbol
+          triggers = v[:triggers]
+          triggers.each do |trig|
+            trig = { :element => trig, :event => :click } unless trig.is_a? Hash
+            trig[:event] = :click unless trig.respond_to? :event
+            command_definitions << trig.merge({ :action => action })
+          end
+        end
+        command_definitions
+      end 
       
       def instance_variable_copy(var)
         val = self.class.instance_variable_get var

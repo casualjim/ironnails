@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + "/command.rb"
 module IronNails
 
   module View
@@ -40,8 +41,13 @@ module IronNails
       end
       
       def wireup_events
+        @commands.each do |cmd|
+          cmd.attach_to view
+        end
       end
       
+      # binds the view model to the view. It will setup the appropriate events, 
+      # set the datacontext of the view so that all the data appears properly.s      
       def wireup_view
         wireup_properties
         wireup_events
@@ -60,16 +66,6 @@ module IronNails
         @model.load_view name
       end
       
-#      # adds a command to the view model
-#      def add_command(command)
-#        @model.commands << command
-#      end
-#      
-#      # adds an object to the view model
-#      def add_object(object)
-#        @model.objects << object
-#      end 
-#      
       # gets the view proxy      
       def view
         @model.view
@@ -91,8 +87,8 @@ module IronNails
         @model
       end
       
-      def initialize_with(commands, objects)
-        @model.commands << commands
+      def initialize_with(command_definitions, objects)
+        @model.commands += IronNails::View::Command.generate_for(command_definitions)
         @model.objects << objects
         @model.wireup_view
       end
