@@ -1,14 +1,10 @@
 class WpfApplication < System::Windows::Application
   
   def initialize(&b)
-    @@window = instance_eval &b
-    run @@window
+    controller = instance_eval &b
+    run controller.show_view(false)
   end
-  
-  def self.current_window
-    @@window
-  end
-  
+    
   def set_skin(name)
     self.resources.merged_dictionaries.add load_skin(name)
   end 

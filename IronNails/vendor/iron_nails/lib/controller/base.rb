@@ -14,6 +14,11 @@ module IronNails
         @view_model.model.view
       end
       
+      def show_view(show=true)
+        setup_for_showing_view        
+        show ? current_view.instance.show : current_view.instance
+      end
+      
             
       class << self
         

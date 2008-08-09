@@ -2,6 +2,7 @@ module IronNails
 
   module View
   
+    # Encapsulates commands that will be attached to the views.
     class Command
     
       # the name of the event that will trigger the action
@@ -36,6 +37,7 @@ module IronNails
         #FIXME: arity hasn't been implemented on Proc yet.
         #       So for now when we're dealing with a Proc we'll first try to call
         #       the method without a parameter and next the method with a parameter
+        #       In other words below is a grotesque hack
         if @action.is_a?(Method) && @action.arity > 0
           @action.call view
         else 

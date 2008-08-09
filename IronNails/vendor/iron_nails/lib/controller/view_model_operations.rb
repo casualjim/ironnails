@@ -2,8 +2,11 @@ module IronNails
 
   module Controller
   
+    # Encapsulates all the operations that have to do with the 
+    # view model in controllers.
     module ViewModelOperations
       
+      # gets the view name for the class that includes this module
       def view_name
         self.class.demodulize.gsub(/::/, '/').
         gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
@@ -12,18 +15,25 @@ module IronNails
         downcase.gsub(/_controller$/, '')
       end
       
+      # gets the name of the view model class
       def view_model_name
         "#{default_vm_namespace}#{view_name.camelize}ViewModel"
       end
       
+      # gets the default namespace for the view model class
       def default_vm_namespace
         #"IronNails::ViewModels::"
         ""
       end
       
+      # initializes a new instance of the ViewModelBuilder      
       def init_view_model
         @view_model = IronNails::View::ViewModelBuilder.for_view_model view_model_name, view_name
         copy_vars
+      end
+      
+      # setup the viewmodel for the current objects and command defintions
+      def setup_for_showing_view
         cmd_defs = generate_command_definitions 
         @view_model.initialize_with cmd_defs, @objects
       end
@@ -51,6 +61,7 @@ module IronNails
         command_definitions
       end 
       
+      # copies an instance variable from the class object to this instance
       def instance_variable_copy(var)
         val = self.class.instance_variable_get var
         instance_variable_set var, val

@@ -29,3 +29,10 @@ class MyController < IronNails::Controller::Base
 end
 
 all help is welcome: ivan@flanders.co.nz
+
+Help is wanted for implementing the following items.
+
+* RSpec stories
+* Predefined behaviors
+* Better xaml integration
+* Encapsulation of automatic refreshing of models.
