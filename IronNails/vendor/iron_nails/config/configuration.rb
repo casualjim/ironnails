@@ -27,10 +27,28 @@ module IronNails
     # the files that won't be initialized through this procedure
     attr_reader :excluded_files
     
+    # The log level to use for the default Rails logger. In production mode,
+    # this defaults to <tt>:info</tt>. In development mode, it defaults to
+    # <tt>:debug</tt>.
+    attr_accessor :log_level
+    
+    # The path to the log file to use. Defaults to log/#{environment}.log
+    # (e.g. log/development.log or log/production.log).
+    attr_accessor :log_path
+    
+    # The specific logger to use. By default, a logger will be created and
+    # initialized using #log_path and #log_level, but a programmer may
+    # specifically set the logger to use via this accessor and it will be
+    # used directly.
+    attr_accessor :logger
     
     def initialize(rpath = (File.dirname(__FILE__) + '/../../..'))
       @root_path = rpath
       initialize_with_defaults
+    end
+    
+    def environment
+      ::IRONNAILS_ENV
     end
     
     # The paths that contain sources for our application.
@@ -53,6 +71,14 @@ module IronNails
     def default_excluded_files
       ['config/environment.rb', 'lib/main.rb', 'config/boot.rb', 'bin/IronNails.Library.dll' ].collect{ |dir| "#{root_path}/#{dir}" }
     end
+    
+    def default_log_level
+      (IRONNAILS_ENV == 'development' || IRONNAILS_ENV.nil?) ? :debug : :info
+    end
+    
+    def default_log_path
+      File.join(root_path, 'log', "#{environment}.log")
+    end 
     
     # returns wheter or not the specified path is an excluded file
     def excluded_file?(file_path)
@@ -83,6 +109,7 @@ module IronNails
     def initialize_with_defaults
       set_root_path!
       @application_paths, @assembly_paths, @namespaces, @excluded_files = default_application_paths, default_assembly_paths, default_namespaces, default_excluded_files
+      @log_level, @log_path = default_log_level, default_log_path
     end
     
     # Set the root_path to IRONNAILS_ROOT and canonicalize it.

@@ -33,6 +33,7 @@
     <Folder Include="app\controllers" />
     <Folder Include="app\models" />
     <Folder Include="app\views" />
+    <Folder Include="assets" />
     <Folder Include="bin\Debug" />
     <Folder Include="bin\Release" />
     <Folder Include="config\development" />
@@ -40,9 +41,11 @@
     <Folder Include="app" />
     <Folder Include="config" />
     <Folder Include="bin" />
+    <Folder Include="log" />
     <Folder Include="obj" />
     <Folder Include="obj\Debug" />
     <Folder Include="obj\Release" />
+    <Folder Include="skins" />
     <Folder Include="vendor" />
     <Folder Include="vendor\iron_nails" />
     <Folder Include="vendor\iron_nails\bin" />
@@ -50,19 +53,19 @@
     <Folder Include="vendor\iron_nails\lib" />
     <Folder Include="vendor\iron_nails\lib\controller" />
     <Folder Include="vendor\iron_nails\lib\core_ext" />
+    <Folder Include="vendor\iron_nails\lib\core_ext\class" />
     <Folder Include="vendor\iron_nails\lib\core_ext\system" />
     <Folder Include="vendor\iron_nails\lib\core_ext\system\net" />
     <Folder Include="vendor\iron_nails\lib\core_ext\system\windows" />
     <Folder Include="vendor\iron_nails\lib\core_ext\system\security" />
     <Folder Include="vendor\iron_nails\lib\core_ext\system\windows\markup" />
     <Folder Include="vendor\iron_nails\lib\model" />
+    <Folder Include="vendor\iron_nails\lib\logging" />
     <Folder Include="vendor\iron_nails\lib\view" />
     <Folder Include="vendor\iron_nails\lib\security" />
   </ItemGroup>
   <ItemGroup>
-    <Ruby Include="app\controllers\test_controller.rb" />
-    <Ruby Include="app\models\human.rb" />
-    <Ruby Include="app\models\person.rb" />
+    <Ruby Include="app\controllers\main_window_controller.rb" />
     <Ruby Include="config\boot.rb" />
     <Ruby Include="config\environment.rb" />
     <Ruby Include="lib\main.rb" />
@@ -75,9 +78,12 @@
     <Ruby Include="vendor\iron_nails\lib\controller\base.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller\view_model_operations.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\array.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\class.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\class\attribute_accessors.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\fixnum.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\hash.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\kernel.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\object.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\string.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\symbol.rb" />
@@ -86,10 +92,13 @@
     <Ruby Include="vendor\iron_nails\lib\core_ext\system\windows\markup\xaml_reader.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\time.rb" />
     <Ruby Include="vendor\iron_nails\lib\iron_xml.rb" />
+    <Ruby Include="vendor\iron_nails\lib\logger.rb" />
+    <Ruby Include="vendor\iron_nails\lib\logging\buffered_logger.rb" />
+    <Ruby Include="vendor\iron_nails\lib\logging\logger.rb" />
     <Ruby Include="vendor\iron_nails\lib\model\base.rb" />
     <Ruby Include="vendor\iron_nails\lib\observable.rb" />
-    <Ruby Include="vendor\iron_nails\lib\sails.rb" />
     <Ruby Include="vendor\iron_nails\lib\security\secure_string.rb" />
+    <Ruby Include="vendor\iron_nails\lib\version.rb" />
     <Ruby Include="vendor\iron_nails\lib\view.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\proxy.rb" />
@@ -98,11 +107,17 @@
     <Ruby Include="vendor\iron_nails\lib\wpf_application.rb" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\views\test.xaml" />
+    <Content Include="app\views\main_window.xaml" />
+    <Content Include="assets\alert.wav" />
+    <Content Include="assets\cat.ico" />
+    <Content Include="assets\Storyboards.xaml" />
     <Content Include="bin\IronNails.Contracts.dll" />
     <Content Include="bin\IronNails.Contracts.pdb" />
-    <Content Include="bin\IronNails.Library.dll" />
-    <Content Include="bin\IronNails.Library.pdb" />
+    <Content Include="log\development.log" />
+    <Content Include="skins\Aero.xaml" />
+    <Content Include="skins\AeroCompact.xaml" />
+    <Content Include="skins\CoolBlue.xaml" />
+    <Content Include="skins\Temp.xaml" />
     <Content Include="vendor\iron_nails\bin\IronNails.Library.dll" />
     <Content Include="vendor\iron_nails\bin\IronNails.Library.pdb" />
   </ItemGroup>

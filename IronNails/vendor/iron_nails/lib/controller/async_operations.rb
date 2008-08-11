@@ -14,7 +14,7 @@ module IronNails
         end
         cb = System::Threading::WaitCallback.new do
           begin
-            view.dispatcher.begin_invoke(DispatcherPriority.normal, Action.of(klass).new(&b), request.call)
+            current_view.instance.dispatcher.begin_invoke(DispatcherPriority.normal, Action.of(klass).new(&b), request.call)
           rescue Exception => e
             MessageBox.Show("There was a problem. #{e.message}")          
           end
@@ -33,7 +33,7 @@ module IronNails
             data = options
           end
         end
-        view.dispatcher.begin_invoke(DispatcherPriority.normal, options.nil? ? Voidhandler.new(&b) : Action.of(klass).new(&b), data)
+        current_view.instance.dispatcher.begin_invoke(DispatcherPriority.normal, options.nil? ? Voidhandler.new(&b) : Action.of(klass).new(&b), data)
       end
       alias_method :on_ui_thread_with, :on_ui_thread
       

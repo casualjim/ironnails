@@ -57,7 +57,7 @@ module IronNails
             trig[:event] = :click unless trig.respond_to? :event
             command_definitions << trig.merge({ :action => action })
           end if triggers.is_a?(Array)
-        end
+        end unless @commands.nil?
         command_definitions
       end 
       

@@ -4,6 +4,7 @@ module IronNails
   module View
     
     class ViewModel
+      
       def initialize(name = '')
         super
       end
@@ -11,6 +12,8 @@ module IronNails
     
     # The base class for view models in an IronNails application.
     module ViewModelMixin 
+    
+      include IronNails::Logging::ClassLogger
       
       # the view proxy that this view model is responsible for
       attr_accessor :view
@@ -36,14 +39,14 @@ module IronNails
         @objects.each do |o|
           o.each do |k, v|
             send "#{k}=".to_sym, v 
-          end
-        end        
+          end unless o.nil?
+        end unless @objects.nil?     
       end
       
       def wireup_events
         @commands.each do |cmd|
           cmd.attach_to view
-        end
+        end unless @commands.nil?
       end
       
       # binds the view model to the view. It will setup the appropriate events, 

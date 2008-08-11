@@ -6,6 +6,7 @@ module IronNails
       
       include IronNails::Controller::AsyncOperations
       include IronNails::Controller::ViewModelOperations
+      include IronNails::Logging::ClassLogger
       
       # Gets or sets the view_model for this controller.
       attr_accessor :view_model
@@ -18,7 +19,7 @@ module IronNails
         setup_for_showing_view        
         show ? current_view.instance.show : current_view.instance
       end
-      
+          
             
       class << self
         

@@ -5,7 +5,7 @@ IronNails::Initializer.run do |config|
           IronNails
           IronNails::Contracts
           IronNails::Models
-          IronNails::ViewModels
+          IronNails::ViewModels          
           System::Diagnostics
           System::Security
           System::Globalization

@@ -6,6 +6,11 @@ This framework uses the pattern Model - ViewModel - View - Controller (M-VM-V-C)
 The idea is that the views can be created using a design tool like Blend for example and just save that xaml as is. The designer should not need to use anything else than drag and drop to create a GUI design. The behaviors are then added to the view by using predefined behaviors in the framework or by defining your own behavior.
 The framework then generates a proxy for the view which will be used to transparently wire up the commands in the behaviors to controller actions. 
 
+As this project evolves and IronRuby becomes more complete we will start to take on dependencies to other rubygems.
+At this moment we only have a dependency to get logging going and we need to be able to do require 'logger' and require 'fileutils'. In controllers, viewmodels, models and view proxies you now have the ability to log things in the same way Rails does.
+
+You can run the application by giving the command rake run inside the application directory
+
 You are now able to write the following code for a controller:
 
 class MyController < IronNails::Controller::Base

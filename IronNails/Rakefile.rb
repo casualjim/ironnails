@@ -1,15 +1,20 @@
-libs_include = "-I 'C:\\tools\\ruby\\lib\\ruby\\1.8;C:\\tools\\ruby\\lib\\ruby\\site_ruby\\1.8;C:\\tools\\ironruby\\libs'"
+libs_include = "-I 'C:\\tools\\ironruby\\libs;C:\\tools\\ruby\\lib\\ruby\\site_ruby\\1.8;C:\\tools\\ruby\\lib\\ruby\\1.8'"
+
+def exec_sys(cmd)
+  puts cmd
+  system cmd
+end
 
 desc "Run the application"
 task :run => [:build] do
-  system "ir #{libs_include} lib/main.rb"
+  exec_sys "ir #{libs_include} lib/main.rb"
 end
 
 namespace :run do
   
   desc "Run the application with debugging enabled"
   task :debug  => [:build] do
-    system "ir #{libs_include} -D lib/main.rb"
+    exec_sys "ir #{libs_include} -D lib/main.rb"
   end
   
 end

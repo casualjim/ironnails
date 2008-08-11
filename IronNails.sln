@@ -7,6 +7,11 @@ Project("{325B8569-0C7C-4A6A-8AF8-89C3B6BC9E74}") = "IronNails", "IronNails\Iron
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronNails.Library", "IronNails.Library\IronNails.Library.csproj", "{328B9941-D068-4EDE-9994-A59F1B1AE530}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{8546FE8D-18B4-4487-AB13-9AB3EB70F2BF}"
+	ProjectSection(SolutionItems) = preProject
+		README = README
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
