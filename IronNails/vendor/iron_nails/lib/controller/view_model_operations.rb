@@ -44,20 +44,32 @@ module IronNails
       # It will generate a series of commands for items that have more than one trigger      
       def generate_command_definitions
         command_definitions = []
+        
         @commands.each do |k, v|
+        
           raise ArgumentException.new "You have to specify at least one trigger for a view action" if v[:triggers].nil?
+          
           act = v[:action]||k
           action = act
           action = self.method(act) if act.is_a?(Symbol) || act.is_a?(String)
           triggers = v[:triggers]
-          command_definitions << { :element => triggers, :event => :click, :action => action } if triggers.is_a?(String) || triggers.is_a?(Symbol)
+          
+          command_definitions << { 
+                    :element => triggers, 
+                    :event   => :click, 
+                    :action  => action 
+          } if triggers.is_a?(String) || triggers.is_a?(Symbol)
+          
           command_definitions << triggers.merge({:action => action }) if triggers.is_a?(Hash)
+          
           triggers.each do |trig|
             trig = { :element => trig, :event => :click } unless trig.is_a? Hash
             trig[:event] = :click unless trig.respond_to? :event
             command_definitions << trig.merge({ :action => action })
           end if triggers.is_a?(Array)
+        
         end unless @commands.nil?
+        
         command_definitions
       end 
       
