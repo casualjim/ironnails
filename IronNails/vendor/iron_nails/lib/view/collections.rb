@@ -32,10 +32,11 @@ module IronNails
         
         # Given a set of +command_definitions+ it will generate
         # a collection of Command objects for the view model
-        def generate_for(command_definitions)
+        def generate_for(command_definitions, view_model)
           commands = new
           command_definitions.each do |cmd_def|
-            commands << Command.new(cmd_def)
+            cmd = Command.new(cmd_def.merge({ :view_model => view_model }))
+            commands << cmd
           end
           commands
         end 

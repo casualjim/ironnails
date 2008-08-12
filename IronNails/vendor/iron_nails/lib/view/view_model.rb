@@ -57,8 +57,14 @@ module IronNails
       end
       
       # shows this view (probably a window)
-      def show_view
-        configure_view unless configured?
+      def show_view(reload=false)
+        unless configured?
+          if @view.nil? || reload
+            load_and_configure_view
+          else
+            configure_view
+          end
+        end
         view.show
       end
       
@@ -91,12 +97,15 @@ module IronNails
       
       # binds the view model to the view. It will setup the appropriate events, 
       # set the datacontext of the view so that all the data appears properly.s      
-      def configure_view
-        puts "configuring view"
+      def load_and_configure_view
         @view = Proxy.load(@view_name)
+        configure_view
+      end
+      
+      def configure_view
         configure_properties
         configure_events
-        @view.instance.data_context = self
+        @view.data_context = self
         @configured = true
       end
              
@@ -121,6 +130,10 @@ module IronNails
         @model.show_view
       end 
       
+      def refresh_view
+        @model.configure_view
+      end
+      
 #      def view_instance
 #        @model.view_instance
 #      end
@@ -142,7 +155,7 @@ module IronNails
       end
       
       def initialize_with(command_definitions, objects)
-        @model.commands = CommandCollection.generate_for(command_definitions)
+        @model.commands = CommandCollection.generate_for(command_definitions, @model)
         @model.objects = ModelCollection.generate_for(objects)
       end
       

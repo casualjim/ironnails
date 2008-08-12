@@ -38,8 +38,21 @@ module IronNails
       def setup_for_showing_view
         #log_on_error do
           cmd_defs = generate_command_definitions 
-          @view_model.initialize_with cmd_defs, @objects
+          objs = refresh_objects
+          @view_model.initialize_with cmd_defs, objs
         #end
+      end
+      
+      def refresh_objects
+        instance_variables.each do |var|
+          sym = var.gsub(/@/, "").to_sym
+          if objects.has_key?(sym)
+            val = instance_variable_get(var)
+            puts "setting #{sym} to #{val}"
+            objects[sym] = val 
+          end
+        end     
+        objects   
       end
       
       # Generates the command definitions for our view model.
@@ -55,7 +68,7 @@ module IronNails
           
           act = v[:action]||k
           action = act
-          action = self.method(act) if act.is_a?(Symbol) || act.is_a?(String)
+          action = method(act) if act.is_a?(Symbol) || act.is_a?(String)
           triggers = v[:triggers]
           
           command_definitions << { 
@@ -64,7 +77,7 @@ module IronNails
                     :action  => action 
           } if triggers.is_a?(String) || triggers.is_a?(Symbol)
           
-          command_definitions << triggers.merge({:action => action }) if triggers.is_a?(Hash)
+          command_definitions << triggers.merge({:action => action, :name => k }) if triggers.is_a?(Hash)
           
           triggers.each do |trig|
             trig = { :element => trig, :event => :click } unless trig.is_a? Hash

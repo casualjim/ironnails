@@ -2,7 +2,7 @@ IronNails
 =========
 
 IronNails is a framework inspired by the Rails and rucola frameworks. It offers a rails-like way of developing applications with IronRuby and Windows Presentation Foundation (WPF).
-This framework uses the pattern Model - ViewModel - View - Controller (M-VM-V-C). It should be able to run on both WPF and Silverlight.
+This framework uses the pattern Model - ViewModel - View - Controller (M-VM-V-C). It should eventually be able to run on both WPF and Silverlight.
 The idea is that the views can be created using a design tool like Blend for example and just save that xaml as is. The designer should not need to use anything else than drag and drop to create a GUI design. The behaviors are then added to the view by using predefined behaviors in the framework or by defining your own behavior.
 The framework then generates a proxy for the view which will be used to transparently wire up the commands in the behaviors to controller actions. 
 
@@ -15,19 +15,21 @@ You are now able to write the following code for a controller:
 
 class MyController < IronNails::Controller::Base
   
+  view_object :my_text_block_color, :black.to_brush  
+  
   view_action :show_message, :triggers => :my_button do
     MessageBox.show "This is the great message from a block"
   end
   
   view_action :change_color, :triggers => { :element => :my_text_block, :event => :mouse_enter }
   view_action :reset_color, :triggers => { :element => :my_text_block, :event => :mouse_leave } do |view|
-    view.my_text_block.foreground = :black.to_brush
+    @my_text_block_color = :black.to_brush
   end
   
   view_object :people, Person.find_all
     
-  def change_color(view)
-    view.my_text_block.foreground = :red.to_brush
+  def change_color
+    @my_text_block_color = :red.to_brush
   end
   
   
@@ -41,3 +43,4 @@ Help is wanted for implementing the following items.
 * Predefined behaviors
 * Better xaml integration
 * Encapsulation of automatic refreshing of models.
+* support for multiple views tied to a controller

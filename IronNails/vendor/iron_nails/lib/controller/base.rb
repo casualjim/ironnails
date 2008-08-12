@@ -11,6 +11,12 @@ module IronNails
       # Gets or sets the view_model for this controller.
       attr_accessor :view_model
       
+      # Gets or sets the objects for the view model
+      attr_accessor :objects
+      
+      # Gets or sets the commands for the view model
+      attr_accessor :commands
+      
       def current_view 
         @view_model.view
       end
@@ -21,8 +27,12 @@ module IronNails
           view_model.show_view
         #end
       end
-          
-            
+      
+      def refresh_view
+        setup_for_showing_view 
+        view_model.refresh_view
+      end
+                  
       class << self
         
         alias_method :old_nails_controller_new, :new
@@ -41,7 +51,7 @@ module IronNails
         def view_object(name, options)
           @objects ||= {}
           attr_accessor name
-          instance_variable_set("@${name}", (options.is_a?(Hash) ? options[:value] : options))
+          instance_variable_set("@#{name}", (options.is_a?(Hash) ? options[:value] : options))
           @objects[name] = options
         end
       

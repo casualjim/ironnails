@@ -17,7 +17,9 @@ module IronNails
       attr_accessor :action
       
       # the view this command is bound to
-      attr_reader :view
+      attr_accessor :view
+      
+      attr_reader :view_model
       
       def initialize(options)
         raise ArgumentException.new("An element name is necesary") if options[:element].nil?
@@ -26,6 +28,7 @@ module IronNails
         @trigger = options[:event]||:click
         @element = options[:element]
         @action = options[:action]
+        @view_model = options[:view_model]
       end 
       
 #      # Attaches this command to the specified +view+
@@ -58,6 +61,7 @@ module IronNails
               end
             end
           end
+          view_model.configure_view
         end
       end
       

@@ -41,7 +41,8 @@ module IronNails
       # Adds the specified +command+ to this view
       def add_command(command)
         command.view = self
-        self.send(command.element.to_sym).send(command.trigger.to_sym) { command.execute }
+#        command.attach
+        send(command.element.to_sym).send(command.trigger.to_sym) { command.execute }
       end
       
       # shows the proxied view
@@ -58,7 +59,7 @@ module IronNails
         # delegate to the default behavior
         obj = @instance.find_name(sym.to_s.to_clr_string)
         nmsym = sym.to_s.camelize.to_sym
-        if @instance.respond_to? nmsym && obj.nil?
+        if @instance.respond_to?(nmsym) && obj.nil?
           @instance.send sym, args, &blk
         else
           obj.nil? ? super : obj
