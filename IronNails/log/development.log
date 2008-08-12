@@ -1,5 +1,0 @@
-# Logfile created on ma aug 11 13:47:46 +02:00 2008IronNails Error: undefined method `+' for #<IronNails::View::CommandCollection:0x00000a4 @items=[]>
-IronNails Error: undefined method `+' for #<IronNails::View::CommandCollection:0x00000a4 @items=[]>
-IronNails Error: can't convert IronNails::View::CommandCollection into Array
-IronNails Error: can't convert IronNails::View::CommandCollection into Array
-IronNails Error: can't convert IronNails::View::CommandCollection into Array
