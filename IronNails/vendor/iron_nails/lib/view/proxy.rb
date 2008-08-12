@@ -5,10 +5,14 @@ module IronNails
     # The IronNails::View::Proxy class wraps a xaml file and brings it alive
     class Proxy
       
+      include IronNails::Logging::ClassLogger
+      
       # gets or sets the name of the view
       attr_accessor :view_name
       
       # gets the instance of the view
+      # giving this one the benefit of the doubt. 
+      # Will revise later if I really want to expose this directly
       attr_reader :instance
       
       # gets or sets the extension for the view file. 
@@ -36,10 +40,25 @@ module IronNails
         @view_path
       end
       
+      # shows the proxied view
+      def show
+        WpfApplication.current.has_main_window? ? instance.show : instance
+      end
       
       def method_missing(sym, *args, &blk)
+        # First we check if we can find a named control
+        # When we can't find a control we'll check if we can find
+        # a method on the view instance by that name, if that is the 
+        # case we will call that method otherwise we'll return the control 
+        # if we found one. When no method or control could be found we 
+        # delegate to the default behavior
         obj = @instance.find_name(sym.to_s.to_clr_string)
-        obj.nil? ? super : obj
+        nmsym = sym.to_s.camelize.to_sym
+        if @instance.respond_to? nmsym && obj.nil?
+          @instance.send sym, args, &blk
+        else
+          obj.nil? ? super : obj
+        end
       end 
       
       class << self

@@ -71,6 +71,7 @@
     <Compile Include="Converters\IndexToIsAlternateRowConverter.cs" />
     <Compile Include="Converters\RoundConverter.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Models\Base.cs" />
     <Compile Include="Models\DirectMessage.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Status.cs" />

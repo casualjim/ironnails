@@ -66,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Ruby Include="app\controllers\main_window_controller.rb" />
+    <Ruby Include="app\models\bindable_collection.rb" />
+    <Ruby Include="app\models\credentials.rb" />
+    <Ruby Include="app\models\model_base.rb" />
+    <Ruby Include="app\models\tweet_collection.rb" />
     <Ruby Include="config\boot.rb" />
     <Ruby Include="config\environment.rb" />
     <Ruby Include="lib\main.rb" />
@@ -84,7 +88,6 @@
     <Ruby Include="vendor\iron_nails\lib\core_ext\fixnum.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\hash.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\kernel.rb" />
-    <Ruby Include="vendor\iron_nails\lib\core_ext\object.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\string.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\symbol.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\system\net\web_request.rb" />
@@ -94,12 +97,16 @@
     <Ruby Include="vendor\iron_nails\lib\iron_xml.rb" />
     <Ruby Include="vendor\iron_nails\lib\logger.rb" />
     <Ruby Include="vendor\iron_nails\lib\logging\buffered_logger.rb" />
-    <Ruby Include="vendor\iron_nails\lib\logging\logger.rb" />
+    <Ruby Include="vendor\iron_nails\lib\logging\class_logger.rb" />
+    <Ruby Include="vendor\iron_nails\lib\model.rb" />
     <Ruby Include="vendor\iron_nails\lib\model\base.rb" />
+    <Ruby Include="vendor\iron_nails\lib\model\bindable_collection.rb" />
+    <Ruby Include="vendor\iron_nails\lib\model\model_mxin.rb" />
     <Ruby Include="vendor\iron_nails\lib\observable.rb" />
     <Ruby Include="vendor\iron_nails\lib\security\secure_string.rb" />
     <Ruby Include="vendor\iron_nails\lib\version.rb" />
     <Ruby Include="vendor\iron_nails\lib\view.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\collections.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\proxy.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_model.rb" />

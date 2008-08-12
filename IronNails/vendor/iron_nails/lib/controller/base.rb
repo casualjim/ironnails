@@ -12,12 +12,14 @@ module IronNails
       attr_accessor :view_model
       
       def current_view 
-        @view_model.model.view
+        @view_model.view
       end
-      
-      def show_view(show=true)
-        setup_for_showing_view        
-        show ? current_view.instance.show : current_view.instance
+            
+      def show_view
+        log_on_error do
+          setup_for_showing_view        
+          view_model.show_view
+        end
       end
           
             

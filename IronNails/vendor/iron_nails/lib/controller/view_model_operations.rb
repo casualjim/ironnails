@@ -28,14 +28,18 @@ module IronNails
       
       # initializes a new instance of the ViewModelBuilder      
       def init_view_model
-        @view_model = IronNails::View::ViewModelBuilder.for_view_model view_model_name, view_name
-        copy_vars
+        log_on_error do
+          @view_model = IronNails::View::ViewModelBuilder.for_view_model view_model_name, view_name
+          copy_vars
+        end
       end
       
       # setup the viewmodel for the current objects and command defintions
       def setup_for_showing_view
-        cmd_defs = generate_command_definitions 
-        @view_model.initialize_with cmd_defs, @objects
+        log_on_error do
+          cmd_defs = generate_command_definitions 
+          @view_model.initialize_with cmd_defs, @objects
+        end
       end
       
       # Generates the command definitions for our view model.
@@ -75,8 +79,10 @@ module IronNails
       
       # copies an instance variable from the class object to this instance
       def instance_variable_copy(var)
-        val = self.class.instance_variable_get var
-        instance_variable_set var, val
+        log_on_error do
+          val = self.class.instance_variable_get var
+          instance_variable_set var, val
+        end
       end
       
       # copies the instance variables from the class object to this instance

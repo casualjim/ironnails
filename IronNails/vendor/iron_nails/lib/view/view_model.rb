@@ -29,24 +29,31 @@ module IronNails
         @view = Proxy.load(name)
       end 
       
+#      def view_instance
+#        @view.instance
+#      end
+      
       def initialize(view_name='')
-        @commands, @objects = [], []        
+        @commands, @objects = CommandCollection.new, ModelCollection.new       
         load_view view_name unless view_name.empty?
       end
       
+      def show_view
+        view.show
+      end
       
       def wireup_properties
         @objects.each do |o|
           o.each do |k, v|
             send "#{k}=".to_sym, v 
           end unless o.nil?
-        end unless @objects.nil?     
+        end     
       end
       
       def wireup_events
         @commands.each do |cmd|
           cmd.attach_to view
-        end unless @commands.nil?
+        end
       end
       
       # binds the view model to the view. It will setup the appropriate events, 
@@ -73,6 +80,10 @@ module IronNails
       def view
         @model.view
       end
+      
+#      def view_instance
+#        @model.view_instance
+#      end
       
       # builds a class with the specified +class_name+ and defines it if necessary. 
       # After it will load the proxy for the view with +view_name+

@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace IronNails.Models
 {
-    public class ModelBase : INotifyPropertyChanged
+    public class ModelBase : Base, INotifyPropertyChanged
     {
         private int _index;
         private bool _isNew;

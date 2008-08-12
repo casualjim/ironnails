@@ -2,7 +2,12 @@ class WpfApplication < System::Windows::Application
   
   def initialize(&b)
     controller = instance_eval &b
-    run controller.show_view(false)
+    @main_window = controller.show_view
+    run @main_window
+  end
+  
+  def has_main_window?
+    @main_window.nil?
   end
     
   def set_skin(name)

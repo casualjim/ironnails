@@ -5,6 +5,8 @@ module IronNails
     # Encapsulates commands that will be attached to the views.
     class Command
     
+      include IronNails::Logging::ClassLogger
+    
       # the name of the event that will trigger the action
       attr_accessor :trigger
       
@@ -34,24 +36,26 @@ module IronNails
       
       # executes this command (it calls the action)
       def execute
-        #FIXME: arity hasn't been implemented on Proc yet.
-        #       So for now when we're dealing with a Proc we'll first try to call
-        #       the method without a parameter and next the method with a parameter
-        #       In other words below is a grotesque hack
-        if @action.is_a?(Method) && @action.arity > 0
-          @action.call view
-        else 
-          begin
-            if @action.is_a?(Proc)
-              @action.call view 
-            else
-              @action.call
-            end
-          rescue ArgumentError => ae
-            if @action.is_a?(Proc)
-              @action.call 
-            else
-              raise ae
+        log_on_error do
+          #FIXME: arity hasn't been implemented on Proc yet.
+          #       So for now when we're dealing with a Proc we'll first try to call
+          #       the method without a parameter and next the method with a parameter
+          #       In other words below is a grotesque hack
+          if @action.is_a?(Method) && @action.arity > 0
+            @action.call view
+          else 
+            begin
+              if @action.is_a?(Proc)
+                @action.call view 
+              else
+                @action.call
+              end
+            rescue ArgumentError => ae
+              if @action.is_a?(Proc)
+                @action.call 
+              else
+                raise ae
+              end
             end
           end
         end
@@ -62,7 +66,7 @@ module IronNails
         # Given a set of +command_definitions+ it will generate
         # a collection of Command objects for the view model
         def generate_for(command_definitions)
-          commands = []
+          commands = CommandCollection.new
           command_definitions.each do |cmd_def|
             commands << new(cmd_def)
           end

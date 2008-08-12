@@ -2,9 +2,9 @@ module IronNails
 
   module Models
   
-    class Base
+    module ModelMixin
       
-      include IronNails::Models::ModelMixin
+      include IronNails::Logging::ClassLogger
     
     end
   
