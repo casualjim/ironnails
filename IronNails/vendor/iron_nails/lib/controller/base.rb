@@ -16,10 +16,10 @@ module IronNails
       end
             
       def show_view
-        log_on_error do
+        #log_on_error do
           setup_for_showing_view        
           view_model.show_view
-        end
+        #end
       end
           
             
@@ -40,6 +40,8 @@ module IronNails
         
         def view_object(name, options)
           @objects ||= {}
+          attr_accessor name
+          instance_variable_set("@${name}", (options.is_a?(Hash) ? options[:value] : options))
           @objects[name] = options
         end
       

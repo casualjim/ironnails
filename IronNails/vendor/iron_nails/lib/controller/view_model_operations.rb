@@ -36,10 +36,10 @@ module IronNails
       
       # setup the viewmodel for the current objects and command defintions
       def setup_for_showing_view
-        log_on_error do
+        #log_on_error do
           cmd_defs = generate_command_definitions 
           @view_model.initialize_with cmd_defs, @objects
-        end
+        #end
       end
       
       # Generates the command definitions for our view model.
@@ -70,7 +70,7 @@ module IronNails
             trig = { :element => trig, :event => :click } unless trig.is_a? Hash
             trig[:event] = :click unless trig.respond_to? :event
             command_definitions << trig.merge({ :action => action })
-          end if triggers.is_a?(Array)
+          end if triggers.is_a?(CommandCollection)
         
         end unless @commands.nil?
         

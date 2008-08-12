@@ -3,6 +3,7 @@ IronNails::Initializer.run do |config|
   
   config.namespaces.concat %w(
           IronNails
+          IronNails::Core
           IronNails::Contracts
           IronNails::Models
           IronNails::ViewModels          

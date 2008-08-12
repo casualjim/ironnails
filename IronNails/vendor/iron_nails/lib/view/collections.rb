@@ -20,6 +20,12 @@ module IronNails
         @items << item        
       end
       
+      def +(*items)
+        items.each do |item|
+          @items << item
+        end
+      end
+      
       def to_a
         @items
       end

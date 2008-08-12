@@ -1,5 +1,7 @@
 class System::Net::WebRequest
-  
+
+  include IronNails::Logging::ClassLogger
+
   def prepare_for_post(parameters = {})
     
     params = parameters.to_post_parameters
@@ -24,6 +26,7 @@ class System::Net::WebRequest
   end
   
   def perform_post( params, parse_response=nil)
+    logger.debug("IronNails: WebRequest: Performing POST to #{uri.to_string}")
     self.prepare_for_post(params) 
     begin
       res = self.get_response # we get a real HttpWebResponse back instead of the WebResponse for the C# and VB.NET users. yay for duck typing
@@ -41,6 +44,7 @@ class System::Net::WebRequest
   end
   
   def perform_async_post( params, parse_response=nil, &callback)
+    logger.debug("IronNails: WebRequest: Performing asynchronous POST to #{uri.to_string}")
     self.prepare_for_async_post params do |async_result|
       using(post_stream = self.end_get_request_stream(async_result)) do
         pars = parameters.to_post_parameters
@@ -59,6 +63,7 @@ class System::Net::WebRequest
   
   
   def perform_get( parse_response=nil)
+    logger.debug("IronNails: WebRequest: Performing GET to #{uri.to_string}")
     begin
       response = self.get_response
       using(rdr = StreamReader.new(response.get_response_stream)) do
@@ -70,6 +75,7 @@ class System::Net::WebRequest
   end
   
   def perform_async_get( parse_response=nil, &callback)
+    logger.debug("IronNails: WebRequest: Performing asynchronous GET to #{uri.to_string}")
     self.begin_get_response AsyncCallback.new{ |response|
       begin
         res = self.end_get_response(response)
@@ -84,6 +90,7 @@ class System::Net::WebRequest
   end
   
   def handle_exception(e)
+    logger.error("IronNails: WebRequest: There was an error while executing the web request: #{e.message}")
     status = e.status;
     if status == WebExceptionStatus.protocol_error
       httpResponse = e.response

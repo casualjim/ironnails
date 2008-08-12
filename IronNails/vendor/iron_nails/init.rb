@@ -47,6 +47,6 @@ require File.dirname(__FILE__) + '/lib/logger'
 require File.dirname(__FILE__) + '/lib/observable'
 require File.dirname(__FILE__) + '/lib/wpf_application'
 require File.dirname(__FILE__) + '/lib/view'
-require File.dirname(__FILE__) + '/lib/model'
+require File.dirname(__FILE__) + '/lib/models'
 require File.dirname(__FILE__) + '/lib/controller'
 

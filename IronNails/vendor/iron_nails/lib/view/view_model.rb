@@ -34,7 +34,6 @@ module IronNails
 #      end
       
       def initialize(view_name='')
-        @commands, @objects = CommandCollection.new, ModelCollection.new       
         load_view view_name unless view_name.empty?
       end
       
@@ -51,8 +50,8 @@ module IronNails
       end
       
       def wireup_events
-        @commands.each do |cmd|
-          cmd.attach_to view
+        @commands.each do |obj|
+          obj.attach_to view
         end
       end
       
@@ -81,6 +80,10 @@ module IronNails
         @model.view
       end
       
+      def show_view
+        @model.show_view
+      end 
+      
 #      def view_instance
 #        @model.view_instance
 #      end
@@ -102,8 +105,8 @@ module IronNails
       end
       
       def initialize_with(command_definitions, objects)
-        @model.commands += IronNails::View::Command.generate_for command_definitions
-        @model.objects << objects
+        @model.commands = IronNails::View::Command.generate_for(command_definitions) || CommandCollection.new
+        @model.objects = objects || ModelCollection.new
         @model.wireup_view
       end
       
