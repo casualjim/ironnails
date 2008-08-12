@@ -11,8 +11,6 @@ module IronNails
       attr_accessor :view_name
       
       # gets the instance of the view
-      # giving this one the benefit of the doubt. 
-      # Will revise later if I really want to expose this directly
       attr_reader :instance
       
       # gets or sets the extension for the view file. 
@@ -38,6 +36,12 @@ module IronNails
         path = "#{IRONNAILS_VIEWS_ROOT}/#{view_name}#{view_extension}"
         @view_path = path unless @view_path == path
         @view_path
+      end
+      
+      # Adds the specified +command+ to this view
+      def add_command(command)
+        command.view = self
+        self.send(command.element.to_sym).send(command.trigger.to_sym) { command.execute }
       end
       
       # shows the proxied view

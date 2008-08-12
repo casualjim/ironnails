@@ -39,11 +39,11 @@ include IronNails::Helpers
 
 # load IronRuby files of the IronNails framework
 require File.dirname(__FILE__) + '/lib/version'
+require File.dirname(__FILE__) + '/lib/logger'
 require File.dirname(__FILE__) + '/config/configuration'
 require File.dirname(__FILE__) + '/config/initializer'
 require File.dirname(__FILE__) + '/lib/security/secure_string'
 require File.dirname(__FILE__) + '/lib/core_ext'
-require File.dirname(__FILE__) + '/lib/logger'
 require File.dirname(__FILE__) + '/lib/observable'
 require File.dirname(__FILE__) + '/lib/wpf_application'
 require File.dirname(__FILE__) + '/lib/view'

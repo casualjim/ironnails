@@ -19,13 +19,7 @@ module IronNails
       def <<(item)
         @items << item        
       end
-      
-      def +(*items)
-        items.each do |item|
-          @items << item
-        end
-      end
-      
+            
       def to_a
         @items
       end
@@ -33,10 +27,38 @@ module IronNails
     end
     
     class CommandCollection < ViewModelObjectCollection
+    
+      class << self
+        
+        # Given a set of +command_definitions+ it will generate
+        # a collection of Command objects for the view model
+        def generate_for(command_definitions)
+          commands = new
+          command_definitions.each do |cmd_def|
+            commands << Command.new(cmd_def)
+          end
+          commands
+        end 
+        
+      end
       
     end
     
     class ModelCollection < ViewModelObjectCollection
+      
+      class << self
+        
+        # Given a set of +objects+ it will generate
+        # a collection of objects for the view model
+        def generate_for(objects)
+          models = new
+          objects.each do |k, v|
+            models << { k => v } 
+          end
+          models
+        end 
+      
+      end
       
     end
     

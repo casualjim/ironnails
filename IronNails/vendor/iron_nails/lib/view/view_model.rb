@@ -24,9 +24,27 @@ module IronNails
       # gets or sets the models that wil be used in the view to bind to
       attr_accessor :objects
       
+       # flags the view model as in need of wiring up and 
+       # sets the command collection
+      def commands=(value)
+        unless commands == value
+          @configured = false 
+          @commands = value
+        end
+      end
+      
+      # flags the view model as in need of wiring up and 
+      # sets the model collection
+      def objects=(value)
+        unless objects == value
+          @configured = false 
+          @objects = value
+        end
+      end
+      
       # loads a new instance of a view proxy into this model
-      def load_view(name)
-        @view = Proxy.load(name)
+      def set_view_name(name)
+        @view_name = name
       end 
       
 #      def view_instance
@@ -34,14 +52,29 @@ module IronNails
 #      end
       
       def initialize(view_name='')
-        load_view view_name unless view_name.empty?
+        @configured = false
+        set_view_name view_name unless view_name.empty?
       end
       
+      # shows this view (probably a window)
       def show_view
+        configure_view unless configured?
         view.show
       end
       
-      def wireup_properties
+      # returns a configured instance of the view
+      def get_view
+        configure_view #unless configured?
+        view.instance
+      end
+      
+      # returns whether this view needs configuration or not
+      def configured?
+        @configured
+      end 
+      
+      # configures the properties for the view model
+      def configure_properties
         @objects.each do |o|
           o.each do |k, v|
             send "#{k}=".to_sym, v 
@@ -49,18 +82,22 @@ module IronNails
         end     
       end
       
-      def wireup_events
-        @commands.each do |obj|
-          obj.attach_to view
+      # attaches the commands to the view.
+      def configure_events
+        @commands.each do |cmd|
+          view.add_command cmd
         end
       end
       
       # binds the view model to the view. It will setup the appropriate events, 
       # set the datacontext of the view so that all the data appears properly.s      
-      def wireup_view
-        wireup_properties
-        wireup_events
+      def configure_view
+        puts "configuring view"
+        @view = Proxy.load(@view_name)
+        configure_properties
+        configure_events
         @view.instance.data_context = self
+        @configured = true
       end
              
     end
@@ -71,8 +108,8 @@ module IronNails
       attr_reader :model
       
       # loads a new instance of the view into memory
-      def load_view(name)
-        @model.load_view name
+      def set_view_name(name)
+        @model.set_view_name name
       end
       
       # gets the view proxy      
@@ -100,14 +137,13 @@ module IronNails
         klass = Object.const_get class_name 
         klass.include IronNails::View::ViewModelMixin
         @model = klass.new 
-        @model.load_view view_name        
+        set_view_name view_name        
         @model
       end
       
       def initialize_with(command_definitions, objects)
-        @model.commands = IronNails::View::Command.generate_for(command_definitions) || CommandCollection.new
-        @model.objects = objects || ModelCollection.new
-        @model.wireup_view
+        @model.commands = CommandCollection.generate_for(command_definitions)
+        @model.objects = ModelCollection.generate_for(objects)
       end
       
       class << self
