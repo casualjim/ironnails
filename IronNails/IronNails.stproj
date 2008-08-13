@@ -86,7 +86,6 @@
     <Ruby Include="vendor\iron_nails\config\initializer.rb" />
     <Ruby Include="vendor\iron_nails\init.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller.rb" />
-    <Ruby Include="vendor\iron_nails\lib\controller\async_operations.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller\base.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller\view_model_operations.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext.rb" />

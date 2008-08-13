@@ -42,7 +42,16 @@ module IronNails
       def add_command(command)
         command.view = self
 #        command.attach
-        send(command.element.to_sym).send(command.trigger.to_sym) { command.execute }
+        ele = (command.affinity || command.element).to_sym
+        send(command.element.to_sym).send(command.trigger.to_sym) do 
+          on_ui_thread(ele) do
+            command.execute
+          end
+        end
+      end
+      
+      def on_ui_thread(element=:instance, &b)
+        send(element).dispatcher.begin_invoke(DispatcherPriority.normal, Action.new(&b))
       end
       
       # shows the proxied view

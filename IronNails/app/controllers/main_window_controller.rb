@@ -6,7 +6,6 @@ class MainWindowController < IronNails::Controller::Base
   
   def refresh_feeds
     @status_bar_message = "The new message"
-    refresh_view
   end
 
 end

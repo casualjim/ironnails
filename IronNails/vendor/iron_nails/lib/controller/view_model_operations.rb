@@ -28,10 +28,10 @@ module IronNails
       
       # initializes a new instance of the ViewModelBuilder      
       def init_view_model
-        log_on_error do
-          @view_model = IronNails::View::ViewModelBuilder.for_view_model view_model_name, view_name
+        #log_on_error do
+          @view_model = IronNails::View::ViewModelBuilder.for_view_model view_model_name, view_name, lambda { setup_for_showing_view }
           copy_vars
-        end
+        #end
       end
       
       # setup the viewmodel for the current objects and command defintions
@@ -48,7 +48,6 @@ module IronNails
           sym = var.gsub(/@/, "").to_sym
           if objects.has_key?(sym)
             val = instance_variable_get(var)
-            puts "setting #{sym} to #{val}"
             objects[sym] = val 
           end
         end     
@@ -81,7 +80,7 @@ module IronNails
           
           triggers.each do |trig|
             trig = { :element => trig, :event => :click } unless trig.is_a? Hash
-            trig[:event] = :click unless trig.respond_to? :event
+            trig[:event] = :click unless trig.has_key? :event
             command_definitions << trig.merge({ :action => action })
           end if triggers.is_a?(CommandCollection)
         

@@ -99,6 +99,7 @@ module IronNails
         System::IO
         System::Web
         System::Text
+        System::Threading
         System::Windows
         System::Collections::ObjectModel
         IronNails::Controller

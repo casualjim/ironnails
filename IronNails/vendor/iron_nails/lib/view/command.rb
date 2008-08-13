@@ -19,8 +19,15 @@ module IronNails
       # the view this command is bound to
       attr_accessor :view
       
+      # the view model to which this command belongs
       attr_reader :view_model
       
+      # indicates whether to execute this command on the ui thread or on a different thread.
+      attr_accessor :mode
+      
+      # the name of the on which this command needs to be invoked
+      attr_accessor :affinity
+            
       def initialize(options)
         raise ArgumentException.new("An element name is necesary") if options[:element].nil?
         raise ArgumentException.new("An action is necesary") if options[:action].nil?
@@ -29,44 +36,38 @@ module IronNails
         @element = options[:element]
         @action = options[:action]
         @view_model = options[:view_model]
+        @mode = options[:mode]||:synchronous
+        @affinity = options[:affinity]
       end 
-      
-#      # Attaches this command to the specified +view+
-#      def attach_to(view)
-#        @view = view
-#        view.send(element.to_sym).send(trigger.to_sym) { execute }
-#      end
       
       # executes this command (it calls the action)
       def execute
         log_on_error do
-          # FIXME: arity hasn't been implemented on Proc yet.
-          #        So for now when we're dealing with a Proc we'll first try to call
-          #        the method without a parameter and next the method with a parameter
-          #        In other words below is a grotesque hack
-          if @action.is_a?(Method) && @action.arity > 0
-            @action.call view
-          else 
-            begin
-              if @action.is_a?(Proc)
-                @action.call view 
-              else
-                @action.call
-              end
-            rescue ArgumentError => ae
-              if @action.is_a?(Proc)
-                @action.call 
-              else
-                raise ae
-              end
-            end
+          if mode == :asynchronous 
+            on_new_thread do
+              action.call
+              view_model.refresh_view
+            end                 
+          else
+            action.call
+            view_model.refresh_view
           end
-          view_model.configure_view
         end
       end
-      
-      
     
+      # Schedules this command to execute on a different thread 
+      # and schedules the update of the view on the UI thread. 
+      def on_new_thread(&b)
+        cb = WaitCallback.new do
+          begin
+            view.dispatcher.begin_invoke(DispatcherPriority.normal, Action.new(&b))
+          rescue Exception => e
+            MessageBox.Show("There was a problem. #{e.message}")          
+          end
+        end
+        ThreadPool.queue_user_work_item cb        
+      end 
+      
     end
   
   end

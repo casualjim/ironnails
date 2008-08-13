@@ -4,7 +4,6 @@ module IronNails
   
     class Base
       
-      include IronNails::Controller::AsyncOperations
       include IronNails::Controller::ViewModelOperations
       include IronNails::Logging::ClassLogger
       
@@ -28,10 +27,7 @@ module IronNails
         #end
       end
       
-      def refresh_view
-        setup_for_showing_view 
-        view_model.refresh_view
-      end
+      
                   
       class << self
         

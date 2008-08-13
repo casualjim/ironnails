@@ -108,6 +108,15 @@ module IronNails
         @view.data_context = self
         @configured = true
       end
+      
+      def set_refresh_view(&refresh)
+        @refresh_view = refresh
+      end
+      
+      def refresh_view
+        @refresh_view.call
+        configure_view
+      end
              
     end
     
@@ -130,17 +139,13 @@ module IronNails
         @model.show_view
       end 
       
-      def refresh_view
-        @model.configure_view
-      end
-      
 #      def view_instance
 #        @model.view_instance
 #      end
       
       # builds a class with the specified +class_name+ and defines it if necessary. 
       # After it will load the proxy for the view with +view_name+
-      def build_class_with(class_name, view_name)
+      def build_class_with(class_name, view_name, &refresh)
         # FIXME: The line below will be more useful when we can bind to IronRuby objects
         # Object.const_set class_name, Class.new(ViewModel) unless Object.const_defined? class_name     
 
@@ -150,6 +155,7 @@ module IronNails
         klass = Object.const_get class_name 
         klass.include IronNails::View::ViewModelMixin
         @model = klass.new 
+        @model.set_refresh_view &refresh        
         set_view_name view_name        
         @model
       end
@@ -162,9 +168,9 @@ module IronNails
       class << self
       
         # initializes a new view model class for the controller 
-        def for_view_model(class_name, view_name)
+        def for_view_model(class_name, view_name, refresh)
           builder = new
-          builder.build_class_with class_name.camelize, view_name
+          builder.build_class_with class_name.camelize, view_name, &refresh
           builder
         end       
           

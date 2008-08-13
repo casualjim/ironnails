@@ -22,7 +22,7 @@ class MyController < IronNails::Controller::Base
   end
   
   view_action :change_color, :triggers => { :element => :my_text_block, :event => :mouse_enter }
-  view_action :reset_color, :triggers => { :element => :my_text_block, :event => :mouse_leave } do |view|
+  view_action :reset_color, :triggers => { :element => :my_text_block, :event => :mouse_leave } do 
     @my_text_block_color = :black.to_brush
   end
   
@@ -34,6 +34,12 @@ class MyController < IronNails::Controller::Base
   
   
 end
+
+If you want to run the project:
+update IronRuby to the latest revision (currently r.128)
+copy the files J832*.dll to where your ir.exe lives
+
+type rake run in the ironnails directory ie. C:\projects\ironnails\ironnails\ > rake run
 
 all help is welcome: ivan@flanders.co.nz
 
