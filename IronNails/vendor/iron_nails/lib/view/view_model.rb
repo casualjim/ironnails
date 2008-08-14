@@ -52,7 +52,7 @@ module IronNails
 #      end
       
       def initialize(view_name='')
-        @configured = false
+        @configured, @commands = false, CommandCollection.new
         set_view_name view_name unless view_name.empty?
       end
       
@@ -70,7 +70,7 @@ module IronNails
       
       # returns a configured instance of the view
       def get_view
-        configure_view #unless configured?
+        configure_view unless configured?
         view.instance
       end
       
@@ -88,10 +88,32 @@ module IronNails
         end     
       end
       
+      def add_command_to_view(cmd)
+        view.add_command(cmd)        
+      end
+      
+      # adds a command or a command collection to the queue
+      def add_command_to_queue(cmd)
+        if cmd.is_a? CommandCollection
+          cmd.each do |c|
+            unless commands.has_command? c
+              commands << c 
+              @configured = false
+            end
+          end
+        elsif cmd.respond_to?(:execute) && cmd.respond_to?(:element) # define some sort of contract
+          unless commands.has_command? cmd
+            commands << cmd 
+            @configured = false 
+          end
+        end
+      end
+      alias_method :add_commands_to_queue, :add_command_to_queue
+      
       # attaches the commands to the view.
       def configure_events
         @commands.each do |cmd|
-          view.add_command cmd
+          add_command_to_view cmd unless cmd.attached?
         end
       end
       
@@ -115,7 +137,9 @@ module IronNails
       
       def refresh_view
         @refresh_view.call
-        configure_view
+        configure_properties
+        configure_events
+        @configured = true
       end
              
     end
@@ -139,6 +163,10 @@ module IronNails
         @model.show_view
       end 
       
+      def add_command_to_view(cmd_def)
+        model.merge_commands CommandCollection.generate_for(cmd_def, @model)
+      end
+      
 #      def view_instance
 #        @model.view_instance
 #      end
@@ -161,7 +189,7 @@ module IronNails
       end
       
       def initialize_with(command_definitions, objects)
-        @model.commands = CommandCollection.generate_for(command_definitions, @model)
+        @model.add_commands_to_queue CommandCollection.generate_for(command_definitions, @model)
         @model.objects = ModelCollection.generate_for(objects)
       end
       

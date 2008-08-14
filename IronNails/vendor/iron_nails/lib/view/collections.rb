@@ -19,6 +19,10 @@ module IronNails
       def <<(item)
         @items << item        
       end
+      
+      def [](value)
+        @items[value]
+      end
             
       def to_a
         @items
@@ -28,18 +32,27 @@ module IronNails
     
     class CommandCollection < ViewModelObjectCollection
     
+      def has_command?(command)
+         !self.find do |cmd|
+           command == cmd
+         end.nil?
+      end
+              
+      
       class << self
         
         # Given a set of +command_definitions+ it will generate
         # a collection of Command objects for the view model
         def generate_for(command_definitions, view_model)
           commands = new
-          command_definitions.each do |cmd_def|
-            cmd = Command.new(cmd_def.merge({ :view_model => view_model }))
+          command_definitions.each do |name, cmd_def|
+            cmd = Command.new(cmd_def.merge({ :view_model => view_model, :name => name }))
             commands << cmd
-          end
+          end if command_definitions.is_a?(Hash)
+          #commands << Command.new(command_definitions.merge({ :view_model => view_model })) if command_definitions.is_a?(Hash)
           commands
         end 
+        
         
       end
       

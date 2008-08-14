@@ -37,7 +37,7 @@ module IronNails
       # setup the viewmodel for the current objects and command defintions
       def setup_for_showing_view
         #log_on_error do
-          cmd_defs = generate_command_definitions 
+          cmd_defs = normalize_command_definitions 
           objs = refresh_objects
           @view_model.initialize_with cmd_defs, objs
         #end
@@ -58,31 +58,35 @@ module IronNails
       # When it can't find a key :action in the options hash for the view_action
       # it will default to using the name as the command as the connected option.
       # It will generate a series of commands for items that have more than one trigger      
-      def generate_command_definitions
-        command_definitions = []
+      def normalize_command_definitions
+        command_definitions = {}
         
         @commands.each do |k, v|
         
           raise ArgumentException.new "You have to specify at least one trigger for a view action" if v[:triggers].nil?
           
+          mode = v[:mode]
           act = v[:action]||k
           action = act
           action = method(act) if act.is_a?(Symbol) || act.is_a?(String)
           triggers = v[:triggers]
           
-          command_definitions << { 
+          command_definitions[k] = 
+          if  triggers.is_a?(String) || triggers.is_a?(Symbol)
+          { 
                     :element => triggers, 
                     :event   => :click, 
-                    :action  => action 
-          } if triggers.is_a?(String) || triggers.is_a?(Symbol)
-          
-          command_definitions << triggers.merge({:action => action, :name => k }) if triggers.is_a?(Hash)
-          
-          triggers.each do |trig|
-            trig = { :element => trig, :event => :click } unless trig.is_a? Hash
-            trig[:event] = :click unless trig.has_key? :event
-            command_definitions << trig.merge({ :action => action })
-          end if triggers.is_a?(CommandCollection)
+                    :action  => action,
+                    :mode    => mode
+          } 
+          elsif triggers.is_a?(Hash)          
+            triggers.merge({:action => action, :name => k, :mode => mode }) 
+          end
+#          triggers.each do |trig|
+#            trig = { :element => trig, :event => :click } unless trig.is_a? Hash
+#            trig[:event] = :click unless trig.has_key? :event
+#            trig.merge({ :action => action, :mode => mode })
+#          end if triggers.is_a?(CommandCollection)
         
         end unless @commands.nil?
         

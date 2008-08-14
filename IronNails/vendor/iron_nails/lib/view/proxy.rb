@@ -45,7 +45,11 @@ module IronNails
         ele = (command.affinity || command.element).to_sym
         send(command.element.to_sym).send(command.trigger.to_sym) do 
           on_ui_thread(ele) do
-            command.execute
+            unless command.asynchronous?
+              command.execute
+            else
+              on_new_thread(lambda { command.execute }) { command.refresh_view }              
+            end
           end
         end
       end
@@ -53,6 +57,21 @@ module IronNails
       def on_ui_thread(element=:instance, &b)
         send(element).dispatcher.begin_invoke(DispatcherPriority.normal, Action.new(&b))
       end
+      
+      # Schedules this command to execute on a different thread 
+      # and schedules the update of the view on the UI thread. 
+      def on_new_thread(request, &b)
+        cb = WaitCallback.new do
+          begin
+            # b.call
+            blk = lambda { |obj| b.call }
+            instance.dispatcher.begin_invoke(DispatcherPriority.normal, Action.of(System::Object).new(&blk), request.call )
+          rescue Exception => e
+            MessageBox.Show("There was a problem. #{e.message}")          
+          end
+        end
+        ThreadPool.queue_user_work_item cb        
+      end 
       
       # shows the proxied view
       def show

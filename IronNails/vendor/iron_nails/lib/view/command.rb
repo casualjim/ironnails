@@ -27,10 +27,14 @@ module IronNails
       
       # the name of the on which this command needs to be invoked
       attr_accessor :affinity
-            
+      
+      # the name of this command
+      attr_accessor :name
+                  
       def initialize(options)
         raise ArgumentException.new("An element name is necesary") if options[:element].nil?
         raise ArgumentException.new("An action is necesary") if options[:action].nil?
+        raise ArgumentException.new("A name is necesary") if options[:name].nil?
         
         @trigger = options[:event]||:click
         @element = options[:element]
@@ -38,20 +42,26 @@ module IronNails
         @view_model = options[:view_model]
         @mode = options[:mode]||:synchronous
         @affinity = options[:affinity]
+        @name = options[:name]
       end 
+      
+      def asynchronous?
+        mode == :asynchronous
+      end
+      
+      def refresh_view
+        view_model.refresh_view
+      end
+      
+      def attached?
+        !@view.nil?
+      end
       
       # executes this command (it calls the action)
       def execute
         log_on_error do
-          if mode == :asynchronous 
-            on_new_thread do
-              action.call
-              view_model.refresh_view
-            end                 
-          else
-            action.call
-            view_model.refresh_view
-          end
+          action.call
+          refresh_view unless asynchronous?
         end
       end
     
@@ -60,13 +70,18 @@ module IronNails
       def on_new_thread(&b)
         cb = WaitCallback.new do
           begin
-            view.dispatcher.begin_invoke(DispatcherPriority.normal, Action.new(&b))
+            # b.call
+            view.dispatcher.begin_invoke(DispatcherPriority.normal, Action.new(&b) )
           rescue Exception => e
             MessageBox.Show("There was a problem. #{e.message}")          
           end
         end
         ThreadPool.queue_user_work_item cb        
       end 
+      
+      def ==(command)
+        self.name == command.name
+      end
       
     end
   

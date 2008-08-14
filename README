@@ -21,7 +21,7 @@ class MyController < IronNails::Controller::Base
     MessageBox.show "This is the great message from a block"
   end
   
-  view_action :change_color, :triggers => { :element => :my_text_block, :event => :mouse_enter }
+  view_action :change_color, :triggers => { :element => :my_text_block, :event => :mouse_enter }, :asynchronous => true
   view_action :reset_color, :triggers => { :element => :my_text_block, :event => :mouse_leave } do 
     @my_text_block_color = :black.to_brush
   end
@@ -29,6 +29,8 @@ class MyController < IronNails::Controller::Base
   view_object :people, Person.find_all
     
   def change_color
+    # do some long running calculation here before changing the color.
+    # it is executed on a different thread
     @my_text_block_color = :red.to_brush
   end
   
