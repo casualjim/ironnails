@@ -30,7 +30,7 @@ module IronNails
       
       # the name of this command
       attr_accessor :name
-                  
+                        
       def initialize(options)
         raise ArgumentException.new("An element name is necesary") if options[:element].nil?
         raise ArgumentException.new("An action is necesary") if options[:action].nil?
@@ -43,7 +43,13 @@ module IronNails
         @mode = options[:mode]||:synchronous
         @affinity = options[:affinity]
         @name = options[:name]
+        @changed = options[:changed]
       end 
+      
+      # flag to indicate whether this command needs a refresh in the view model
+      def changed?
+        !!@changed
+      end
       
       def asynchronous?
         mode == :asynchronous
@@ -64,20 +70,6 @@ module IronNails
           refresh_view unless asynchronous?
         end
       end
-    
-      # Schedules this command to execute on a different thread 
-      # and schedules the update of the view on the UI thread. 
-      def on_new_thread(&b)
-        cb = WaitCallback.new do
-          begin
-            # b.call
-            view.dispatcher.begin_invoke(DispatcherPriority.normal, Action.new(&b) )
-          rescue Exception => e
-            MessageBox.Show("There was a problem. #{e.message}")          
-          end
-        end
-        ThreadPool.queue_user_work_item cb        
-      end 
       
       def ==(command)
         self.name == command.name

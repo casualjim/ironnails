@@ -43,6 +43,12 @@ module IronNails
         #end
       end
       
+      def add_action(name, options, &b)
+        options[:action] = b if block_given?
+        cmd_def = { "#{name}".to_sym => normalize_command_definition(name, options) }
+        @view_model.add_command_to_view cmd_def
+      end
+      
       def refresh_objects
         instance_variables.each do |var|
           sym = var.gsub(/@/, "").to_sym
@@ -62,36 +68,42 @@ module IronNails
         command_definitions = {}
         
         @commands.each do |k, v|
-        
-          raise ArgumentException.new "You have to specify at least one trigger for a view action" if v[:triggers].nil?
-          
-          mode = v[:mode]
-          act = v[:action]||k
-          action = act
-          action = method(act) if act.is_a?(Symbol) || act.is_a?(String)
-          triggers = v[:triggers]
-          
-          command_definitions[k] = 
-          if  triggers.is_a?(String) || triggers.is_a?(Symbol)
-          { 
-                    :element => triggers, 
-                    :event   => :click, 
-                    :action  => action,
-                    :mode    => mode
-          } 
-          elsif triggers.is_a?(Hash)          
-            triggers.merge({:action => action, :name => k, :mode => mode }) 
-          end
-#          triggers.each do |trig|
-#            trig = { :element => trig, :event => :click } unless trig.is_a? Hash
-#            trig[:event] = :click unless trig.has_key? :event
-#            trig.merge({ :action => action, :mode => mode })
-#          end if triggers.is_a?(CommandCollection)
-        
+          command_definitions[k] = normalize_command_definition(k, v)
         end unless @commands.nil?
         
-        command_definitions
+        command_definitions        
       end 
+      
+      def normalize_command_definition(name, options)
+        raise ArgumentException.new "You have to specify at least one trigger for a view action" if options[:triggers].nil?
+                
+        mode = options[:mode]
+        act = options[:action]||name
+        action = act
+        action = method(act) if act.is_a?(Symbol) || act.is_a?(String)
+        triggers = options[:triggers]
+        
+        cmd_def = 
+          if  triggers.is_a?(String) || triggers.is_a?(Symbol)
+            { 
+              :element => triggers, 
+              :event   => :click, 
+              :action  => action,
+              :mode    => mode
+            } 
+          elsif triggers.is_a?(Hash)          
+            triggers.merge({:action => action, :mode => mode }) 
+          elsif triggers.is_a?(Array)
+            defs = []
+            triggers.each do |trig|
+              trig = { :element => trig, :event => :click } unless trig.is_a? Hash
+              trig[:event] = :click unless trig.has_key? :event
+              defs << trig.merge({ :action => action, :mode => mode })
+            end 
+            defs
+          end
+         cmd_def     
+      end
       
       # copies an instance variable from the class object to this instance
       def instance_variable_copy(var)

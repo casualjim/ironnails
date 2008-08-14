@@ -96,13 +96,13 @@ module IronNails
       def add_command_to_queue(cmd)
         if cmd.is_a? CommandCollection
           cmd.each do |c|
-            unless commands.has_command? c
+            if !commands.has_command?(c) || c.changed?
               commands << c 
               @configured = false
             end
           end
         elsif cmd.respond_to?(:execute) && cmd.respond_to?(:element) # define some sort of contract
-          unless commands.has_command? cmd
+          unless commands.has_command?(cmd) || cmd.changed?
             commands << cmd 
             @configured = false 
           end
