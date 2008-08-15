@@ -6,6 +6,9 @@ module IronNails
     # view model in controllers.
     module ViewModelOperations
       
+      # Gets or sets the view_model for this controller.
+      attr_accessor :view_model
+            
       # gets the view name for the class that includes this module
       def view_name
         self.class.demodulize.gsub(/::/, '/').
@@ -20,6 +23,10 @@ module IronNails
         "#{default_vm_namespace}#{view_name.camelize}ViewModel"
       end
       
+      def viewmodel_class
+        view_model.viewmodel_class
+      end 
+      
       # gets the default namespace for the view model class
       def default_vm_namespace
         #"IronNails::ViewModels::"
@@ -29,10 +36,17 @@ module IronNails
       # initializes a new instance of the ViewModelBuilder      
       def init_view_model
         #log_on_error do
-          @view_model = IronNails::View::ViewModelBuilder.for_view_model view_model_name, view_name, lambda { setup_for_showing_view }
+          @view_model = ViewModelBuilder.for_view_model :class_name => view_model_name, 
+                                                        :view_name => view_name, 
+                                                        :refresh => lambda { setup_for_showing_view },
+                                                        :synchronise => lambda { synchronise_with_viewmodel }
           copy_vars
         #end
       end
+      
+      def synchronise_with_viewmodel
+        view_model.synchronise_to_controller self
+      end 
       
       # setup the viewmodel for the current objects and command defintions
       def setup_for_showing_view

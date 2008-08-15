@@ -59,6 +59,10 @@ module IronNails
         view_model.refresh_view
       end
       
+      def synchronise_viewmodel_with_controller
+        view_model.synchronise_viewmodel_with_controller
+      end
+      
       def attached?
         !@view.nil?
       end
@@ -66,6 +70,7 @@ module IronNails
       # executes this command (it calls the action)
       def execute
         log_on_error do
+          synchronise_viewmodel_with_controller
           action.call
           refresh_view unless asynchronous?
         end

@@ -47,10 +47,6 @@ module IronNails
         @view_name = name
       end 
       
-#      def view_instance
-#        @view.instance
-#      end
-      
       def initialize(view_name='')
         @configured, @commands = false, CommandCollection.new
         set_view_name view_name unless view_name.empty?
@@ -59,7 +55,7 @@ module IronNails
       # shows this view (probably a window)
       def show_view(reload=false)
         unless configured?
-          if @view.nil? || reload
+          if view.nil? || reload
             load_and_configure_view
           else
             configure_view
@@ -81,7 +77,7 @@ module IronNails
       
       # configures the properties for the view model
       def configure_properties
-        @objects.each do |o|
+        objects.each do |o|
           o.each do |k, v|
             send "#{k}=".to_sym, v 
           end unless o.nil?
@@ -102,7 +98,7 @@ module IronNails
             end
           end
         elsif cmd.respond_to?(:execute) && cmd.respond_to?(:element) # define some sort of contract
-          unless commands.has_command?(cmd) || cmd.changed?
+          if !commands.has_command?(cmd) || cmd.changed?
             commands << cmd 
             @configured = false 
           end
@@ -112,7 +108,7 @@ module IronNails
       
       # attaches the commands to the view.
       def configure_events
-        @commands.each do |cmd|
+        commands.each do |cmd|
           add_command_to_view cmd unless cmd.attached?
         end
       end
@@ -127,7 +123,7 @@ module IronNails
       def configure_view
         configure_properties
         configure_events
-        @view.data_context = self
+        view.data_context = self
         @configured = true
       end
       
@@ -141,6 +137,14 @@ module IronNails
         configure_events
         @configured = true
       end
+      
+      def set_synchronise(&synchronise)
+        @synchronise = synchronise
+      end 
+      
+      def synchronise_viewmodel_with_controller
+        @synchronise.call
+      end 
              
     end
     
@@ -151,54 +155,77 @@ module IronNails
       
       # loads a new instance of the view into memory
       def set_view_name(name)
-        @model.set_view_name name
+        model.set_view_name name
       end
       
       # gets the view proxy      
       def view
-        @model.view
+        model.view
       end
       
       def show_view
-        @model.show_view
+        model.show_view
       end 
       
       def add_command_to_view(cmd_def)
-        model.merge_commands CommandCollection.generate_for(cmd_def, @model)
+        model.add_commands_to_queue CommandCollection.generate_for(cmd_def, model)
       end
       
 #      def view_instance
 #        @model.view_instance
 #      end
+
+      def viewmodel_class
+        @model.class
+      end 
+      
+      def synchronise_viewmodel_with_controller
+        model.synchronise_viewmodel_with_controller
+      end 
+      
+      def synchronise_to_controller(controller)
+        objects = controller.instance_variable_get "@objects"
+        properties = model.to_clr_type.get_properties.collect { |pi| pi.name.to_s.to_sym }
+        objects.each do |k,v|
+          if properties.include? k.to_s.camelize.to_sym 
+            val = model.send(k)
+            objects[k] = val
+            controller.instance_variable_set "@{k}", val
+          end
+        end
+        
+      end
       
       # builds a class with the specified +class_name+ and defines it if necessary. 
       # After it will load the proxy for the view with +view_name+
-      def build_class_with(class_name, view_name, &refresh)
+      def build_class_with(options)
         # FIXME: The line below will be more useful when we can bind to IronRuby objects
         # Object.const_set class_name, Class.new(ViewModel) unless Object.const_defined? class_name     
 
         # TODO: There is an issue with namespacing and CLR classes, they aren't registered as constants with
         #       IronRuby. This makes it hard to namespace viewmodels. If the namespace is included everything 
         #       should work as normally. Will revisit this later to properly fix it.        
-        klass = Object.const_get class_name 
+        klass = Object.const_get options[:class_name]
         klass.include IronNails::View::ViewModelMixin
         @model = klass.new 
-        @model.set_refresh_view &refresh        
-        set_view_name view_name        
-        @model
+        model.set_refresh_view &options[:refresh]
+        model.set_synchronise_viewmodel &options[:synchronise]
+        set_view_name options[:view_name]      
+          
+        model
       end
       
       def initialize_with(command_definitions, objects)
-        @model.add_commands_to_queue CommandCollection.generate_for(command_definitions, @model)
-        @model.objects = ModelCollection.generate_for(objects)
+        model.add_commands_to_queue CommandCollection.generate_for(command_definitions, model)
+        model.objects = ModelCollection.generate_for(objects)
       end
       
       class << self
       
         # initializes a new view model class for the controller 
-        def for_view_model(class_name, view_name, refresh)
+        def for_view_model(options)
           builder = new
-          builder.build_class_with class_name.camelize, view_name, &refresh
+          builder.build_class_with options
           builder
         end       
           

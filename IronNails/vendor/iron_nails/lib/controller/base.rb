@@ -7,8 +7,6 @@ module IronNails
       include IronNails::Controller::ViewModelOperations
       include IronNails::Logging::ClassLogger
       
-      # Gets or sets the view_model for this controller.
-      attr_accessor :view_model
       
       # Gets or sets the objects for the view model
       attr_accessor :objects
@@ -26,8 +24,6 @@ module IronNails
           view_model.show_view
         #end
       end
-      
-      
                   
       class << self
         
