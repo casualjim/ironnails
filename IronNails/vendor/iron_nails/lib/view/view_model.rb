@@ -42,6 +42,7 @@ module IronNails
       def initialize(view_name='')
         @configured, @command_queue, @model_queue = false, CommandCollection.new, ModelCollection.new
         set_view_name view_name unless view_name.empty?
+        initialize_dictionaries
       end
       
       # shows this view (probably a window)
@@ -71,7 +72,7 @@ module IronNails
       def configure_models
         model_queue.each do |o|
           o.each do |k, v|
-            objects.set_value(k.to_s, v)
+            objects.set_value(k.to_s.camelize, v)
           end unless o.nil?
         end     
       end
@@ -172,8 +173,8 @@ module IronNails
       end
       
       def enqueue_model(model)
-        if !models.has_model? model
-          models << model
+        if !model_queue.has_model? model
+          model_queue << model
           @configured = false
         end
       end   

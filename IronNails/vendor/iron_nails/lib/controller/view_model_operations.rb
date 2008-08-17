@@ -52,7 +52,7 @@ module IronNails
       def setup_for_showing_view
         #log_on_error do
           objs = refresh_objects
-          @view_model.initialize_with commands, objs
+          @view_model.initialize_with commands, objs, self
         #end
       end
       

@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + "/collections"
+require File.dirname(__FILE__) + "/view_model"
 module IronNails
   
   module View
@@ -53,11 +54,11 @@ module IronNails
       end
       
       # Generates the command definitions for our view model.
-      def normalize_command_definitions(definitions)
+      def normalize_command_definitions(definitions, controller)
         command_definitions = {}
         
         definitions.each do |k, v|
-          command_definitions[k] = normalize_command_definition(k, v)
+          command_definitions[k] = normalize_command_definition(k, v, controller)
         end unless definitions.nil?
         
         command_definitions        
@@ -67,11 +68,11 @@ module IronNails
       # When it can't find a key :action in the options hash for the view_action
       # it will default to using the name as the command as the connected option.
       # It will generate a series of commands for items that have more than one trigger      
-      def normalize_command_definition(name, options)
+      def normalize_command_definition(name, options, controller)
         mode = options[:mode]
         act = options[:action]||name
         action = act
-        action = method(act) if act.is_a?(Symbol) || act.is_a?(String)
+        action = controller.method(act) if act.is_a?(Symbol) || act.is_a?(String)
         
         if options.has_key?(:triggers) && !options[:triggers].nil?
           triggers = options[:triggers]
@@ -100,7 +101,7 @@ module IronNails
         else
           exec = options[:execute]
           execute = exec
-          execute = method(exec) if exec.is_a?(Symbol) || exec.is_a?(String)
+          execute = controller.method(exec) if exec.is_a?(Symbol) || exec.is_a?(String)
           controller_action, controller_condition = execute || action, options[:condition]
           {
             :action => controller_action,
@@ -124,16 +125,16 @@ module IronNails
         klass.include IronNails::View::ViewModelMixin
         @model = klass.new 
         model.set_refresh_view &options[:refresh]
-        model.set_synchronise_viewmodel &options[:synchronise]
+        model.set_synchronise &options[:synchronise]
         set_view_name options[:view_name]      
         
         model
       end
       
-      def initialize_with(command_definitions, objects)
-        definitions = normalize_command_definitions command_definitions
+      def initialize_with(command_definitions, objects, controller)
+        definitions = normalize_command_definitions command_definitions, controller
         model.add_commands_to_queue CommandCollection.generate_for(definitions, model)
-        model.model_queue = ModelCollection.generate_for(objects)
+        model.add_models_to_queue ModelCollection.generate_for(objects)
       end
       
       class << self
