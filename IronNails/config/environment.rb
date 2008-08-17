@@ -4,9 +4,8 @@ IronNails::Initializer.run do |config|
   config.namespaces.concat %w(
           IronNails
           IronNails::Core
-          IronNails::Contracts
           IronNails::Models
-          IronNails::ViewModels          
+          IronNails::ViewModels
           System::Diagnostics
           System::Security
           System::Globalization

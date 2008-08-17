@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IronNails.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\IronNails.Library.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -71,8 +75,6 @@
     <Compile Include="Converters\IndexToIsAlternateRowConverter.cs" />
     <Compile Include="Converters\RoundConverter.cs" />
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="Models\Base.cs" />
-    <Compile Include="Models\BindableCollection.cs" />
     <Compile Include="Models\DirectMessage.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Status.cs" />
@@ -91,9 +93,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Testing.cs" />
-    <Compile Include="ViewModel.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

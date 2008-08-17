@@ -1,44 +1,36 @@
-require File.dirname(__FILE__) + "/command.rb"
 module IronNails
 
   module View
     
-    class ViewModel
-      
-      def initialize(name = '')
-        super
-      end
-    end
-    
     # The base class for view models in an IronNails application.
     module ViewModelMixin 
-    
+      
       include IronNails::Logging::ClassLogger
       
       # the view proxy that this view model is responsible for
       attr_accessor :view
       
-      # gets or sets the commands to respond to user actions in the view.
-      attr_accessor :commands
+      # gets or sets the command_queue to respond to user actions in the view.
+      attr_accessor :command_queue
       
       # gets or sets the models that wil be used in the view to bind to
-      attr_accessor :objects
+      attr_accessor :model_queue
       
-       # flags the view model as in need of wiring up and 
-       # sets the command collection
-      def commands=(value)
-        unless commands == value
+      # flags the view model as in need of wiring up and 
+      # sets the command collection
+      def command_queue=(value)
+        unless command_queue == value
           @configured = false 
-          @commands = value
+          @command_queue = value
         end
       end
       
       # flags the view model as in need of wiring up and 
       # sets the model collection
-      def objects=(value)
-        unless objects == value
+      def model_queue=(value)
+        unless model_queue == value
           @configured = false 
-          @objects = value
+          @model_queue = value
         end
       end
       
@@ -48,7 +40,7 @@ module IronNails
       end 
       
       def initialize(view_name='')
-        @configured, @commands = false, CommandCollection.new
+        @configured, @command_queue, @model_queue = false, CommandCollection.new, ModelCollection.new
         set_view_name view_name unless view_name.empty?
       end
       
@@ -76,39 +68,58 @@ module IronNails
       end 
       
       # configures the properties for the view model
-      def configure_properties
-        objects.each do |o|
+      def configure_models
+        model_queue.each do |o|
           o.each do |k, v|
-            send "#{k}=".to_sym, v 
+            objects.set_value(k.to_s, v)
           end unless o.nil?
         end     
       end
       
+      # configures a command appropriately on the view.
+      # for an EventCommand it will pass it to the view and the view will attach the
+      # appropriate events
+      # for a TimedCommand it will create a timer in the view proxy object
+      # for a BehaviorCommand it will add the appropriate delegate command to the 
+      # Commands dictionary on the ViewModel class
       def add_command_to_view(cmd)
-        view.add_command(cmd)        
+        case 
+        when cmd.is_a?(EventCommand)
+          view.add_command(cmd)
+        when cmd.is_a?(TimedCommand)
+          view.add_timer(cmd)
+        when cmd.is_a?(BehaviorCommand)
+          commands.set_value(cmd.name, cmd.to_clr_command)
+        end
       end
+      
+      def add_model_to_queue(model)
+        if model.is_a?(ModelCollection)
+          model.each do |m|
+            enqueue_model(m)                       
+          end 
+        elsif model.is_a?(Hash)
+          enqueue_model(model)
+        end
+      end
+      alias_method :add_models_to_queue, :add_model_to_queue
+      
       
       # adds a command or a command collection to the queue
       def add_command_to_queue(cmd)
         if cmd.is_a? CommandCollection
           cmd.each do |c|
-            if !commands.has_command?(c) || c.changed?
-              commands << c 
-              @configured = false
-            end
+            enqueue_command(c)
           end
-        elsif cmd.respond_to?(:execute) && cmd.respond_to?(:element) # define some sort of contract
-          if !commands.has_command?(cmd) || cmd.changed?
-            commands << cmd 
-            @configured = false 
-          end
+        elsif cmd.respond_to?(:execute) && cmd.respond_to?(:refresh_view) # define some sort of contract
+          enqueue_command(cmd)
         end
       end
       alias_method :add_commands_to_queue, :add_command_to_queue
       
-      # attaches the commands to the view.
+      # processes the command queue.
       def configure_events
-        commands.each do |cmd|
+        command_queue.each do |cmd|
           add_command_to_view cmd unless cmd.attached?
         end
       end
@@ -116,120 +127,56 @@ module IronNails
       # binds the view model to the view. It will setup the appropriate events, 
       # set the datacontext of the view so that all the data appears properly.s      
       def load_and_configure_view
-        @view = Proxy.load(@view_name)
+        @view = ViewProxy.load(@view_name)
         configure_view
       end
       
+      # configures the view 
       def configure_view
-        configure_properties
+        configure_models
         configure_events
         view.data_context = self
         @configured = true
       end
       
+      # sets the refresh view function for asynchronous operations
       def set_refresh_view(&refresh)
         @refresh_view = refresh
       end
       
+      # refreshes the data for the view.
       def refresh_view
         @refresh_view.call
-        configure_properties
+        configure_models
         configure_events
         @configured = true
       end
       
+      # sets the synchronise to controller function
       def set_synchronise(&synchronise)
         @synchronise = synchronise
       end 
       
+      # synchronises the data in the viewmodel with the controller
       def synchronise_viewmodel_with_controller
         @synchronise.call
       end 
-             
-    end
-    
-    class ViewModelBuilder
       
-      # gets the view model instance to manipulate with this builder
-      attr_reader :model
+      private 
       
-      # loads a new instance of the view into memory
-      def set_view_name(name)
-        model.set_view_name name
-      end
-      
-      # gets the view proxy      
-      def view
-        model.view
-      end
-      
-      def show_view
-        model.show_view
-      end 
-      
-      def add_command_to_view(cmd_def)
-        model.add_commands_to_queue CommandCollection.generate_for(cmd_def, model)
-      end
-      
-#      def view_instance
-#        @model.view_instance
-#      end
-
-      def viewmodel_class
-        @model.class
-      end 
-      
-      def synchronise_viewmodel_with_controller
-        model.synchronise_viewmodel_with_controller
-      end 
-      
-      def synchronise_to_controller(controller)
-        objects = controller.instance_variable_get "@objects"
-        properties = model.to_clr_type.get_properties.collect { |pi| pi.name.to_s.to_sym }
-        objects.each do |k,v|
-          if properties.include? k.to_s.camelize.to_sym 
-            val = model.send(k)
-            objects[k] = val
-            controller.instance_variable_set "@{k}", val
-          end
+      def enqueue_command(cmd)
+        if !command_queue.has_command?(cmd) || cmd.changed?
+          command_queue << cmd 
+          @configured = false 
         end
-        
       end
       
-      # builds a class with the specified +class_name+ and defines it if necessary. 
-      # After it will load the proxy for the view with +view_name+
-      def build_class_with(options)
-        # FIXME: The line below will be more useful when we can bind to IronRuby objects
-        # Object.const_set class_name, Class.new(ViewModel) unless Object.const_defined? class_name     
-
-        # TODO: There is an issue with namespacing and CLR classes, they aren't registered as constants with
-        #       IronRuby. This makes it hard to namespace viewmodels. If the namespace is included everything 
-        #       should work as normally. Will revisit this later to properly fix it.        
-        klass = Object.const_get options[:class_name]
-        klass.include IronNails::View::ViewModelMixin
-        @model = klass.new 
-        model.set_refresh_view &options[:refresh]
-        model.set_synchronise_viewmodel &options[:synchronise]
-        set_view_name options[:view_name]      
-          
-        model
-      end
-      
-      def initialize_with(command_definitions, objects)
-        model.add_commands_to_queue CommandCollection.generate_for(command_definitions, model)
-        model.objects = ModelCollection.generate_for(objects)
-      end
-      
-      class << self
-      
-        # initializes a new view model class for the controller 
-        def for_view_model(options)
-          builder = new
-          builder.build_class_with options
-          builder
-        end       
-          
-      end
+      def enqueue_model(model)
+        if !models.has_model? model
+          models << model
+          @configured = false
+        end
+      end   
       
     end
       

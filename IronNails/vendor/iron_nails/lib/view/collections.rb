@@ -59,6 +59,12 @@ module IronNails
     end
     
     class ModelCollection < ViewModelObjectCollection
+    
+      def has_model?(model)
+        !self.find do |m|
+          model.keys[0] == m.keys[0]
+        end.nil?
+      end
       
       class << self
         

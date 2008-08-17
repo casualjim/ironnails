@@ -63,6 +63,7 @@
     <Folder Include="vendor\iron_nails\lib\logging" />
     <Folder Include="vendor\iron_nails\lib\view" />
     <Folder Include="vendor\iron_nails\lib\security" />
+    <Folder Include="vendor\iron_nails\lib\view\commands" />
   </ItemGroup>
   <ItemGroup>
     <Ruby Include="app\controllers\main_window_controller.rb" />
@@ -114,8 +115,13 @@
     <Ruby Include="vendor\iron_nails\lib\version.rb" />
     <Ruby Include="vendor\iron_nails\lib\view.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\collections.rb" />
-    <Ruby Include="vendor\iron_nails\lib\view\command.rb" />
-    <Ruby Include="vendor\iron_nails\lib\view\proxy.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\commands.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\commands\behavior_command.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\commands\command.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\commands\event_command.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\commands\timed_command.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\view_model_builder.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\view_proxy.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_model.rb" />
     <Ruby Include="vendor\iron_nails\lib\wpf.rb" />
     <Ruby Include="vendor\iron_nails\lib\wpf_application.rb" />
@@ -125,13 +131,14 @@
     <Content Include="assets\alert.wav" />
     <Content Include="assets\cat.ico" />
     <Content Include="assets\Storyboards.xaml" />
-    <Content Include="bin\IronNails.Contracts.dll" />
-    <Content Include="bin\IronNails.Contracts.pdb" />
+    <Content Include="bin\J832.Common.dll" />
+    <Content Include="bin\J832.Wpf.BagOTricksLib.dll" />
+    <Content Include="config\build_config.yml" />
+    <Content Include="config\dependencies.yml" />
     <Content Include="log\development.log" />
     <Content Include="skins\Aero.xaml" />
     <Content Include="skins\AeroCompact.xaml" />
     <Content Include="skins\CoolBlue.xaml" />
-    <Content Include="skins\Temp.xaml" />
     <Content Include="vendor\iron_nails\bin\IronNails.Library.dll" />
     <Content Include="vendor\iron_nails\bin\IronNails.Library.pdb" />
   </ItemGroup>

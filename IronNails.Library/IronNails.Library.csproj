@@ -55,10 +55,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsynchronousDelegateCommand.cs" />
     <Compile Include="Base.cs" />
+    <Compile Include="Behaviors\ClickBehavior.cs" />
+    <Compile Include="Behaviors\Helpers.cs" />
+    <Compile Include="Behaviors\MouseBehavior.cs" />
     <Compile Include="BindableCollection.cs" />
+    <Compile Include="DelegateCommand.cs" />
+    <Compile Include="ObservableDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxy.cs" />
+    <Compile Include="ViewProxy.cs" />
     <Compile Include="SecureString.cs" />
     <Compile Include="StaticTypingHelper.cs" />
     <Compile Include="ViewModel.cs" />
@@ -72,4 +78,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) ..\libs\$(TargetFileName)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
