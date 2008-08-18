@@ -90,7 +90,8 @@ module IronNails
         when cmd.is_a?(TimedCommand)
           view.add_timer(cmd)
         when cmd.is_a?(BehaviorCommand)
-          commands.set_value(cmd.name, cmd.to_clr_command)
+          dc = cmd.to_clr_command
+          commands.set_entry(cmd.name.to_s, dc)
         end
       end
       

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Windows.Input;
 using IronNails.Library;
 using IronNails.Models;
 
@@ -13,12 +14,12 @@ namespace IronNails.View
     {
 
         private ObservableDictionary<string, object> _objects;
-        private ObservableDictionary<string, DelegateCommand> _commands;
+        private ObservableDictionary<string, ICommand> _commands;
 
         public void InitializeDictionaries()
         {
             _objects = new ObservableDictionary<string, object>();
-            _commands = new ObservableDictionary<string, DelegateCommand>();
+            _commands = new ObservableDictionary<string, ICommand>();
         }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace IronNails.View
             }
         }
 
-        public ObservableDictionary<string, DelegateCommand> Commands
+        public ObservableDictionary<string, ICommand> Commands
         {
             get { return _commands; }
             set

@@ -2,6 +2,8 @@
 
 using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 #endregion
@@ -42,7 +44,10 @@ namespace IronNails.Library.Behaviors
             // hook the event
             if ((e.NewValue != null) && (e.OldValue == null))
             {
-                element.MouseLeftButtonUp += element_MouseLeftButtonUp;
+                if(target is ButtonBase)
+                    ((ButtonBase)target).Click += ClickBehavior_Click;
+                else
+                    element.MouseLeftButtonUp += element_MouseLeftButtonUp;
             }
             // If we're clearing the command and it wasn't already null
             // unhook the event
@@ -52,9 +57,13 @@ namespace IronNails.Library.Behaviors
             }
         }
 
+        static void ClickBehavior_Click(object sender, RoutedEventArgs e)
+        {
+           Helpers.ExecuteCommand((UIElement)sender, LeftClickCommandProperty);
+        }
+
         private static void element_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("In left click event");
             if(DoubleClickCommandProperty == null || e.ClickCount == 1)
                 Helpers.ExecuteCommand((UIElement)sender, LeftClickCommandProperty);
         }
@@ -73,14 +82,25 @@ namespace IronNails.Library.Behaviors
             // hook the event
             if ((e.NewValue != null) && (e.OldValue == null))
             {
-                element.MouseLeftButtonUp += element_MouseDoubleButtonUp;
+                if (target is Control)
+                    ((Control)target).MouseDoubleClick += ClickBehavior_MouseDoubleClick;
+                else
+                    element.MouseLeftButtonUp += element_MouseDoubleButtonUp;
             }
             // If we're clearing the command and it wasn't already null
             // unhook the event
             else if ((e.NewValue == null) && (e.OldValue != null))
             {
-                element.MouseLeftButtonUp -= element_MouseDoubleButtonUp;
+                if (target is Control)
+                    ((Control) target).MouseDoubleClick -= ClickBehavior_MouseDoubleClick;
+                else 
+                    element.MouseLeftButtonUp -= element_MouseDoubleButtonUp;
             }
+        }
+
+        static void ClickBehavior_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private static void element_MouseDoubleButtonUp(object sender, MouseButtonEventArgs e)

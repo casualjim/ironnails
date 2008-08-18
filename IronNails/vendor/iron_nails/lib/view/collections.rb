@@ -46,7 +46,7 @@ module IronNails
         def generate_for(command_definitions, view_model)
           commands = new
           command_definitions.each do |name, cmd_def|
-            cmd = Command.new(cmd_def.merge({ :view_model => view_model, :name => name }))
+            cmd = Command.create_from(cmd_def.merge({ :view_model => view_model, :name => name }))
             commands << cmd
           end if command_definitions.is_a?(Hash)
           #commands << Command.new(command_definitions.merge({ :view_model => view_model })) if command_definitions.is_a?(Hash)

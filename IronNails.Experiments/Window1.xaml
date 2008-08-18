@@ -4,7 +4,7 @@
     xmlns:behaviors="clr-namespace:IronNails.Library.Behaviors;assembly=IronNails.Library"
     Title="Window1" Height="300" Width="300">
     <StackPanel>
-        <TextBlock Text="Please click below"></TextBlock>
-        <Button x:Name="testButton" Content="That would be me" behaviors:ClickBehavior.RightClick="{Binding ShowMessage}" />
+        <TextBlock Text="Please click below" behaviors:ClickBehavior.LeftClick="{Binding ShowMessage}" ></TextBlock>
+        <Button x:Name="testButton" Content="That would be me" behaviors:ClickBehavior.LeftClick="{Binding ShowMessage}" />
     </StackPanel>
 </Window>
