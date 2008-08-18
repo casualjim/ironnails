@@ -184,7 +184,6 @@ module IronNails
       def enqueue_model(model)
         key = model.keys[0]
         unless model_queue.has_model?(model) && model_queue[key] == model[key]
-          puts "enqueueing model: #{key} with value: #{model[key]}"
           model_queue.add_model model
           @configured = false
         end

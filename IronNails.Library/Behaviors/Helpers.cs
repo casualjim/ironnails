@@ -8,7 +8,7 @@ namespace IronNails.Library.Behaviors
         internal static void ExecuteCommand(DependencyObject element, DependencyProperty property)
         {
             var command = (ICommand)element.GetValue(property);
-            command.Execute(null);
+            command.Execute(element);
         }
     }
 }

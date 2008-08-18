@@ -12,6 +12,7 @@ namespace IronNails.Library
             get { return _value; }
             set
             {
+                if(_value != null && _value.Equals(value)) return;
                 _value = value;
                 OnPropertyChanged("Value");
             }

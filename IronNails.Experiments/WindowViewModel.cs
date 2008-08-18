@@ -14,7 +14,7 @@ namespace IronNails.Experiments
             get
             {
                 if (_showMessage == null)
-                    _showMessage = new DelegateCommand(() => MessageBox.Show("From Strong Typed Command"));
+                    _showMessage = new AsynchronousDelegateCommand(() => MessageBox.Show("From Strong Typed Command"), ()=> MessageBox.Show("In Callback"));
                 return _showMessage;
             }
             set

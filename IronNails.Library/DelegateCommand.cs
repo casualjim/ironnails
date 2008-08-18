@@ -1,7 +1,9 @@
 #region Usings
 
 using System;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 #endregion
 
@@ -78,8 +80,7 @@ namespace IronNails.Library
         /// <param name="arg">The arg.</param>
         void ICommand.Execute(object arg)
         {
-            Console.WriteLine("Executing command");
-            _handler();
+            ((UIElement) arg).Dispatcher.Invoke(DispatcherPriority.Normal, _handler);
         }
 
         #endregion

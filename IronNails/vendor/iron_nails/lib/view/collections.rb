@@ -66,7 +66,6 @@ module IronNails
       
       def add_model(model)
         key = model.keys[0]
-        puts "adding model: #{key}"
         has_model?(model) ? get_model(model)[key] = model[key] : @items << model
       end
       

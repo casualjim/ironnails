@@ -134,7 +134,6 @@ module IronNails
       def initialize_with(command_definitions, objects, controller)
         definitions = normalize_command_definitions command_definitions, controller
         model.add_commands_to_queue CommandCollection.generate_for(definitions, model)
-        puts "models: #{objects}"
         model.add_models_to_queue ModelCollection.generate_for(objects)
       end
       

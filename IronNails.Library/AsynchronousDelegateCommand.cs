@@ -1,7 +1,10 @@
 #region Usings
 
 using System;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 #endregion
 
@@ -82,7 +85,25 @@ namespace IronNails.Library
         /// <param name="arg">The arg.</param>
         void ICommand.Execute(object arg)
         {
-            _handler.BeginInvoke(ar => { _callback(); _handler.EndInvoke(ar); }, _handler);
+            ThreadPool.QueueUserWorkItem(v =>
+                                             {
+                                                 try
+                                                 {
+                                                     _handler();
+                                                     ((UIElement)arg).Dispatcher.BeginInvoke(
+                                                         DispatcherPriority.Normal, 
+                                                         new Action<object>(o => _callback()),
+                                                         new Func<object>(() =>
+                                                                              {
+                                                                                  _handler();
+                                                                                  return null;
+                                                                              }));
+                                                 }
+                                                 catch(Exception ex)
+                                                 {
+                                                     MessageBox.Show("There was a problem.\r\n" + ex.Message);
+                                                 }
+                                             });
         }
 
         #endregion
