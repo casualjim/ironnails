@@ -10,22 +10,6 @@ namespace IronNails.ViewModels
     /// </summary>
     public class MainWindowViewModel : ViewModel
     {
-        private ICommand _showMessage;
 
-        public ICommand ShowMessage
-        {
-            get
-            {
-                if (_showMessage == null)
-                    _showMessage = new DelegateCommand(() => MessageBox.Show("From Strong Typed Command"));
-                return _showMessage;
-            }
-            set
-            {
-                if(_showMessage == value) return;
-                _showMessage = value;
-                OnPropertyChanged("ShowMessage");
-            }
-        }
     }
 }

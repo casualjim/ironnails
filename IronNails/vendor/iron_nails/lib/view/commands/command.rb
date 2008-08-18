@@ -38,6 +38,12 @@ module IronNails
         @mode = options[:mode]||:synchronous
         @name = options[:name]
         @condition = options[:condition]
+        @changed = options[:changed]                
+      end
+      
+      # flag to indicate whether this command needs a refresh in the view model
+      def changed?
+        !!@changed
       end
       
       def can_execute?
@@ -62,11 +68,11 @@ module IronNails
       
       # executes this command (it calls the action)
       def execute
-        log_on_error do
-          synchronise_viewmodel_with_controller
+        #log_on_error do
+          #synchronise_viewmodel_with_controller
           action.call
           refresh_view unless asynchronous?
-        end if can_execute?
+        #end if can_execute?
       end
       
       def ==(command)

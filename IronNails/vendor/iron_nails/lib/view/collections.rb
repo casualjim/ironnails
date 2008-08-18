@@ -61,9 +61,19 @@ module IronNails
     class ModelCollection < ViewModelObjectCollection
     
       def has_model?(model)
-        !self.find do |m|
+        !get_model(model).nil?
+      end
+      
+      def add_model(model)
+        key = model.keys[0]
+        puts "adding model: #{key}"
+        has_model?(model) ? get_model(model)[key] = model[key] : @items << model
+      end
+      
+      def get_model(model)
+        @items.find do |m|
           model.keys[0] == m.keys[0]
-        end.nil?
+        end
       end
       
       class << self

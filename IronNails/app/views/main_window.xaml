@@ -72,7 +72,7 @@
 
         <!-- status_bar -->
         <Border DockPanel.Dock="Bottom" Padding="5,2,5,2" Background="{DynamicResource StatusBackgroundBrush}" x:Name="status_bar">
-            <TextBlock x:Name="status_text_block" TextWrapping="NoWrap" Foreground="#FFE4E4E4" Text="{ Binding Objects[StatusBarMessage] }" TextTrimming="CharacterEllipsis" />
+            <TextBlock x:Name="status_text_block" TextWrapping="NoWrap" Foreground="#FFE4E4E4" Text="{ Binding Objects[StatusBarMessage].Value }" TextTrimming="CharacterEllipsis" />
     </Border>
 
         <!-- Main Content -->

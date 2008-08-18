@@ -72,7 +72,15 @@ module IronNails
       def configure_models
         model_queue.each do |o|
           o.each do |k, v|
-            objects.set_value(k.to_s.camelize, v)
+            key = k.to_s.camelize
+            wpf_value = unless objects.contains_key(key) 
+              IronNails::Library::WpfValue.of(System::Object).new(v)
+            else
+              val = objects.get_value(key)
+              val.value = v
+              val
+            end
+            objects.set_entry(key, wpf_value)
           end unless o.nil?
         end     
       end
@@ -96,7 +104,7 @@ module IronNails
       end
       
       def add_model_to_queue(model)
-        if model.is_a?(ModelCollection)
+        if model.respond_to?(:has_model?)
           model.each do |m|
             enqueue_model(m)                       
           end 
@@ -109,7 +117,7 @@ module IronNails
       
       # adds a command or a command collection to the queue
       def add_command_to_queue(cmd)
-        if cmd.is_a? CommandCollection
+        if cmd.respond_to?(:has_command?)
           cmd.each do |c|
             enqueue_command(c)
           end
@@ -174,8 +182,10 @@ module IronNails
       end
       
       def enqueue_model(model)
-        if !model_queue.has_model? model
-          model_queue << model
+        key = model.keys[0]
+        unless model_queue.has_model?(model) && model_queue[key] == model[key]
+          puts "enqueueing model: #{key} with value: #{model[key]}"
+          model_queue.add_model model
           @configured = false
         end
       end   

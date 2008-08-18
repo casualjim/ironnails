@@ -11,11 +11,7 @@ module IronNails
             
       # gets the view name for the class that includes this module
       def view_name
-        self.class.demodulize.gsub(/::/, '/').
-        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-        gsub(/([a-z\d])([A-Z])/,'\1_\2').
-        tr("-", "_").
-        downcase.gsub(/_controller$/, '')
+        self.class.demodulize.underscore.gsub(/_controller$/, '')
       end
       
       # gets the name of the view model class

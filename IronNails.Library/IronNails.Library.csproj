@@ -69,6 +69,7 @@
     <Compile Include="StaticTypingHelper.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="Workarounds.cs" />
+    <Compile Include="WpfValue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

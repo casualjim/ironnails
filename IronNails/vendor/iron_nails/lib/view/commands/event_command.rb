@@ -22,12 +22,6 @@ module IronNails
         @trigger = options[:event]||:click
         @element = options[:element]
         @affinity = options[:affinity]
-        @changed = options[:changed]
-      end
-      
-      # flag to indicate whether this command needs a refresh in the view model
-      def changed?
-        !!@changed
       end
       
     end
