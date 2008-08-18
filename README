@@ -13,31 +13,6 @@ You can run the application by giving the command rake run inside the applicatio
 
 You are now able to write the following code for a controller:
 
-class MyController < IronNails::Controller::Base
-  
-  view_object :my_text_block_color, :black.to_brush  
-  
-  view_action :show_message, :triggers => :my_button do
-    MessageBox.show "This is the great message from a block"
-  end
-  
-  view_action :change_color, :triggers => { :element => :my_text_block, :event => :mouse_enter }, :asynchronous => true
-  view_action :reset_color, :triggers => { :element => :my_text_block, :event => :mouse_leave } do 
-    @my_text_block_color = :black.to_brush
-  end
-  
-  view_object :people, Person.find_all
-    
-  def change_color
-    # do some long running calculation here before changing the color.
-    # it is executed on a different thread
-    @my_text_block_color = :red.to_brush
-  end
-  
-  
-end
-
-
 # file name: demo_controller.rb
 class DemoController < IronNails::Controller::Base
   view_object :status_bar_message, "The status bar message"
@@ -63,15 +38,15 @@ public class DemoViewModel : IronNails.View.ViewModel { }
         <Button Content="Click me" behaviors:ClickBehavior.LeftClick="{Binding Commands[ChangeMessage]}" />
     </StackPanel>
 </Window>
+
 If you want to run the project:
-update IronRuby to the latest revision (currently r.128)
-copy the files J832*.dll to where your ir.exe lives
+update IronRuby to the latest revision (currently r.132)
 
 type rake run in the ironnails directory ie. C:\projects\ironnails\ironnails\ > rake run
 
 all help is welcome: ivan@flanders.co.nz
 
-Help is wanted for implementing the following items.
+Help is wanted for implementing the following items a.o.
 
 * RSpec stories
 * Predefined behaviors
