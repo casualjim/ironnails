@@ -42,10 +42,10 @@ module IronNails
       
       def synchronise_to_controller(controller)
         objects = controller.instance_variable_get "@objects"
-        properties = model.to_clr_type.get_properties.collect { |pi| pi.name.to_s.to_sym }
+        properties = model.objects.collect { |kvp| kvp.key.to_s.underscore.to_sym }
         objects.each do |k,v|
-          if properties.include? k.to_s.camelize.to_sym 
-            val = model.send(k)
+          if model.objects.contains_key(k.to_s.camelize)
+            val = model.objects.get_value(k.to_s.camelize).value
             objects[k] = val
             controller.instance_variable_set "@{k}", val
           end

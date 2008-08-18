@@ -69,7 +69,7 @@ module IronNails
       # executes this command (it calls the action)
       def execute
         #log_on_error do
-          #synchronise_viewmodel_with_controller
+          synchronise_viewmodel_with_controller
           action.call
           refresh_view unless asynchronous?
         #end if can_execute?
