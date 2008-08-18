@@ -3,12 +3,9 @@ using System.Windows.Input;
 using IronNails.Library;
 using IronNails.View;
 
-namespace IronNails.ViewModels
+namespace IronNails.Experiments
 {
-    /// <summary>
-    /// The ViewModel we will be using in the MainWindow view
-    /// </summary>
-    public class MainWindowViewModel : ViewModel
+    public class WindowViewModel : ViewModel
     {
         private ICommand _showMessage;
 
@@ -22,7 +19,7 @@ namespace IronNails.ViewModels
             }
             set
             {
-                if(_showMessage == value) return;
+                if (_showMessage == value) return;
                 _showMessage = value;
                 OnPropertyChanged("ShowMessage");
             }

@@ -78,6 +78,7 @@ namespace IronNails.Library
         /// <param name="arg">The arg.</param>
         void ICommand.Execute(object arg)
         {
+            Console.WriteLine("Executing command");
             _handler();
         }
 

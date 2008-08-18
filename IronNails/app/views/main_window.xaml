@@ -44,7 +44,7 @@
             </Border.ContextMenu>
             <DockPanel LastChildFill="False">
                 <TextBlock Text="Sylvester" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource HeaderForegroundBrush}" />
-        <Button Content="Refresh" Height="20" behaviors:ClickBehavior.LeftClick="{Binding Commands[refresh_feeds]}"  x:Name="refresh_button"  IsEnabled="True" MinWidth="25" MinHeight="20" FontSize="9" DockPanel.Dock="Right" Width="50" ToolTip="Refresh Tweets" />
+        <Button Content="Refresh" Height="20" behaviors:ClickBehavior.RightClick="{Binding ShowMessage}"  x:Name="refresh_button"  IsEnabled="True" MinWidth="25" MinHeight="20" FontSize="9" DockPanel.Dock="Right" Width="50" ToolTip="Refresh Tweets" />
         <Button Content="Options" Height="20" x:Name="options_button" MinWidth="25" MinHeight="20" Visibility="Collapsed" FontSize="9" DockPanel.Dock="Right" Margin="0,0,10,0" IsEnabled="False" Width="50" ToolTip="Show Options Window" />
         <ToggleButton Content="Filter" Height="25" x:Name="filter_toggle_button" MinWidth="25" MinHeight="20" FontSize="9" IsEnabled="False" 
         Width="55" ToolTip="Display Filter Panel" DockPanel.Dock="Right" BorderThickness="1,1,1,1" 
@@ -72,7 +72,7 @@
 
         <!-- status_bar -->
         <Border DockPanel.Dock="Bottom" Padding="5,2,5,2" Background="{DynamicResource StatusBackgroundBrush}" x:Name="status_bar">
-            <TextBlock x:Name="status_text_block" TextWrapping="NoWrap" Foreground="#FFE4E4E4" Text="{ Binding Objects [StatusBarMessage] }" TextTrimming="CharacterEllipsis" />
+            <TextBlock x:Name="status_text_block" TextWrapping="NoWrap" Foreground="#FFE4E4E4" Text="{ Binding Objects[StatusBarMessage] }" TextTrimming="CharacterEllipsis" />
     </Border>
 
         <!-- Main Content -->

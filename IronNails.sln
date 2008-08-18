@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		README = README
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronNails.Experiments", "IronNails.Experiments\IronNails.Experiments.csproj", "{83B2177F-0BCC-480F-B4FF-7C0A9EA76134}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B2177F-0BCC-480F-B4FF-7C0A9EA76134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B2177F-0BCC-480F-B4FF-7C0A9EA76134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B2177F-0BCC-480F-B4FF-7C0A9EA76134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B2177F-0BCC-480F-B4FF-7C0A9EA76134}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

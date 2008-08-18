@@ -1,0 +1,14 @@
+C:\projects\sails\IronNails.Experiments\bin\Debug\IronNails.Experiments.exe
+C:\projects\sails\IronNails.Experiments\bin\Debug\IronNails.Experiments.pdb
+C:\projects\sails\IronNails.Experiments\bin\Debug\IronNails.Library.dll
+C:\projects\sails\IronNails.Experiments\bin\Debug\IronNails.Library.pdb
+C:\projects\sails\IronNails.Experiments\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\sails\IronNails.Experiments\obj\Debug\Window1.baml
+C:\projects\sails\IronNails.Experiments\obj\Debug\Window1.g.cs
+C:\projects\sails\IronNails.Experiments\obj\Debug\App.g.cs
+C:\projects\sails\IronNails.Experiments\obj\Debug\IronNails.Experiments_MarkupCompile.cache
+C:\projects\sails\IronNails.Experiments\obj\Debug\IronNails.Experiments.g.resources
+C:\projects\sails\IronNails.Experiments\obj\Debug\IronNails.Experiments.Properties.Resources.resources
+C:\projects\sails\IronNails.Experiments\obj\Debug\IronNails.Experiments.csproj.GenerateResource.Cache
+C:\projects\sails\IronNails.Experiments\obj\Debug\IronNails.Experiments.exe
+C:\projects\sails\IronNails.Experiments\obj\Debug\IronNails.Experiments.pdb

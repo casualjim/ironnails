@@ -1,0 +1,10 @@
+﻿<Window x:Class="IronNails.Experiments.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:IronNails.Library.Behaviors;assembly=IronNails.Library"
+    Title="Window1" Height="300" Width="300">
+    <StackPanel>
+        <TextBlock Text="Please click below"></TextBlock>
+        <Button x:Name="testButton" Content="That would be me" behaviors:ClickBehavior.RightClick="{Binding ShowMessage}" />
+    </StackPanel>
+</Window>

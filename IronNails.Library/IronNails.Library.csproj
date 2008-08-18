@@ -79,6 +79,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) ..\libs\$(TargetFileName)</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) ..\..\..\..\libs\IronNails.Library.dll</PostBuildEvent>
   </PropertyGroup>
 </Project>

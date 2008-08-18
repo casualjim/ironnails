@@ -54,6 +54,7 @@ namespace IronNails.Library.Behaviors
 
         private static void element_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            MessageBox.Show("In left click event");
             if(DoubleClickCommandProperty == null || e.ClickCount == 1)
                 Helpers.ExecuteCommand((UIElement)sender, LeftClickCommandProperty);
         }
