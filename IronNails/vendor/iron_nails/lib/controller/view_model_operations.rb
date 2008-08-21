@@ -35,8 +35,12 @@ module IronNails
           @view_model = ViewModelBuilder.for_view_model :class_name => view_model_name, 
                                                         :view_name => view_name
                                                         
-          @view_model.add_observer :refreshing_view { setup_for_showing_view }
-          @view_model.add_observer :reading_input { synchronise_with_viewmodel }
+          @view_model.add_observer :refreshing_view do 
+            setup_for_showing_view 
+          end
+          @view_model.add_observer :reading_input do
+            synchronise_with_viewmodel
+          end
           copy_vars
         #end
       end

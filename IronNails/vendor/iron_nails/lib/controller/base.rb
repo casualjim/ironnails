@@ -46,7 +46,7 @@ module IronNails
           @commands[name] = options          
         end
         
-        def view_object(name, options)
+        def view_object(name, options = nil)
           @objects ||= {}
           attr_accessor name
           instance_variable_set("@#{name}", (options.is_a?(Hash) ? options[:value] : options))

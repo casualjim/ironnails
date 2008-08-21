@@ -24,19 +24,7 @@ module IronNails
       end 
       
       def add_observer(event, &observer)
-        model.add_observer event, observer
-      end
-      
-      #
-      # Add +observer+ as an observer on this object. +observer+ will now receive
-      # notifications. +observer+ is interest in the specified +event+
-      #
-      def add_observer(event, &observer)
-        @observers = [] unless defined? @observers
-        unless observer.respond_to? :call
-          raise NoMethodError, "observer needs to respond to 'update'" 
-        end
-        @observers << { :event => event, :observer => observer }
+        model.add_observer event, &observer
       end
       
       #
@@ -44,7 +32,7 @@ module IronNails
       # notifications of the specified +event+.
       #
       def delete_observer(event, &observer)
-        model.delete_observer event, observer
+        model.delete_observer event, &observer
       end
       
       #
@@ -164,8 +152,6 @@ module IronNails
         klass = Object.const_get options[:class_name]
         klass.include IronNails::View::ViewModelMixin
         @model = klass.new 
-        model.add_observer &options[:refresh]
-        model.set_synchronise &options[:synchronise]
         set_view_name options[:view_name]      
         
         model
