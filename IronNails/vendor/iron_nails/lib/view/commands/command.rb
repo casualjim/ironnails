@@ -59,7 +59,7 @@ module IronNails
       end
       
       def synchronise_viewmodel_with_controller
-        view_model.synchronise_viewmodel_with_controller
+        view_model.synchronise_with_controller
       end
       
       def attached?
@@ -92,7 +92,8 @@ module IronNails
           mapping = {
             :event => EventCommand,
             :timed => TimedCommand,
-            :behavior => BehaviorCommand
+            :behavior => BehaviorCommand,
+            :add_sub_view => AddSubViewCommand
           }
           
           mapping[definition[:type]||:behavior].new definition

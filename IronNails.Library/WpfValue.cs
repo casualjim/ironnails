@@ -25,12 +25,12 @@ namespace IronNails.Library
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string strPropertyName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this,
-                          new PropertyChangedEventArgs(strPropertyName));
+                          new PropertyChangedEventArgs(propertyName));
             }
         }
 

@@ -66,6 +66,7 @@
     <Folder Include="vendor\iron_nails\lib\view\commands" />
   </ItemGroup>
   <ItemGroup>
+    <Ruby Include="app\controllers\login_controller.rb" />
     <Ruby Include="app\controllers\main_window_controller.rb" />
     <Ruby Include="app\models\bindable_collection.rb" />
     <Ruby Include="app\models\credentials.rb" />
@@ -116,6 +117,7 @@
     <Ruby Include="vendor\iron_nails\lib\view.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\collections.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\commands\add_sub_view_command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\behavior_command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\event_command.rb" />
@@ -127,10 +129,14 @@
     <Ruby Include="vendor\iron_nails\lib\wpf_application.rb" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\views\login.xaml" />
     <Content Include="app\views\main_window.xaml" />
     <Content Include="assets\alert.wav" />
     <Content Include="assets\cat.ico" />
     <Content Include="assets\Storyboards.xaml" />
+    <Content Include="bin\IronNails.Contracts.dll" />
+    <Content Include="bin\IronNails.Contracts.pdb" />
+    <Content Include="bin\IronNails.Library.dll" />
     <Content Include="bin\J832.Common.dll" />
     <Content Include="bin\J832.Wpf.BagOTricksLib.dll" />
     <Content Include="config\build_config.yml" />

@@ -6,6 +6,7 @@ module IronNails
     module ViewModelMixin 
       
       include IronNails::Logging::ClassLogger
+      include IronNails::Core::Observable
       
       # the view proxy that this view model is responsible for
       attr_accessor :view
@@ -149,27 +150,27 @@ module IronNails
         @configured = true
       end
       
-      # sets the refresh view function for asynchronous operations
-      def set_refresh_view(&refresh)
-        @refresh_view = refresh
-      end
+#      # sets the refresh view function for asynchronous operations
+#      def set_refresh_view(&refresh)
+#        @refresh_view = refresh
+#      end
       
       # refreshes the data for the view.
       def refresh_view
-        @refresh_view.call
+        notify_observers :refreshing_view, self
         configure_models
         configure_events
         @configured = true
       end
       
-      # sets the synchronise to controller function
-      def set_synchronise(&synchronise)
-        @synchronise = synchronise
-      end 
+#      # sets the synchronise to controller function
+#      def set_synchronise(&synchronise)
+#        @synchronise = synchronise
+#      end 
       
       # synchronises the data in the viewmodel with the controller
-      def synchronise_viewmodel_with_controller
-        @synchronise.call
+      def synchronise_with_controller
+        notify_observers :reading_input, self
       end 
       
       private 

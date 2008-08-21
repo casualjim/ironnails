@@ -33,9 +33,10 @@ module IronNails
       def init_view_model
         #log_on_error do
           @view_model = ViewModelBuilder.for_view_model :class_name => view_model_name, 
-                                                        :view_name => view_name, 
-                                                        :refresh => lambda { setup_for_showing_view },
-                                                        :synchronise => lambda { synchronise_with_viewmodel }
+                                                        :view_name => view_name
+                                                        
+          @view_model.add_observer :refreshing_view { setup_for_showing_view }
+          @view_model.add_observer :reading_input { synchronise_with_viewmodel }
           copy_vars
         #end
       end

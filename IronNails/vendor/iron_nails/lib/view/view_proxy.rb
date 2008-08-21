@@ -93,6 +93,25 @@ module IronNails
         end
         
       end
+      
+      module SubViewSupport
+      
+#        def add_sub_view(command)
+#          command.view = self
+#          command.execute if command.can_execute?
+#        end
+                
+        # Adds a subview to the current view.
+        def add_control(target, view)
+          parent = send(target)
+          if parent.respond_to? :content=
+            parent.content = view
+          elsif parent.respond_to? :children
+            parent.children.add command[:view]
+          end          
+        end
+        
+      end
     
     end
     
@@ -102,6 +121,8 @@ module IronNails
       include IronNails::Logging::ClassLogger
       include IronNails::View::Extensions::EventSupport
       include IronNails::View::Extensions::TimerSupport
+      include IronNails::View::Extensions::SubViewSupport
+      include IronNails::Core::Observable
       
       # gets or sets the name of the view
       attr_accessor :view_name

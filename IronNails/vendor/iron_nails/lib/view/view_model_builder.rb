@@ -5,7 +5,7 @@ module IronNails
   module View
     
     class ViewModelBuilder
-      
+          
       # gets the view model instance to manipulate with this builder
       attr_reader :model
       
@@ -23,6 +23,44 @@ module IronNails
         model.show_view
       end 
       
+      def add_observer(event, &observer)
+        model.add_observer event, observer
+      end
+      
+      #
+      # Add +observer+ as an observer on this object. +observer+ will now receive
+      # notifications. +observer+ is interest in the specified +event+
+      #
+      def add_observer(event, &observer)
+        @observers = [] unless defined? @observers
+        unless observer.respond_to? :call
+          raise NoMethodError, "observer needs to respond to 'update'" 
+        end
+        @observers << { :event => event, :observer => observer }
+      end
+      
+      #
+      # Delete +observer+ as an observer on this object. It will no longer receive
+      # notifications of the specified +event+.
+      #
+      def delete_observer(event, &observer)
+        model.delete_observer event, observer
+      end
+      
+      #
+      # Delete all observers associated with this object.
+      #
+      def delete_observers
+        model.delete_observers
+      end
+      
+      #
+      # Return the number of observers associated with this object.
+      #
+      def count_observers
+        model.count_observers
+      end
+      
       def add_command_to_view(cmd_def)
         norm = normalize_command_definitions(cmd_def)
         model.add_commands_to_queue CommandCollection.generate_for(norm, model)
@@ -36,8 +74,10 @@ module IronNails
         @model.class
       end 
       
-      def synchronise_viewmodel_with_controller
-        model.synchronise_viewmodel_with_controller
+     
+      
+      def synchronise_with_controller
+        model.synchronise_with_controller
       end 
       
       def synchronise_to_controller(controller)
@@ -124,7 +164,7 @@ module IronNails
         klass = Object.const_get options[:class_name]
         klass.include IronNails::View::ViewModelMixin
         @model = klass.new 
-        model.set_refresh_view &options[:refresh]
+        model.add_observer &options[:refresh]
         model.set_synchronise &options[:synchronise]
         set_view_name options[:view_name]      
         
