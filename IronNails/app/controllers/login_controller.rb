@@ -1,6 +1,6 @@
 class LoginController < IronNails::Controller::Base
   
-  view_object :username
+  view_object :username, "Hello"
   view_object :password
   
   view_action :authenticate

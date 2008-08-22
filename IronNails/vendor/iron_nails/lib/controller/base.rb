@@ -26,8 +26,9 @@ module IronNails
       end
       
       def add_child_view(target, view_name)
-        controller = "#{view_name.camelize}Controller".classify.new
+        controller = "#{view_name.to_s.camelize}Controller".classify.new
         controller.setup_for_showing_view
+        controller.view_model.configure_view_for_showing
         current_view.add_control(target, controller.current_view.instance)
       end
                   

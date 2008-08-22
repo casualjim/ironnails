@@ -3,15 +3,16 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2006"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:behaviors="clr-namespace:IronNails.Library.Behaviors;assembly=IronNails.Library"
   mc:Ignorable="d"
   x:Name="LoginControl"
   Width="225" Height="270">
     <Border x:Name="layout_root" CornerRadius="5,5,5,5" BorderBrush="{DynamicResource PrimaryBorderBrush}" BorderThickness="1,0,1,1" Background="{DynamicResource LoginBackgroundBrush}">
         <StackPanel Width="150" VerticalAlignment="Center">
             <Label Content="Username:"/>
-            <TextBox HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="{Binding Objects[UserName].Value}"  x:Name="username" TextWrapping="Wrap"/>
+            <TextBox HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="{Binding Objects[Username].Value}"  x:Name="username" TextWrapping="Wrap"/>
             <Label Content="Password:"/>
-            <PasswordBox HorizontalAlignment="Stretch" Margin="5,0,0,0" x:Name="password" Text="{Binding Objects[Password].Value}" Width="Auto"/>
+            <PasswordBox HorizontalAlignment="Stretch" Margin="5,0,0,0" x:Name="password"  Width="Auto"/>
             <Button HorizontalAlignment="Stretch" Margin="10,15,10,0" behaviors:ClickBehavior.LeftClick="{Binding Commands[Authenticate] }" x:Name="login_button" Content="Login" IsDefault="True"/>
         </StackPanel>
     </Border>

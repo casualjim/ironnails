@@ -107,7 +107,7 @@ module IronNails
           if parent.respond_to? :content=
             parent.content = view
           elsif parent.respond_to? :children
-            parent.children.add command[:view]
+            parent.children.add view
           end          
         end
         

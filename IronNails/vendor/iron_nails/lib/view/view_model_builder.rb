@@ -14,7 +14,7 @@ module IronNails
       
       def_delegators :@model, :view, :show_view, :synchronise_with_controller, 
                               :delete_observers, :count_observers, :add_observer, 
-                              :delete_observer, :set_view_name
+                              :delete_observer, :set_view_name, :configure_view_for_showing
                               
       def_delegator :@model, :class, :viewmodel_class
       

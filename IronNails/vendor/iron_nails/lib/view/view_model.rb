@@ -48,6 +48,11 @@ module IronNails
       
       # shows this view (probably a window)
       def show_view(reload=false)
+        configure_view_for_showing
+        view.show
+      end
+      
+      def configure_view_for_showing
         unless configured?
           if view.nil? || reload
             load_and_configure_view
@@ -55,7 +60,6 @@ module IronNails
             configure_view
           end
         end
-        view.show
       end
       
       # returns a configured instance of the view
