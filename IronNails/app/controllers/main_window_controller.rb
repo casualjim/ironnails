@@ -5,6 +5,7 @@ class MainWindowController < IronNails::Controller::Base
   view_action :refresh_feeds  
   
   def refresh_feeds
+    puts "refreshing feeds"
     @login_controller = add_child_view(:content, :login)
     @login_controller.add_observer :logged_in do 
       logged_in 

@@ -89,7 +89,7 @@
     <Ruby Include="vendor\iron_nails\init.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller\base.rb" />
-    <Ruby Include="vendor\iron_nails\lib\controller\view_model_operations.rb" />
+    <Ruby Include="vendor\iron_nails\lib\controller\presenter_operations.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\array.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\class.rb" />
@@ -103,6 +103,7 @@
     <Ruby Include="vendor\iron_nails\lib\core_ext\system\security\secure_string.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\system\windows\markup\xaml_reader.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\time.rb" />
+    <Ruby Include="vendor\iron_nails\lib\errors.rb" />
     <Ruby Include="vendor\iron_nails\lib\iron_xml.rb" />
     <Ruby Include="vendor\iron_nails\lib\logger.rb" />
     <Ruby Include="vendor\iron_nails\lib\logging\buffered_logger.rb" />
@@ -122,7 +123,7 @@
     <Ruby Include="vendor\iron_nails\lib\view\commands\command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\event_command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\timed_command.rb" />
-    <Ruby Include="vendor\iron_nails\lib\view\view_model_builder.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\view_presenter.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_proxy.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_model.rb" />
     <Ruby Include="vendor\iron_nails\lib\wpf.rb" />

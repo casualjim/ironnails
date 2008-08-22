@@ -86,7 +86,7 @@ module IronNails
     
     class RequestLimitException < System::Exception
       
-      def initialize(message = "You've made too many requests. Twitter only allows 20 requests/hour.")
+      def initialize(message = "You've made too many requests. Twitter only allows 100 requests/hour.")
         super(message)
       end 
     end

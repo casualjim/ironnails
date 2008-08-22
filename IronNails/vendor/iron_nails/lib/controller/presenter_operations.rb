@@ -4,10 +4,10 @@ module IronNails
   
     # Encapsulates all the operations that have to do with the 
     # view model in controllers.
-    module ViewModelOperations
+    module PresenterOperations
       
       # Gets or sets the view_model for this controller.
-      attr_accessor :view_model
+      attr_accessor :main_presenter
             
       # gets the view name for the class that includes this module
       def view_name
@@ -20,7 +20,7 @@ module IronNails
       end
       
       def viewmodel_class
-        view_model.viewmodel_class
+        main_presenter.viewmodel_class
       end 
       
       # gets the default namespace for the view model class
@@ -29,16 +29,16 @@ module IronNails
         ""
       end
       
-      # initializes a new instance of the ViewModelBuilder      
-      def init_view_model
+      # initializes a new instance of the ViewPresenter      
+      def init_presenter
         #log_on_error do
-          @view_model = ViewModelBuilder.for_view_model :class_name => view_model_name, 
-                                                        :view_name => view_name
+          @main_presenter = ViewPresenter.for :model => view_model_name, 
+                                              :view => view_name
                                                         
-          @view_model.add_observer :refreshing_view do 
+          @main_presenter.add_observer :refreshing_view do 
             setup_for_showing_view 
           end
-          @view_model.add_observer :reading_input do
+          @main_presenter.add_observer :reading_input do
             synchronise_with_viewmodel
           end
           copy_vars
@@ -46,21 +46,22 @@ module IronNails
       end
       
       def synchronise_with_viewmodel
-        view_model.synchronise_to_controller self
+        main_presenter.synchronise_to_controller self
       end 
       
       # setup the viewmodel for the current objects and command defintions
       def setup_for_showing_view
         #log_on_error do
           objs = refresh_objects
-          @view_model.initialize_with commands, objs, self
+          main_presenter.initialize_with commands, objs, self
+          puts "initialized the presenter"
         #end
       end
       
       def add_action(name, options, &b)
         options[:action] = b if block_given?
         cmd_def = { "#{name}".to_sym => options }
-        @view_model.add_command_to_view cmd_def
+        main_presenter.add_command_to_view cmd_def
       end
       
       def refresh_objects
