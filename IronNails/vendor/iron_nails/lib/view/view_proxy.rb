@@ -180,7 +180,7 @@ module IronNails
         
         # creates an instance of the view specified by the +view_name+
         def load(view_name)
-          vw = new view_name
+          vw = new view_name.to_s
           vw.load_view
           vw
         end

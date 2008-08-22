@@ -65,7 +65,7 @@ module IronNails
     end 
     
     def set_constants
-      
+      puts "setting application constants"
     end
     
     # If the IRONNAILS_DEFAULT_LOGGER constant is already set, this initialization
@@ -78,6 +78,7 @@ module IronNails
     # +STDERR+, with a log level of +WARN+.
     def initialize_logger
       # if the environment has explicitly defined a logger, use it
+      puts "initializing logger"
       return if defined?(IRONNAILS_DEFAULT_LOGGER)
       
       unless logger = configuration.logger
@@ -102,16 +103,20 @@ module IronNails
     end
     
     def require_binaries
+      puts "requiring binaries from bin"
       configuration.assembly_paths.each do |path|
         require_files path, :dll
       end
     end
     
+    
     def include_namespaces
+      puts "Including namespaces"
       configuration.namespaces.each { |namespace| Object.include eval(namespace) }
     end 
     
     def require_application_files
+      puts "requiring application files"
       configuration.application_paths.each do |path|
         require_files path, :rb
       end

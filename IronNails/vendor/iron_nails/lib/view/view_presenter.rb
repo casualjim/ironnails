@@ -7,8 +7,10 @@ module IronNails
   
     module ViewOperations
     
-      # the view proxy that this view model is responsible for
+      # the view proxy that this presenter is responsible for
       attr_accessor :view
+      
+      attr_accessor :child_views
       
       # loads a new instance of a view proxy into this model
       def set_view_name(name)
@@ -27,33 +29,6 @@ module IronNails
         view.instance
       end
       
-      # gets the view model instance to manipulate with this builder
-      attr_reader :model
-       
-      # gets or sets the command_queue to respond to user actions in the view.
-      attr_accessor :command_queue
-       
-      # gets or sets the models that wil be used in the view to bind to
-      attr_accessor :model_queue
-       
-      # flags the view model as in need of wiring up and 
-      # sets the command collection
-      def command_queue=(value)
-        unless command_queue == value
-          @configured = false 
-          @command_queue = value
-        end
-      end
-       
-      # flags the view model as in need of wiring up and 
-      # sets the model collection
-      def model_queue=(value)
-        unless model_queue == value
-          @configured = false 
-          @model_queue = value
-        end
-      end
-      
       def configure_view_for_showing
         unless configured?
           if view.nil? || reload
@@ -64,11 +39,26 @@ module IronNails
         end
       end
       
+      def has_child_view?(view_name)
+        child_views.any? { |cv| cv == view.to_s.to_sym }
+      end
+      
+      def add_child_view(target, view_name)
+        view.add_control(target, ViewProxy.load(view_name).instance)
+        child_views = [] if child_views.nil?
+        child_views << view_name.to_s.to_sym
+      end
+      
       # binds the view model to the view. It will setup the appropriate events, 
       # set the datacontext of the view so that all the data appears properly.s      
       def load_and_configure_view
-        @view = ViewProxy.load(@view_name)
+        load_view
         configure_view
+      end
+      
+      def load_view
+        puts "View to load: #@view_name"
+        @view = ViewProxy.load(@view_name)
       end
       
       # configures the view 
@@ -85,7 +75,7 @@ module IronNails
     module ViewModelOperations
     
       # gets the view model instance to manipulate with this builder
-      attr_reader :model
+      attr_accessor :model
       
       # gets or sets the command_queue to respond to user actions in the view.
       attr_accessor :command_queue
@@ -134,10 +124,6 @@ module IronNails
         end
       end
       alias_method :add_commands_to_queue, :add_command_to_queue
-      
-      
-      
-      
       
       private 
         
@@ -300,7 +286,7 @@ module IronNails
         klass = Object.const_get options[:model]
         klass.include IronNails::View::ViewModelMixin
         @model = klass.new 
-        @configured, @command_queue, @model_queue = false, CommandCollection.new, ModelCollection.new
+        @configured, @command_queue, @model_queue, @child_views = false, CommandCollection.new, ModelCollection.new, []
         set_view_name options[:view]      
         puts "created a viewmodel: #{model.class}"
         model
@@ -322,6 +308,13 @@ module IronNails
           presenter.build_class_with options
           presenter
         end       
+        
+        def child_for(options)
+          presenter = new
+          presenter.set_view_name options[:view]
+          presenter.model = options[:model]
+          presenter
+        end
         
       end
       

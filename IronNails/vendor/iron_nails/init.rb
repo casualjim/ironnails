@@ -1,3 +1,4 @@
+puts "initializing ruby libraries and gems"
 begin
   require 'logger' 
   require 'fileutils'
@@ -11,11 +12,13 @@ rescue LoadError => e
   raise LoadError.new(msg)
 end
 
+puts "setting constants"
 IRONNAILS_ROOT = "#{File.dirname(__FILE__)}/../.." unless defined?(IRONNAILS_ROOT)
 IRONNAILS_VIEWS_ROOT = "#{IRONNAILS_ROOT}/app/views" unless defined? IRONNAILS_VIEWS_ROOT
 IRONNAILS_ENV = (ENV['IRONNAILS_ENV'] || 'development').dup unless defined?(IRONNAILS_ENV)
 
 # load .NET libraries
+puts "loading .NET binaries"
 require 'mscorlib'
 require 'System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'
 require 'System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'
@@ -35,10 +38,12 @@ require "System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=
 require "System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
 
 # load IronNails static CLR helpers 
+puts "Loading IronNails.Library"
 require File.dirname(__FILE__) + '/bin/IronNails.Library.dll'
 include IronNails::Helpers
 
 # load IronRuby files of the IronNails framework
+puts "Loading the IronNails framework"
 require File.dirname(__FILE__) + '/lib/version'
 require File.dirname(__FILE__) + '/lib/logger'
 require File.dirname(__FILE__) + '/config/configuration'

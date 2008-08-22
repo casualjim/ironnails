@@ -12,15 +12,22 @@ module IronNails
       # adds a model for the view in the dictionary
       def add_model(k, v)
         key = k.to_s.camelize
+        changed = false
         wpf_value = unless objects.contains_key(key) 
+          changed = true
           IronNails::Library::WpfValue.of(System::Object).new(v)
         else
           val = objects.get_value(key)
-          val.value = v
+          unless v == val.value
+            val.value = v
+            changed = true
+          end
           val          
         end
-        puts "setting objects entry: { #{key}: #{v} }"
-        objects.set_entry(key, wpf_value)
+        if changed
+          puts "setting objects entry: { #{key}: #{v} }"
+          objects.set_entry(key, wpf_value)
+        end
       end
       
       # configures a command appropriately on the view.
@@ -37,8 +44,11 @@ module IronNails
           view.add_timer(cmd)
         when cmd.is_a?(BehaviorCommand)
           dc = cmd.to_clr_command
-          puts "adding command to the view #{cmd.name}"
-          commands.set_entry(cmd.name.to_s.camelize, dc)
+          cmd_name = cmd.name.to_s.camelize
+          unless commands.contains_key(cmd_name)
+            puts "adding command to the view #{cmd.name}"
+            commands.set_entry(cmd_name, dc) 
+          end
         end
       end
             

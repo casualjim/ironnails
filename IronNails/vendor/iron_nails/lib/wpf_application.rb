@@ -1,6 +1,7 @@
 class WpfApplication < System::Windows::Application
   
   def initialize(&b)
+    puts "Loading initial window"
     controller = instance_eval &b
     @main_window = controller.show_view
     run @main_window
