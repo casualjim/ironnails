@@ -5,69 +5,24 @@ module IronNails
   module View
     
     class ViewModelBuilder
-          
+      
+      extend Forwardable
+      
       # gets the view model instance to manipulate with this builder
       attr_reader :model
       
-      # loads a new instance of the view into memory
-      def set_view_name(name)
-        model.set_view_name name
-      end
       
-      # gets the view proxy      
-      def view
-        model.view
-      end
-      
-      def show_view
-        model.show_view
-      end 
-      
-      def add_observer(event, &observer)
-        model.add_observer event, &observer
-      end
-      
-      #
-      # Delete +observer+ as an observer on this object. It will no longer receive
-      # notifications of the specified +event+.
-      #
-      def delete_observer(event, &observer)
-        model.delete_observer event, &observer
-      end
-      
-      #
-      # Delete all observers associated with this object.
-      #
-      def delete_observers
-        model.delete_observers
-      end
-      
-      #
-      # Return the number of observers associated with this object.
-      #
-      def count_observers
-        model.count_observers
-      end
+      def_delegators :@model, :view, :show_view, :synchronise_with_controller, 
+                              :delete_observers, :count_observers, :add_observer, 
+                              :delete_observer, :set_view_name
+                              
+      def_delegator :@model, :class, :viewmodel_class
       
       def add_command_to_view(cmd_def)
         norm = normalize_command_definitions(cmd_def)
         model.add_commands_to_queue CommandCollection.generate_for(norm, model)
       end
-      
-      #      def view_instance
-      #        @model.view_instance
-      #      end
-      
-      def viewmodel_class
-        @model.class
-      end 
-      
-     
-      
-      def synchronise_with_controller
-        model.synchronise_with_controller
-      end 
-      
+
       def synchronise_to_controller(controller)
         objects = controller.instance_variable_get "@objects"
         properties = model.objects.collect { |kvp| kvp.key.to_s.underscore.to_sym }

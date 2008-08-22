@@ -1,6 +1,7 @@
 begin
   require 'logger' 
   require 'fileutils'
+  require 'forwardable'
 rescue LoadError => e
   msg = "It looks like you tried to load the application without passing the"
   msg << " library paths to IronRuby.\n" 
