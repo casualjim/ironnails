@@ -10,6 +10,6 @@ class LoginController < IronNails::Controller::Base
   end 
   
   def authenticate
-    MessageBox.show("Authenticating in Login", "Authenticating")
+    notify_observers(:logged_in, self)
   end
 end 

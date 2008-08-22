@@ -6,6 +6,7 @@ module IronNails
       
       include IronNails::Controller::ViewModelOperations
       include IronNails::Logging::ClassLogger
+      include IronNails::Core::Observable
       
       
       # Gets or sets the objects for the view model
@@ -13,6 +14,8 @@ module IronNails
       
       # Gets or sets the commands for the view model
       attr_accessor :commands
+      
+      attr_accessor :views
       
       def current_view 
         @view_model.view
@@ -28,16 +31,35 @@ module IronNails
       def add_child_view(target, view_name)
         controller = "#{view_name.to_s.camelize}Controller".classify.new
         controller.setup_for_showing_view
-        controller.view_model.configure_view_for_showing
-        current_view.add_control(target, controller.current_view.instance)
+        controller.configure_viewmodel_for_showing
+        unless @views.include?({ view_name => target })
+          @views << { view_name => target }
+          current_view.add_control(target, controller.current_view.instance)
+        end
+        puts "Nr. of views: #{views.size}"
+        controller
       end
+      
+      def configure_viewmodel_for_showing
+        view_model.configure_viewmodel_for_showing
+      end
+      
+      def init_controller
+      end
+      
+      def __init_controller__
+        init_controller
+        init_view_model
+        @views = []
+      end
+     
                   
       class << self
         
         alias_method :old_nails_controller_new, :new
         def new
           ctrlr = old_nails_controller_new
-          ctrlr.init_view_model
+          ctrlr.__init_controller__
           ctrlr
         end  
         

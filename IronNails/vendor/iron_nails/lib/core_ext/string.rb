@@ -36,11 +36,11 @@ class String
   end
   
   def to_secure_string
-    Twitter::Security::SecureString.to_secure_string self
+    IronNails::Security::SecureString.secure_string self
   end 
   
   def decrypt
-    Twitter::Security::SecureString.decrypt_string self
+    IronNails::Security::SecureString.decrypt_string self
   end 
   
   def classify
