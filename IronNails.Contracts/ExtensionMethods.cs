@@ -8,6 +8,7 @@ namespace IronNails
 {
     public static class ExtensionMethods
     {
+
         public static bool IsEmpty(this string text)
         {
             return string.IsNullOrEmpty(text) || text.Trim().Length == 0;

@@ -5,25 +5,25 @@ libs_include = ""
 
 
 def exec_sys(cmd)
-  puts cmd
+  puts "executing #{cmd}"
   system cmd
 end
 
 desc "Run the application"
 task :run => [:build] do
-  exec_sys "ir #{libs_include} lib/main.rb"
+  exec_sys "ir lib/main.rb"
 end
 
 namespace :run do
   
   desc "Run the application with debugging enabled"
   task :debug  => [:build] do
-    exec_sys "ir #{libs_include} -D lib/main.rb"
+    exec_sys "ir -D lib/main.rb"
   end
   
   desc "Forces this application to run without building first"
   task :force do
-    exec_sys "ir #{libs_include} -D lib/main.rb"
+    exec_sys "ir -D lib/main.rb"
   end
   
 end
@@ -35,6 +35,7 @@ namespace :build do
 
   desc "Copies the library assembly to the ironruby directory"
   task :copy_assemblies do    
+    puts "Coping files to install locations"
     ir_path = YAML::load_file('config/build_config.yml')[:ironruby_path.to_s]
     File.copy("../libs/IronNails.Library.dll", "#{ir_path}" )
     File.copy("../libs/J832.Common.dll", "#{ir_path}" )
@@ -43,12 +44,14 @@ namespace :build do
 
   desc "Build the helpers project" 
   task :helpers do
-    system "msbuild /nologo ../IronNails.Library/IronNails.Library.csproj" 
+    puts "Building the helpers project"
+    system "msbuild /clp:ErrorsOnly;WarningsOnly /nologo ../IronNails.Library/IronNails.Library.csproj" 
   end
   
   desc "Build the contracts project" 
   task :contracts do
-    system "msbuild /nologo ../IronNails.Contracts/IronNails.Contracts.csproj" 
+    puts "Building the contracts project"
+    system "msbuild /clp:ErrorsOnly;WarningsOnly /nologo ../IronNails.Contracts/IronNails.Contracts.csproj" 
   end
 
 end
