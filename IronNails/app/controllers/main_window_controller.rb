@@ -17,7 +17,7 @@ class MainWindowController < IronNails::Controller::Base
   def logged_in
     puts "logged in"
     on_view(:login) do
-      send(:username).clear
+      username.clear
     end
   end
   
