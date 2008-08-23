@@ -68,12 +68,14 @@ module IronNails
       end
       
       def add(severity, message = nil, progname = nil, &block)
-        return if @level > severity || ( progname == IRONNAILS_FRAMEWORKNAME && !IronNails::Logging::FRAMEWORK_LOGGING )
+        from_framework = progname == IRONNAILS_FRAMEWORKNAME
+        return if @level > severity || (from_framework && !IronNails::Logging::FRAMEWORK_LOGGING )
         message = (message || (block && block.call) || progname).to_s
         puts message if IronNails::Logging::CONSOLE_LOGGING
         # If a newline is necessary then create a new message ending with a newline.
         # Ensures that the original message is not mutated.
-        message = "#{message}\n" unless message[-1] == ?\n
+        message = "IRONNAILS: #{Severity.constants[severity]}: #{message}" if from_framework
+        message = "[#{Time.now.strftime("%d/%m/%Y %H:%M:%S.#{Time.now.usec}")}] #{message}\n" unless message[-1] == ?\n
         buffer << message
         auto_flush
         message
