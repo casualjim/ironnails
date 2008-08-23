@@ -29,6 +29,10 @@ module IronNails
         #end
       end
       
+      def on_view(name=nil, &b)
+        main_presenter.on_view(name, &b)
+      end
+      
       def add_child_view(target, view_name, allow_multiple = false)
         main_presenter.add_child_view target, view_name unless main_presenter.has_child_view?(view_name) && !allow_multiple
 #        controller = nil

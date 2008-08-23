@@ -160,6 +160,10 @@ module IronNails
         WpfApplication.current.has_main_window? ? instance.show : instance
       end
       
+      def invoke(element, method, *args, &b)
+        instance.send(element.to_s.to_sym).send(method.to_s.to_sym, *args, &b)
+      end
+      
       def method_missing(sym, *args, &blk)
         # First we check if we can find a named control
         # When we can't find a control we'll check if we can find

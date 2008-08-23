@@ -44,9 +44,12 @@ module IronNails
       end
       
       def add_child_view(target, view_name)
-        view.add_control(target, ViewProxy.load(view_name).instance)
-        child_views = [] if child_views.nil?
-        child_views << view_name.to_s.to_sym
+        vp = ViewProxy.load(view_name)
+        vp.instance.name = view_name.to_s
+        view.add_control(target, vp.instance)
+        logger.debug("Added child view #{view_name}", IRONNAILS_FRAMEWORKNAME)
+        logger.debug("Child view instance: #{view.send(target).find_name(view_name.to_s.to_clr_string)}", IRONNAILS_FRAMEWORKNAME) 
+        child_views << { :name => view_name.to_s.to_sym, :proxy => vp, :container => target }
       end
       
       # binds the view model to the view. It will setup the appropriate events, 
@@ -68,6 +71,16 @@ module IronNails
       
       def refresh_view
         raise IronNails::Errors::ContractError.new :refresh_view
+      end
+      
+      def invoke_on_view(element, method, *args, &b)
+        view.invoke(element, method, *args, &b)
+      end
+      
+      def on_view(name = nil, &b)
+        return view.instance_eval(&b) if name.nil?
+        vw = child_views.find { |cv| cv[:name] == name }
+        vw[:proxy].instance_eval(&b) #unless vw.nil?
       end
       
     end
