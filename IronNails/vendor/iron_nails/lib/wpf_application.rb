@@ -1,7 +1,9 @@
 class WpfApplication < System::Windows::Application
   
+  include IronNails::Logging::ClassLogger
+  
   def initialize(&b)
-    puts "Loading initial window"
+    logger.debug "Loading initial window", IRONNAILS_FRAMEWORKNAME
     controller = instance_eval &b
     @main_window = controller.show_view
     run @main_window

@@ -2,7 +2,7 @@ module IronNails
   module Core
     module Constants
       RESPONSE_FORMAT = ".xml" unless defined? RESPONSE_FORMAT
-      CHARACTER_LIMIT = 140
+      CHARACTER_LIMIT = 140 unless defined? CHARACTER_LIMIT
       
       module Urls        
         VERIFY_CREDENTIALS = "http://twitter.com/account/verify_credentials.xml" unless defined? VERIFY_CREDENTIALS
@@ -23,13 +23,13 @@ module IronNails
       end
       
       module RequestMethods
-        GET = "GET"
-        POST = "POST"
+        GET = "GET" unless defined? GET
+        POST = "POST" unless defined? POST
       end
       
       module DateFormats
-        CREATED_AT_FORMAT = "ddd MMM dd HH:mm:ss zzzz yyyy"
-        SINCE_FORMAT = "ddd MMM dd yyyy HH:mm:ss zzzz"
+        CREATED_AT_FORMAT = "ddd MMM dd HH:mm:ss zzzz yyyy" unless defined? CREATED_AT_FORMAT
+        SINCE_FORMAT = "ddd MMM dd yyyy HH:mm:ss zzzz" unless defined? SINCE_FORMAT
       end
     end
   end

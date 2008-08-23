@@ -5,6 +5,8 @@ module IronNails
     # The base class for view models in an IronNails application.
     module ViewModelMixin 
     
+      include IronNails::Logging::ClassLogger
+    
       def initialize()
         initialize_dictionaries
       end
@@ -25,7 +27,7 @@ module IronNails
           val          
         end
         if changed
-          puts "setting objects entry: { #{key}: #{v} }"
+          logger.debug "setting objects entry: { #{key}: #{v} }", IRONNAILS_FRAMEWORKNAME
           objects.set_entry(key, wpf_value)
         end
       end
@@ -46,7 +48,7 @@ module IronNails
           dc = cmd.to_clr_command
           cmd_name = cmd.name.to_s.camelize
           unless commands.contains_key(cmd_name)
-            puts "adding command to the view #{cmd.name}"
+            logger.debug "adding command to the view #{cmd.name}", IRONNAILS_FRAMEWORKNAME
             commands.set_entry(cmd_name, dc) 
           end
         end

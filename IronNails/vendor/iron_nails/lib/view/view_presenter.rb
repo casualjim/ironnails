@@ -57,7 +57,7 @@ module IronNails
       end
       
       def load_view
-        puts "View to load: #@view_name"
+        logger.debug "View to load: #@view_name", IRONNAILS_FRAMEWORKNAME
         @view = ViewProxy.load(@view_name)
       end
       
@@ -288,7 +288,7 @@ module IronNails
         @model = klass.new 
         @configured, @command_queue, @model_queue, @child_views = false, CommandCollection.new, ModelCollection.new, []
         set_view_name options[:view]      
-        puts "created a viewmodel: #{model.class}"
+        logger.debug "created a viewmodel: #{model.class}", IRONNAILS_FRAMEWORKNAME
         model
       end
       
@@ -296,8 +296,8 @@ module IronNails
         definitions = normalize_command_definitions command_definitions, controller
         add_commands_to_queue CommandCollection.generate_for(definitions, self)
         add_models_to_queue ModelCollection.generate_for(models)
-        puts "Added commands to queue on presenter for #{@view_name}."
-        puts "Added models to queue on presenter for #@view_name"
+        logger.debug "Added commands to queue on presenter for #{@view_name}.", IRONNAILS_FRAMEWORKNAME
+        logger.debug "Added models to queue on presenter for #@view_name", IRONNAILS_FRAMEWORKNAME
       end
       
       class << self

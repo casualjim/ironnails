@@ -65,7 +65,7 @@ module IronNails
     end 
     
     def set_constants
-      puts "setting application constants"
+      logger.debug "setting application constants", IRONNAILS_FRAMEWORKNAME
     end
     
     # If the IRONNAILS_DEFAULT_LOGGER constant is already set, this initialization
@@ -78,32 +78,37 @@ module IronNails
     # +STDERR+, with a log level of +WARN+.
     def initialize_logger
       # if the environment has explicitly defined a logger, use it
-      puts "initializing logger"
       return if defined?(IRONNAILS_DEFAULT_LOGGER)
       
-      unless logger = configuration.logger
+      unless logr = configuration.logger
         begin
-          logger = IronNails::Logging::BufferedLogger.new(configuration.log_path)
-          logger.level = IronNails::Logging::BufferedLogger.const_get(configuration.log_level.to_s.upcase)
+          logr = IronNails::Logging::BufferedLogger.new(configuration.log_path)
+          logr.level = IronNails::Logging::BufferedLogger.const_get(configuration.log_level.to_s.upcase)
           if configuration.environment == "production"
-            logger.auto_flushing = false
-            logger.set_non_blocking_io
+            logr.auto_flushing = false
+            logr.set_non_blocking_io
           end
         rescue StandardError => e
-          logger = IronNails::Logging::BufferedLogger.new(STDERR)
-          logger.level = IronNails::Logging::BufferedLogger::WARN
-          logger.warn(
+          logr = IronNails::Logging::BufferedLogger.new(STDERR)
+          logr.level = IronNails::Logging::BufferedLogger::WARN
+          logr.warn(
             "IronNails Error: Unable to access log file. Please ensure that #{configuration.log_path} exists and is chmod 0666. " +
             "The log level has been raised to WARN and the output directed to STDERR until the problem is fixed. #{e}" 
           )
         end
+        logr.debug "initializing logger", IRONNAILS_FRAMEWORKNAME
       end
       
-      silence_warnings { Object.const_set "IRONNAILS_DEFAULT_LOGGER", logger }
+      silence_warnings { Object.const_set "IRONNAILS_DEFAULT_LOGGER", logr }
     end
     
+    def logger
+      IRONNAILS_DEFAULT_LOGGER
+    end
+    
+    
     def require_binaries
-      puts "requiring binaries from bin"
+      logger.debug "requiring binaries from bin", IRONNAILS_FRAMEWORKNAME
       configuration.assembly_paths.each do |path|
         require_files path, :dll
       end
@@ -111,12 +116,12 @@ module IronNails
     
     
     def include_namespaces
-      puts "Including namespaces"
+      logger.debug "Including namespaces", IRONNAILS_FRAMEWORKNAME
       configuration.namespaces.each { |namespace| Object.include eval(namespace) }
     end 
     
     def require_application_files
-      puts "requiring application files"
+      logger.debug "requiring application files", IRONNAILS_FRAMEWORKNAME
       configuration.application_paths.each do |path|
         require_files path, :rb
       end

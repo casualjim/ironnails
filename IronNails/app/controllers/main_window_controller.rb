@@ -10,7 +10,7 @@ class MainWindowController < IronNails::Controller::Base
   view_action :refresh_feeds  
   
   def refresh_feeds
-    puts "refreshing feeds"
+    logger.debug "refreshing feeds"
     add_child_view :content, :login
   end
   

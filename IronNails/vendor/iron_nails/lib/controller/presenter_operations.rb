@@ -54,7 +54,7 @@ module IronNails
         #log_on_error do
           objs = refresh_objects
           main_presenter.initialize_with commands, objs, self
-          puts "initialized the presenter"
+          logger.debug "initialized the presenter", IRONNAILS_FRAMEWORKNAME
         #end
       end
       

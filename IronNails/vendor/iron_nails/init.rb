@@ -16,6 +16,7 @@ puts "setting constants"
 IRONNAILS_ROOT = "#{File.dirname(__FILE__)}/../.." unless defined?(IRONNAILS_ROOT)
 IRONNAILS_VIEWS_ROOT = "#{IRONNAILS_ROOT}/app/views" unless defined? IRONNAILS_VIEWS_ROOT
 IRONNAILS_ENV = (ENV['IRONNAILS_ENV'] || 'development').dup unless defined?(IRONNAILS_ENV)
+IRONNAILS_FRAMEWORKNAME = "IronNails Framework" unless defined?(IRONNAILS_FRAMEWORKNAME)
 
 # load .NET libraries
 puts "loading .NET binaries"
