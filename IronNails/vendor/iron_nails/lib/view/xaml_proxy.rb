@@ -173,6 +173,10 @@ module IronNails
         instance.send(element.to_sym).send(method.to_sym, *args, &b)
       end
       
+      def get_property(element, method, *args, &b)
+        send(element.to_sym).send(method.to_sym, *args, &b)
+      end
+      
       def method_missing(sym, *args, &blk)
         # First we check if we can find a named control
         # When we can't find a control we'll check if we can find

@@ -1,8 +1,9 @@
 class MainWindowController < IronNails::Controller::Base
 
   view_object :status_bar_message, "The message"
+  view_object :tweets, []
   
-  view_object :username, "Hello"
+  view_object :username
   view_object :password #, :type => :password
   
   view_action :authenticate
@@ -15,8 +16,10 @@ class MainWindowController < IronNails::Controller::Base
   end
   
   def logged_in
-    puts "logged in"
-    on_view(:login) do
+    password = from_view :login , :get => :password,  :from => :password
+    logger.debug "credentials: #{@username}, #{password}, from_objects: #{@objects[:username]}"
+    @tweets = Status.timeline_with_friends Credentials.new(@objects[:username], password.to_s.to_secure_string)
+    on_view(:login) do    
       self.visibility= :hidden
     end
   end

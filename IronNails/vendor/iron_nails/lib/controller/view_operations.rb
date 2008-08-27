@@ -39,6 +39,7 @@ module IronNails
       
       def synchronise_with_view_model
         view_manager.synchronise_to_controller self
+        refresh_instance_variables
       end 
       
       # setup the viewmodel for the current objects and command defintions
@@ -73,7 +74,12 @@ module IronNails
         objects   
       end
       
-      
+      def refresh_instance_variables
+        objects.each do |k, v|
+          instance_variable_set "@{k}", v
+          puts "set #{k} with value: #{instance_variable_get "@{k}"}"
+        end
+      end
       
       # copies an instance variable from the class object to this instance
       def instance_variable_copy(var)

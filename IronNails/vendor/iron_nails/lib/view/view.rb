@@ -9,6 +9,9 @@ module IronNails
     
       include IronNails::Logging::ClassLogger      
       include IronNails::Core::Observable   
+      extend Forwardable
+      
+      def_delegators :@proxy, :add_control, :add_command, :add_timer, :invoke, :get_property
     
       # gets or sets the name of this view
       attr_accessor :name
@@ -131,21 +134,25 @@ module IronNails
         children.any? { |vw| vw == view }
       end
       
-      # adds a command to this view
-      def add_command(cmd)
-        proxy.add_command cmd
-      end
-      
-      # adds a timer to this view
-      def add_timer(cmd)
-        proxy.add_timer cmd
-      end
+#      # adds a command to this view
+#      def add_command(cmd)
+#        proxy.add_command cmd
+#      end
+#      
+#      # adds a timer to this view
+#      def add_timer(cmd)
+#        proxy.add_timer cmd
+#      end
       
       # executes the code block on the view
       def on_proxy(&b)
         load 
         proxy.instance_eval(&b)
       end
+      
+#      def invoke(target, method)
+#        proxy.invoke target, method
+#      end
       
       # indicates whether this view has a data context set already or not
       def has_datacontext?

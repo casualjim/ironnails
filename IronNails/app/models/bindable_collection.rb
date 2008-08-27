@@ -1,6 +1,10 @@
 module IronNails::Models
 
-  class BindableCollection
+  class BindableCollection 
+  
+    def initialize(list)
+      list.map { |item| self.add item }
+    end
     
     def merge!(list)
       parish!

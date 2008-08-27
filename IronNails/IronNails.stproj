@@ -41,6 +41,7 @@
     <Folder Include="app" />
     <Folder Include="config" />
     <Folder Include="bin" />
+    <Folder Include="lib\core_ext" />
     <Folder Include="log" />
     <Folder Include="obj" />
     <Folder Include="obj\Debug" />
@@ -79,6 +80,8 @@
     <Ruby Include="config\boot.rb" />
     <Ruby Include="config\constants.rb" />
     <Ruby Include="config\environment.rb" />
+    <Ruby Include="lib\core_ext.rb" />
+    <Ruby Include="lib\core_ext\string.rb" />
     <Ruby Include="lib\feed_parser.rb" />
     <Ruby Include="lib\main.rb" />
     <Ruby Include="lib\snipr_url.rb" />

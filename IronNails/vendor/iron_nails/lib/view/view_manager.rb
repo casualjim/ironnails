@@ -33,6 +33,10 @@ module IronNails
         registry.view_for(controller).find(name).on_proxy(&b) #unless vw.nil?
       end
       
+      def from_view(controller, name, target, method)
+        registry.view_for(controller).find(name).get_property(target.to_sym, method.to_sym)
+      end
+      
       
     end
     
@@ -216,13 +220,17 @@ module IronNails
       end
 
       def synchronise_to_controller(controller)
+        puts "synchronising to controller"
         objects = controller.instance_variable_get "@objects"
         model = registry.viewmodel_for controller #.objects.collect { |kvp| kvp.key.to_s.underscore.to_sym }
         objects.each do |k,v|
+          puts "object: #{k}"
           if model.objects.contains_key(k.to_s.camelize)
+            puts "vmobject: #{k.to_s.camelize}"
             val = model.objects.get_value(k.to_s.camelize).value
+            puts "vmobject value: #{val}"
             objects[k] = val
-            controller.instance_variable_set "@{k}", val
+            #controller.instance_variable_set "@{k}", val
           end
         end
         

@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + '/view_operations'
 module IronNails
 
   module Controller
@@ -31,6 +32,11 @@ module IronNails
       
       def on_view(name=nil, &b)
         view_manager.on_view(controller_name, name, &b)
+      end
+      
+      def from_view(name, options)
+        name ||= view_name.to_sym
+        view_manager.from_view(controller_name, name, options[:from], options[:get])
       end
       
       def child_view(view_name, options)

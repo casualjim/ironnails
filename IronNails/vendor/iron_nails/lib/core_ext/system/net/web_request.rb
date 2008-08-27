@@ -68,9 +68,9 @@ class System::Net::WebRequest
       response = self.get_response
       using(rdr = StreamReader.new(response.get_response_stream)) do
         parse_response.call(rdr)
-      end if parse_response
+      end unless parse_response.nil?
     rescue WebException => e
-      handle_exception e
+      puts e
     end 
   end
   

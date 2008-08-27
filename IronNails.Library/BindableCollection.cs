@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 
 namespace IronNails.Models
 {
-    public partial class BindableCollection : ObservableCollection<Base>
+    public class BindableCollection : ObservableCollection<object>
     {
         
     }
