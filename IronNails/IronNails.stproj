@@ -123,7 +123,7 @@
     <Ruby Include="vendor\iron_nails\lib\view\commands\command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\event_command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\timed_command.rb" />
-    <Ruby Include="vendor\iron_nails\lib\view\controller_registry.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\component_registry.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_manager.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\xaml_proxy.rb" />
