@@ -10,20 +10,28 @@ module IronNails
       include IronNails::Logging::ClassLogger      
       include IronNails::Core::Observable   
     
+      # gets or sets the name of this view
       attr_accessor :name
       
+      # gets or sets the element name on the canvas for this view
       attr_accessor :element_name
       
+      # gets or sets the xaml proxy that is associated with this view
       attr_accessor :proxy
       
+      # gets or sets the parent of this view
       attr_accessor :parent
       
+      # gets or sets the name of the component that will contain this view
       attr_accessor :container
       
+      # gets or sets the name of the controller this view is associated with
       attr_accessor :controller
       
+      # gets the flag that indicates if this view needs to be initialized or not
       attr_reader :loaded
       
+      # gets the collection of children for this view
       attr_reader :children
       
       def initialize(options)
@@ -38,27 +46,33 @@ module IronNails
         @children = []
       end
       
+      # indicates whether we initialized this view already or not
       def loaded?
         @loaded
       end
       
+      # indicates whether this view has to be rendered inside a component
       def has_container?
         !container.nil?
       end
       
+      # indicates whether this view has to set its datacontext in order to function
       def sets_datacontext?
         !has_parent? || !!@sets_datacontext
       end
       
+      # indicates whether this view has a parent
       def has_parent?
         !parent.nil?
       end
       
+      # adds this view to a component in an existing view
       def add_control(target, proxy)
         proxy.add_control(target, proxy)
         self
       end
       
+      # loads this view into memory and adds the children if needed
       def load(mode = :complete)
         unless @loaded || mode == :reload
           self.proxy = XamlProxy.load(name)
@@ -72,25 +86,30 @@ module IronNails
         self
       end
       
+      # sets the data context of this view
       def data_context=(value)
         self.proxy.data_context = value
       end 
       
+      # configures and then shows the window
       def show
         configure
         self.proxy.show
       end
       
+      # configures and then returns an instance of the loaded view
       def instance
         configure
         proxy.instance
       end
       
+      # configures the view, it loads it and then triggers the observers for further configuration
       def configure
         load
         notify_observers :configuring, self
       end
       
+      # adds a child view definition to this view.
       def add_child(options)
         child = children.find { |vw| vw.name == options[:name] }
         children.delete(child) unless child.nil?
@@ -99,34 +118,41 @@ module IronNails
         self
       end
       
+      # returns whether this child view is alread contained by this view or not
       def has_child?(view)
         children.any? { |vw| vw == view }
       end
       
+      # adds a command to this view
       def add_command(cmd)
         proxy.add_command cmd
       end
       
+      # adds a timer to this view
       def add_timer(cmd)
         proxy.add_timer cmd
       end
       
+      # executes the code block on the view
       def on_proxy(&b)
         proxy.instance_eval(&b)
       end
       
+      # indicates whether this view has a data context set already or not
       def has_datacontext?
         !proxy.nil? && !proxy.instance.data_context.nil?
       end
       
+      # equality comparer for easier selection
       def ==(view)
         view.respond_to?(:name) ? self.name == view.name : self.name = view.to_sym
       end
       alias_method :===, :==
       alias_method :equals, :==
       
+      # sorting comparer for ordering lists
       def <=>(view)
-        self.name <=> command.view
+        self.name <=> command.view.name
       end
       alias_method :compare_to, :<=>
      

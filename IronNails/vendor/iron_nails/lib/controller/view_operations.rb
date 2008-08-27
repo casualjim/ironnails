@@ -44,7 +44,7 @@ module IronNails
       # setup the viewmodel for the current objects and command defintions
       def setup_for_showing_view
         #log_on_error do
-          objs = refresh_objects
+          objs = ModelCollection.generate_for refresh_objects
           cmds = @command_builder.generate_for commands
           cmds.each do |cmd|
             cmd.add_observer(:reading_input) do

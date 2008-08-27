@@ -23,6 +23,9 @@ module IronNails
       # the predicate that decides whether this command can execute or not
       attr_accessor :condition
       
+      # the name of the controller that built this command
+      attr_accessor :controller
+      
       def initialize(options)
         read_options options
       end 
@@ -30,12 +33,10 @@ module IronNails
       def read_options(options)
         raise ArgumentError.new("A name is necesary") if options[:name].nil?
         raise ArgumentError.new("An action is necesary") if options[:action].nil?
-        
-        @action = options[:action]        
-        @mode = options[:mode]||:synchronous
-        @name = options[:name]
-        @condition = options[:condition]
-        @changed = options[:changed]                
+        options.each do |k, v|
+          instance_variable_set "@#{k}", v
+        end
+        @mode ||= :synchronous
       end
       
       # flag to indicate whether this command needs a refresh in the view model
@@ -175,7 +176,7 @@ module IronNails
       def generate_command_collection_from_normalized_definitions(definitions)
         commands = CommandCollection.new
         definitions.each do |name, cmd_def|
-          cmd = create_command_from(cmd_def.merge({ :view_model => view_model, :name => name }))
+          cmd = create_command_from(cmd_def.merge({ :view_model => view_model, :name => name, :controller => controller.controller_name }))
           commands << cmd
         end if definitions.is_a?(Hash)
         commands

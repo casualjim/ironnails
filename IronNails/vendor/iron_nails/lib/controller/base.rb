@@ -33,8 +33,9 @@ module IronNails
         view_manager.on_view(name, &b)
       end
       
-      def add_child_view(target, view_name, allow_multiple = false)
-        main_presenter.add_child_view target, view_name unless main_presenter.has_child_view?(view_name) && !allow_multiple
+      def child_view(options)
+        view_manager.register_child_view :controller => controller_name, :container => options[:target], :name => options[:name]
+        #main_presenter.add_child_view target, view_name unless main_presenter.has_child_view?(view_name) && !allow_multiple
 #        controller = nil
 #        presentername = "{view_name}_presenter"
 #        unless @presenters.any? { |pd| pd[:name] == presentername.to_sym }

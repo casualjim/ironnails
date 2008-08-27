@@ -11,4 +11,21 @@ class Hash
     
     params
   end 
+  
+  def to_s
+    res = self.collect do |k, v|
+      val = case 
+      when v.is_a?(String)
+        "\"#{v}\""
+      when v.is_a?(Symbol)
+        ":#{v}"
+      else
+        "#{v}"
+      end
+      "#{k.is_a?(Symbol) ? ":#{k}" : "#{k}" } => #{val}"
+    end
+    "{ #{res.join(', ')} }"
+  end
+  alias_method :to_str, :to_s
+  alias_method :inspect, :to_s
 end
