@@ -30,10 +30,7 @@ module IronNails
       end
             
       def on_view(controller, name = nil, &b)
-        mvw = registry.view_for(controller)
-        vw = name.nil? ? mvw : mvw.find(name)
-        vw.load unless vw.loaded?
-        vw.on_proxy(&b) #unless vw.nil?
+        registry.view_for(controller).find(name).on_proxy(&b) #unless vw.nil?
       end
       
       

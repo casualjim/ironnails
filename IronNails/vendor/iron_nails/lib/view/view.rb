@@ -143,6 +143,7 @@ module IronNails
       
       # executes the code block on the view
       def on_proxy(&b)
+        load 
         proxy.instance_eval(&b)
       end
       
@@ -152,7 +153,7 @@ module IronNails
       end
       
       def find(view_name)
-        return self if name == view_name
+        return self if name == view_name || view_name.nil?
         children.find { |cv| cv.name == view_name }
       end
       
