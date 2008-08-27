@@ -5,8 +5,8 @@ namespace IronNails.View
     /// in IronRuby but this way there is a common extension point for 
     /// DLR and CLR based languages.
     /// </summary>
-    public class ViewProxy
+    public class XamlProxy
     {
-        public ViewProxy(string name){}
+        public XamlProxy(string name){}
     }
 }

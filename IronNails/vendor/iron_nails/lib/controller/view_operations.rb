@@ -4,11 +4,10 @@ module IronNails
   
     # Encapsulates all the operations that have to do with the 
     # view model in controllers.
-    module PresenterOperations
+    module ViewOperations
+    
+      attr_accessor :view_manager
       
-      # Gets or sets the view_model for this controller.
-      attr_accessor :main_presenter
-            
       # gets the view name for the class that includes this module
       def view_name
         self.class.demodulize.underscore.gsub(/_controller$/, '')
@@ -16,52 +15,51 @@ module IronNails
       
       # gets the name of the view model class
       def view_model_name
-        "#{default_vm_namespace}#{view_name.camelize}ViewModel"
+        "#{view_name}_view_model"
       end
       
-      def viewmodel_class
-        main_presenter.viewmodel_class
+      def view_manager=(value)
+        @view_manager = value
+        init_view_manager
       end 
-      
-      # gets the default namespace for the view model class
-      def default_vm_namespace
-        #"IronNails::ViewModels::"
-        ""
-      end
-      
-      # initializes a new instance of the ViewPresenter      
-      def init_presenter
-        #log_on_error do
-          @main_presenter = ViewPresenter.for :model => view_model_name, 
-                                              :view => view_name
-                                                        
-          @main_presenter.add_observer :refreshing_view do 
+                  
+      # initializes a new instance of the ViewManager      
+      def init_view_manager
+                                      
+          view_manager.add_observer :refreshing_view, controller_name do 
             setup_for_showing_view 
           end
-          @main_presenter.add_observer :reading_input do
-            synchronise_with_viewmodel
-          end
+#          view_manager.add_observer :reading_input, controller_name do |sender|
+#            
+#            synchronise_with_viewmodel sender
+#          end
           copy_vars
         #end
       end
       
-      def synchronise_with_viewmodel
-        main_presenter.synchronise_to_controller self
+      def synchronise_with_view_model
+        view_manager.synchronise_to_controller self
       end 
       
       # setup the viewmodel for the current objects and command defintions
       def setup_for_showing_view
         #log_on_error do
           objs = refresh_objects
-          main_presenter.initialize_with commands, objs, self
-          logger.debug "initialized the presenter", IRONNAILS_FRAMEWORKNAME
+          cmds = @command_builder.generate_for commands
+          cmds.each do |cmd|
+            cmd.add_observer(:reading_input) do
+              synchronise_with_view_model
+            end
+          end
+          view_manager.initialize_with cmds, objs
+          logger.debug "initialized the view manager", IRONNAILS_FRAMEWORKNAME
         #end
       end
       
       def add_action(name, options, &b)
         options[:action] = b if block_given?
         cmd_def = { "#{name}".to_sym => options }
-        main_presenter.add_command_to_view cmd_def
+        view_manager.add_command_to_view cmd_def
       end
       
       def refresh_objects

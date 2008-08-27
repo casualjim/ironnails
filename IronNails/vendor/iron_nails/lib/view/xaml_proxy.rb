@@ -19,6 +19,7 @@ module IronNails
               blk = lambda { |obj| b.call }
               instance.dispatcher.begin_invoke(DispatcherPriority.normal, Action.of(System::Object).new(&blk), request.call )
             rescue Exception => e
+              logger.error "#{e.message}"
               MessageBox.Show("There was a problem. #{e.message}")          
             end
           end
@@ -104,10 +105,11 @@ module IronNails
         # Adds a subview to the current view.
         def add_control(target, view)
           parent = send(target)
+          vw = view.respond_to?(:instance) ? view.instance : view
           if parent.respond_to? :content=
-            parent.content = view
+            parent.content = vw
           elsif parent.respond_to? :children
-            parent.children.add view
+            parent.children.add vw
           end          
         end
         
@@ -115,8 +117,8 @@ module IronNails
     
     end
     
-    # The IronNails::View::ViewProxy class wraps a xaml file and brings it alive
-    class ViewProxy
+    # The IronNails::View::XamlProxy class wraps a xaml file and brings it alive
+    class XamlProxy
       
       include IronNails::Logging::ClassLogger
       include IronNails::View::Extensions::EventSupport
@@ -154,6 +156,11 @@ module IronNails
         @view_path = path unless @view_path == path
         @view_path
       end
+      
+      def visibility=(visi)
+        puts "setting visibility to #{visi} / #{visi.to_sym.to_visibility}"
+        instance.visibility = visi.to_sym.to_visibility if instance.respond_to?(:visibility)
+      end
             
       # shows the proxied view
       def show
@@ -161,7 +168,7 @@ module IronNails
       end
       
       def invoke(element, method, *args, &b)
-        instance.send(element.to_s.to_sym).send(method.to_s.to_sym, *args, &b)
+        instance.send(element.to_sym).send(method.to_sym, *args, &b)
       end
       
       def method_missing(sym, *args, &blk)

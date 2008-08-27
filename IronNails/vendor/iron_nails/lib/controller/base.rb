@@ -4,7 +4,7 @@ module IronNails
   
     class Base
       
-      include IronNails::Controller::PresenterOperations
+      include IronNails::Controller::ViewOperations
       include IronNails::Logging::ClassLogger
       include IronNails::Core::Observable
       
@@ -18,8 +18,8 @@ module IronNails
       # Gets or sets the presenters collection for this controller
       attr_accessor :presenters
       
-      def current_view 
-        main_presenter.view
+      def controller_name
+        self.class.to_s.underscore.to_sym
       end
             
       def show_view
@@ -30,7 +30,7 @@ module IronNails
       end
       
       def on_view(name=nil, &b)
-        main_presenter.on_view(name, &b)
+        view_manager.on_view(name, &b)
       end
       
       def add_child_view(target, view_name, allow_multiple = false)
@@ -38,7 +38,7 @@ module IronNails
 #        controller = nil
 #        presentername = "{view_name}_presenter"
 #        unless @presenters.any? { |pd| pd[:name] == presentername.to_sym }
-#          presenter = ViewPresenter.child_for :model => main_presenter.model, :view => view_name
+#          presenter = ViewManager.child_for :model => main_presenter.model, :view => view_name
 #          presenter.load_view
 #          #controller.setup_for_showing_view
 #          #controller.configure_viewmodel_for_showing
@@ -51,17 +51,15 @@ module IronNails
       end
       
       def configure_viewmodel_for_showing
-        main_presenter.configure_view_for_showing
+        view_manager.configure_view_for_showing
       end
       
       def init_controller
       end
       
       def __init_controller__
+        @command_builder = CommandBuilder.new self
         init_controller
-        init_presenter
-        @presenters = []
-        presenters << {:presenter => main_presenter, :name => main_presenter.class.to_s.underscore.to_sym}
       end
      
                   

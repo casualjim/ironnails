@@ -89,7 +89,7 @@
     <Ruby Include="vendor\iron_nails\init.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller.rb" />
     <Ruby Include="vendor\iron_nails\lib\controller\base.rb" />
-    <Ruby Include="vendor\iron_nails\lib\controller\presenter_operations.rb" />
+    <Ruby Include="vendor\iron_nails\lib\controller\view_operations.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\array.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\class.rb" />
@@ -123,8 +123,9 @@
     <Ruby Include="vendor\iron_nails\lib\view\commands\command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\event_command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\timed_command.rb" />
-    <Ruby Include="vendor\iron_nails\lib\view\view_presenter.rb" />
-    <Ruby Include="vendor\iron_nails\lib\view\view_proxy.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\view.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\view_manager.rb" />
+    <Ruby Include="vendor\iron_nails\lib\view\xaml_proxy.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_model.rb" />
     <Ruby Include="vendor\iron_nails\lib\wpf.rb" />
     <Ruby Include="vendor\iron_nails\lib\wpf_application.rb" />

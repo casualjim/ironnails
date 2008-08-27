@@ -6,9 +6,13 @@ module IronNails
     module ViewModelMixin 
     
       include IronNails::Logging::ClassLogger
-    
+      
       def initialize()
         initialize_dictionaries
+      end
+      
+      def __view_model_name_
+        self.class.demodulize.underscore
       end
     
       # adds a model for the view in the dictionary
@@ -38,19 +42,12 @@ module IronNails
       # for a TimedCommand it will create a timer in the view proxy object
       # for a BehaviorCommand it will add the appropriate delegate command to the 
       # Commands dictionary on the ViewModel class
-      def add_command_to_view(cmd)
-        case 
-        when cmd.is_a?(EventCommand)
-          view.add_command(cmd)
-        when cmd.is_a?(TimedCommand)
-          view.add_timer(cmd)
-        when cmd.is_a?(BehaviorCommand)
-          dc = cmd.to_clr_command
-          cmd_name = cmd.name.to_s.camelize
-          unless commands.contains_key(cmd_name)
-            logger.debug "adding command to the view #{cmd.name}", IRONNAILS_FRAMEWORKNAME
-            commands.set_entry(cmd_name, dc) 
-          end
+      def add_command(cmd)
+        dc = cmd.to_clr_command
+        cmd_name = cmd.name.to_s.camelize
+        unless commands.contains_key(cmd_name)
+          logger.debug "adding command to the view #{cmd.name}", IRONNAILS_FRAMEWORKNAME
+          commands.set_entry(cmd_name, dc) 
         end
       end
             

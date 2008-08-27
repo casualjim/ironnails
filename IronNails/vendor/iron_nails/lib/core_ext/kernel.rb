@@ -24,14 +24,5 @@ module Kernel
     end
   end
   
-  def to_clr_value
-    #    removed because it looks like string is the only special case
-    #    case self.class
-    #      when String: self.to_clr_string 
-    #      else
-    #       self 
-    #    end
-    self.class == String ? self.to_clr_string : self
-  end
 
 end

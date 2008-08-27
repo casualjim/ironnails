@@ -1,9 +1,9 @@
 module IronNails
 
-  module View
-    
-    class ViewModelObjectCollection
-    
+  module Core
+  
+    class Collection
+
       include Enumerable
       
       def initialize(*items)
@@ -23,14 +23,19 @@ module IronNails
       def [](value)
         @items[value]
       end
-            
+      
       def to_a
         @items
       end
-    
+      
+
     end
+  
+  end
+
+  module View
     
-    class CommandCollection < ViewModelObjectCollection
+    class CommandCollection < Core::Collection
     
       def has_command?(command)
          !self.find do |cmd|
@@ -38,27 +43,42 @@ module IronNails
          end.nil?
       end
               
+    end
+    
+    class ViewCollection < Core::Collection
       
-      class << self
-        
-        # Given a set of +command_definitions+ it will generate
-        # a collection of Command objects for the view model
-        def generate_for(command_definitions, view_model)
-          commands = new
-          command_definitions.each do |name, cmd_def|
-            cmd = Command.create_from(cmd_def.merge({ :view_model => view_model, :name => name }))
-            commands << cmd
-          end if command_definitions.is_a?(Hash)
-          #commands << Command.new(command_definitions.merge({ :view_model => view_model })) if command_definitions.is_a?(Hash)
-          commands
-        end 
-        
-        
+      def has_view?(view)
+        find_view(view[:name]).nil?
+      end
+      
+      def find_view(name)
+        self.find { |vw| vw[:name] == name }
       end
       
     end
     
-    class ModelCollection < ViewModelObjectCollection
+    class ViewModelCollection < Core::Collection
+      
+      def has_viewmodel?(view_model)
+        if view_model.is_a?(String)
+          find_viewmodel(view_model).nil?
+        else
+          find_viewmodel(view_model.__view_model_name_).nil?
+        end
+      end
+      
+      def find_viewmodel(name)
+        self.find { |vm| vm.__view_model_name_ == name }
+      end
+      
+      def <<(model)
+        @items << model unless has_viewmodel?(model)
+        find_viewmodel(model.__view_model_name_)
+      end
+      
+    end
+    
+    class ModelCollection < Core::Collection
     
       def has_model?(model)
         !get_model(model).nil?
