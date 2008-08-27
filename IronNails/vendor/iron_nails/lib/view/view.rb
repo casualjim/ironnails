@@ -46,6 +46,10 @@ module IronNails
         @children = []
       end
       
+      def added?
+        @added
+      end
+      
       # indicates whether we initialized this view already or not
       def loaded?
         @loaded
@@ -67,8 +71,9 @@ module IronNails
       end
       
       # adds this view to a component in an existing view
-      def add_control(target, proxy)
-        proxy.add_control(target, proxy)
+      def add_control(target, control_proxy)
+        puts "Adding control #{proxy.view_name} to: #{name} in #{target} "
+        proxy.add_control(target, control_proxy)
         self
       end
       
@@ -76,13 +81,16 @@ module IronNails
       def load(mode = :complete)
         unless @loaded || mode == :reload
           self.proxy = XamlProxy.load(name)
-          proxy.instance.name = element_name if has_parent?
-          parent.add_control(container, proxy) if has_container? && has_parent? && mode == :complete
-          children.each { |cv| cv.load } 
-          logger.debug("loaded view #{name}", IRONNAILS_FRAMEWORKNAME)        
+          proxy.instance.name = element_name.to_s.to_clr_string if has_parent?
           @loaded = true
-          notify_observers :loaded, self
+          #notify_observers :loaded, self
         end
+        if has_container? && has_parent? && mode == :complete && !added?
+          parent.add_control(container, proxy) 
+          @added = true
+        end
+        children.each { |cv| cv.load } 
+        logger.debug("loaded view #{name}", IRONNAILS_FRAMEWORKNAME)                          
         self
       end
       
@@ -141,6 +149,11 @@ module IronNails
       # indicates whether this view has a data context set already or not
       def has_datacontext?
         !proxy.nil? && !proxy.instance.data_context.nil?
+      end
+      
+      def find(view_name)
+        return self if name == view_name
+        children.find { |cv| cv.name == view_name }
       end
       
       # equality comparer for easier selection

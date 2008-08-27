@@ -10,9 +10,8 @@ class MainWindowController < IronNails::Controller::Base
   
   def refresh_feeds
     logger.debug "refreshing feeds"
-    @status_bar_message = "#@status_bar_message 1"
-    #add_child_view :content, :login
-    #on_view(:login) { loaded { username.focus } }
+    child_view :login, :in => :content
+    on_view(:login) { loaded { username.focus } }
   end
   
   def logged_in

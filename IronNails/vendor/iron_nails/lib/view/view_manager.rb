@@ -29,8 +29,11 @@ module IronNails
         registry.register_view_for controller, vw
       end
             
-      def on_view(controller, &b)
-        registry.view_for(controller).on_proxy(&b) #unless vw.nil?
+      def on_view(controller, name = nil, &b)
+        mvw = registry.view_for(controller)
+        vw = name.nil? ? mvw : mvw.find(name)
+        vw.load unless vw.loaded?
+        vw.on_proxy(&b) #unless vw.nil?
       end
       
       

@@ -30,25 +30,11 @@ module IronNails
       end
       
       def on_view(name=nil, &b)
-        view_manager.on_view(name, &b)
+        view_manager.on_view(controller_name, name, &b)
       end
       
-      def child_view(options)
-        view_manager.register_child_view :controller => controller_name, :container => options[:target], :name => options[:name]
-        #main_presenter.add_child_view target, view_name unless main_presenter.has_child_view?(view_name) && !allow_multiple
-#        controller = nil
-#        presentername = "{view_name}_presenter"
-#        unless @presenters.any? { |pd| pd[:name] == presentername.to_sym }
-#          presenter = ViewManager.child_for :model => main_presenter.model, :view => view_name
-#          presenter.load_view
-#          #controller.setup_for_showing_view
-#          #controller.configure_viewmodel_for_showing
-#          @presenters << { :presenter => presenter, :name => presentername.to_sym }
-#          puts "view: #{presenter.view.instance}"
-#          current_view.add_control(target, presenter.view.instance)
-#        end
-#        puts "Nr. of views: #{presenters.size}"
-#        controller
+      def child_view(view_name, options)
+        view_manager.register_child_view :controller => controller_name, :container => options[:in], :name => view_name
       end
       
       def configure_viewmodel_for_showing

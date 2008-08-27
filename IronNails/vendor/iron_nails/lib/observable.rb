@@ -52,7 +52,7 @@ module IronNails::Core
     # by calling the block and passing it some context
     #
     def notify_observers(event, sender, *args)
-      @observers.select {|evt| evt[:event] == event }.each {|evt| evt[:observer].call sender, *args }
+      @observers.select {|evt| evt[:event] == event }.each {|evt| evt[:observer].call sender, *args } unless count_observers.zero?
     end
     
   
