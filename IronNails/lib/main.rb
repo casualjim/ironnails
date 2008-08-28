@@ -3,6 +3,6 @@ require File.dirname(__FILE__) + "/../config/boot"
 WpfApplication.new do
   
   set_skin :aero
-  MainWindowController.new
+  SylvesterController.new
   #TestController.new
 end

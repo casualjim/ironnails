@@ -31,6 +31,7 @@ end
 desc "Builds the helpers and the contracts projects"
 task :build => ['build:helpers', 'build:contracts', "build:copy_assemblies"]
 
+
 namespace :build do
 
   desc "Copies the library assembly to the ironruby directory"

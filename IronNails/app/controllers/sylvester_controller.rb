@@ -1,6 +1,6 @@
-class MainWindowController < IronNails::Controller::Base
+class SylvesterController < IronNails::Controller::Base
 
-  view_object :status_bar_message, "The message"
+  view_object :status_bar_message
   view_object :tweets, []
   
   view_object :username
@@ -9,7 +9,10 @@ class MainWindowController < IronNails::Controller::Base
   view_action :authenticate
   view_action :refresh_feeds 
   
+  attr_accessor :current_user, :credentials
+  
   def default_action
+    @status_bar_message = "Please login"
     child_view :login, :in => :content
     on_view(:login) { loaded { username.focus } }
   end 
@@ -21,8 +24,8 @@ class MainWindowController < IronNails::Controller::Base
   end
   
   def logged_in
-    password = from_view :login , :get => :password,  :from => :password
-    @tweets = Status.timeline_with_friends Credentials.new(@username, password.to_s.to_secure_string)
+    @tweets = Status.timeline_with_friends @credentials
+    @status_bar_message = "Received tweets"
     on_view(:login) do    
       self.visibility= :hidden
     end
@@ -33,7 +36,11 @@ class MainWindowController < IronNails::Controller::Base
   end
   
   def authenticate
-    logged_in
+    @status_bar_message = "Logging in"
+    password = from_view :login , :get => :password,  :from => :password
+    @credentials = Credentials.new @username, password.to_s.to_secure_string
+    @current_user = User.login(credentials)
+    logged_in unless current_user.nil?
   end
     
 
