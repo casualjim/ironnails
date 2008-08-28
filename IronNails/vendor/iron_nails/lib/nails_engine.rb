@@ -35,8 +35,45 @@ module IronNails
       end
       
       def from_view(controller, name, target, method)
-        registry.view_for(controller).find(name).get_property(target.to_sym, method.to_sym)
+        registry.view_for(controller).find(name).get_property(target, method)
       end
+      
+      def to_update_ui_after(controller, options, &b)
+        if options.is_a? Hash
+          klass = options[:class]||BindableCollection
+          request = options[:request]
+        else
+          klass = BindableCollection
+          request = options
+        end
+        cb = System::Threading::WaitCallback.new do
+          begin
+            registry.view_for(controller).dispatcher.begin_invoke(DispatcherPriority.normal, Action.of(klass).new(&b), request.call)
+          rescue WebException => e
+            MessageBox.Show("There was a problem logging in to Twitter. #{e.message}");
+          rescue RequestLimitException => e
+            MessageBox.Show(e.message)
+          rescue SecurityException => e
+            MessageBox.Show("Incorrect username or password. Please try again");
+          end
+        end
+        System::Threading::ThreadPool.queue_user_work_item cb        
+      end 
+      
+      def on_ui_thread(controller, options=nil, &b)
+        if options.is_a? Hash
+          data = options[:data]
+          klass = options[:class] || data.class
+        else
+          unless options.nil?
+            klass = options.class    
+            data = options
+          end
+        end
+        b.call
+        #registry.view_for(controller).dispatcher.begin_invoke(DispatcherPriority.normal, options.nil? ? Action.new(&b) : Action.of(klass).new(&b), data)
+      end
+      alias_method :on_ui_thread_with, :on_ui_thread
       
       
     end
@@ -120,10 +157,6 @@ module IronNails
           cmd.add_observer(:refreshing_view) do |sender| 
             refresh_view(registry.view_for(sender.controller))
           end
-          #          cmd.add_observer(:reading_input) do |sender|
-          #            puts "reading input"
-          #            notify_observers :reading_input, sender.controller.controller_name, sender, sender.view
-          #          end
           command_queue << cmd 
           @configured = false 
         end
@@ -224,6 +257,11 @@ module IronNails
       # Stores the registered components and does lookup on them
       attr_accessor :registry
       
+      def set_viewmodel_for(controller, key, value)
+        model = registry.viewmodel_for controller
+        model.set_model key, value
+      end
+      
       # configures the properties for the view model
       def configure_models(model)
         model_queue.each do |o|
@@ -282,7 +320,11 @@ module IronNails
             controller.instance_variable_set "@#{k}", val
           end
         end
-        
+        view_properties = controller.instance_variable_get "@view_properties"
+        view_properties.each do |k, v|
+          val = from_view controller, (v[:view]||controller.view_name), v[:element], v[:property]
+          instance_variable_set "@#{k}", val
+        end
       end
       
       # returns whether this view needs configuration or not
@@ -307,10 +349,11 @@ module IronNails
       
       def show_initial_window(controller)
         logger.debug "setting up controller", IRONNAILS_FRAMEWORKNAME
+        #controller.setup_for_showing_view      
+        registry.view_for(controller).load
+        controller.default_action if controller.respond_to? :default_action
         controller.setup_for_showing_view      
-        inst =   registry.view_for(controller).instance
-        controller.default_action
-        yield inst if block_given?
+        yield registry.view_for(controller).instance if block_given?
       end
       
       def initialize_with(command_definitions, models)

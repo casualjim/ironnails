@@ -80,8 +80,8 @@ namespace IronNails.Library
         /// <param name="arg">The arg.</param>
         void ICommand.Execute(object arg)
         {
-            //((UIElement) arg).Dispatcher.Invoke(DispatcherPriority.Normal, _handler);
-            _handler();
+            ((UIElement) arg).Dispatcher.Invoke(DispatcherPriority.Normal, _handler);
+            //_handler();
         }
 
         #endregion

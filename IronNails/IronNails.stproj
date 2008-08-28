@@ -67,8 +67,7 @@
     <Folder Include="vendor\iron_nails\lib\view\commands" />
   </ItemGroup>
   <ItemGroup>
-    <Ruby Include="app\controllers\login_controller.rb" />
-    <Ruby Include="app\controllers\main_window_controller.rb" />
+    <Ruby Include="app\controllers\sylvester_controller.rb" />
     <Ruby Include="app\models\bindable_collection.rb" />
     <Ruby Include="app\models\credentials.rb" />
     <Ruby Include="app\models\direct_message.rb" />
@@ -127,7 +126,6 @@
     <Ruby Include="vendor\iron_nails\lib\view\commands\command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\event_command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\commands\timed_command.rb" />
-    <Ruby Include="vendor\iron_nails\lib\view\component_registry.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\xaml_proxy.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_model.rb" />

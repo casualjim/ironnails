@@ -75,9 +75,12 @@ module IronNails
       
       # adds this view to a component in an existing view
       def add_control(target, control_proxy)
-        puts "Adding control #{proxy.view_name} to: #{name} in #{target} "
         proxy.add_control(target, control_proxy)
         self
+      end
+      
+      def dispatcher
+        proxy.instance.dispatcher
       end
       
       # loads this view into memory and adds the children if needed

@@ -104,9 +104,7 @@ module IronNails
                 
         # Adds a subview to the current view.
         def add_control(target, view)
-          puts "Adding control in proxy to #{target} on #{instance}"
           parent = send(target)
-          puts "#{parent}"
           vw = view.respond_to?(:instance) ? view.instance : view
           if parent.respond_to? :content=
             parent.content = vw
@@ -160,7 +158,6 @@ module IronNails
       end
       
       def visibility=(visi)
-        puts "setting visibility to #{visi} / #{visi.to_sym.to_visibility}"
         instance.visibility = visi.to_sym.to_visibility if instance.respond_to?(:visibility)
       end
             

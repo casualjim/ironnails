@@ -26,6 +26,9 @@ module IronNails
       # the name of the controller that built this command
       attr_accessor :controller
       
+      # for asynchronous actions this gets executed after the view has been refreshed as a new command
+      attr_accessor :callback
+      
       def initialize(options)
         read_options options
       end 
@@ -52,7 +55,12 @@ module IronNails
         mode == :asynchronous
       end
       
+      def has_callback?
+        !callback.nil?
+      end
+      
       def refresh_view
+        callback.call if asynchronous? && has_callback?
         notify_observers :refreshing_view, self
       end
       
@@ -163,11 +171,14 @@ module IronNails
           exec = options[:execute]
           execute = exec
           execute = controller.method(exec) if exec.is_a?(Symbol) || exec.is_a?(String)
+          callback = options[:callback]
+          callback = controller.method(callback) if callback.is_a?(Symbol) || callback.is_a?(String)
           controller_action, controller_condition = execute || action, options[:condition]
           {
             :action => controller_action,
             :condition => controller_condition,
             :mode => mode,
+            :callback => callback,
             :type => :behavior
           }
         end 

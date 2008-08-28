@@ -19,6 +19,7 @@ module IronNails
       def add_model(k, v)
         key = k.to_s.camelize
         changed = false
+        logger.debug "trying to set model #{key} to value: #{v}", IRONNAILS_FRAMEWORKNAME
         wpf_value = unless objects.contains_key(key) 
           changed = true
           IronNails::Library::WpfValue.of(System::Object).new(v)
@@ -35,6 +36,7 @@ module IronNails
           objects.set_entry(key, wpf_value)
         end
       end
+      alias_method :set_model, :add_model
       
       # configures a command appropriately on the view.
       # for an EventCommand it will pass it to the view and the view will attach the

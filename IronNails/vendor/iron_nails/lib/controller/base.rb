@@ -13,6 +13,9 @@ module IronNails
       # Gets or sets the objects for the presenter
       attr_accessor :objects
       
+      # Gets or sets the meta data for binding ui stuff we can't with Xaml (like Password on the PasswordBox)
+      attr_accessor :view_properties
+      
       # Gets or sets the commands for the presenter
       attr_accessor :commands
       
@@ -30,21 +33,44 @@ module IronNails
         #end
       end
       
-      def on_view(name=nil, &b)
-        nails_engine.on_view(controller_name, name, &b)
+      def on_view(name=nil, options={}, &b)
+        name ||= view_name.to_sym
+        if block_given?
+          nails_engine.on_view(controller_name, name, &b)
+        else
+          if options[:set].nil?
+            nails_engine.from_view(controller_name, name, options[:from], options[:get])
+          else
+            nails_engine.set_on_view(controller_name, name, options[:from], options[:set], options[:value])
+          end
+        end
       end
       
-      def from_view(name, options)
-        name ||= view_name.to_sym
-        nails_engine.from_view(controller_name, name, options[:from], options[:get])
-      end
+#      def from_view(name, options)
+#        name ||= view_name.to_sym
+#        nails_engine.from_view(controller_name, name, options[:from], options[:get])
+#      end
       
       def child_view(view_name, options)
         nails_engine.register_child_view :controller => controller_name, :container => options[:in], :name => view_name
       end
       
+      def view_model(model_name, value)
+        instance_variable_set "@#{model_name}", value
+        refresh_objects
+        nails_engine.set_viewmodel_for self, model_name, value
+      end
+      
       def configure_viewmodel_for_showing
         nails_engine.configure_view_for_showing
+      end
+      
+      def to_update_ui_after(options, &b)
+        nails_engine.to_update_ui_after self, options, &b
+      end
+      
+      def on_ui_thread(options=nil, &b)
+        nails_engine.on_ui_thread self, options, &b
       end
       
       def init_controller
@@ -73,10 +99,16 @@ module IronNails
         
         def view_object(name, options = nil)
           @objects ||= {}
-          attr_accessor name
-          instance_variable_set("@#{name}", (options.is_a?(Hash) ? options[:value] : options))
-          @objects[name] = options
+          @view_properties ||={}
+          unless options.is_a?(Hash) && !options[:element].nil?
+            @objects[name] = options.is_a?(Hash) ? options[:value] : options
+          else
+            @view_properties[name] = options
+          end
+          
         end
+        
+        
       
       end
     end

@@ -85,19 +85,21 @@ namespace IronNails.Library
         /// <param name="arg">The arg.</param>
         void ICommand.Execute(object arg)
         {
+            Console.WriteLine("executing async command");
             ThreadPool.QueueUserWorkItem(v =>
                                              {
                                                  try
                                                  {
                                                      _handler();
-                                                     ((UIElement)arg).Dispatcher.BeginInvoke(
-                                                         DispatcherPriority.Normal, 
-                                                         new Action<object>(o => _callback()),
-                                                         new Func<object>(() =>
-                                                                              {
-                                                                                  _handler();
-                                                                                  return null;
-                                                                              }));
+                                                     _callback();
+                                                     //((UIElement)arg).Dispatcher.BeginInvoke(
+                                                     //    DispatcherPriority.Normal, 
+                                                     //    new Action<object>(o => _callback()),
+                                                     //    new Func<object>(() =>
+                                                     //                         {
+                                                     //                             //_handler();
+                                                     //                             return null;
+                                                     //                         })());
                                                  }
                                                  catch(Exception ex)
                                                  {

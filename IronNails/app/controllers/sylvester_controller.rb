@@ -4,9 +4,9 @@ class SylvesterController < IronNails::Controller::Base
   view_object :tweets, []
   
   view_object :username
-  view_object :password #, :type => :password
+  view_object :password, :element => :password, :property => :password, :view => :login
   
-  view_action :authenticate
+  view_action :authenticate #, :mode => :asynchronous, :callback => :logged_in
   view_action :refresh_feeds 
   
   attr_accessor :current_user, :credentials
@@ -24,10 +24,14 @@ class SylvesterController < IronNails::Controller::Base
   end
   
   def logged_in
-    @tweets = Status.timeline_with_friends @credentials
-    @status_bar_message = "Received tweets"
-    on_view(:login) do    
-      self.visibility= :hidden
+    unless @current_user.nil?
+      @tweets = Status.timeline_with_friends credentials    
+      @status_bar_message = "Received tweets"
+      on_view(:login) do    
+        self.visibility= :hidden
+        self.password.password = ""
+      end
+      @username = ""
     end
   end
   
@@ -37,10 +41,9 @@ class SylvesterController < IronNails::Controller::Base
   
   def authenticate
     @status_bar_message = "Logging in"
-    password = from_view :login , :get => :password,  :from => :password
-    @credentials = Credentials.new @username, password.to_s.to_secure_string
+    @credentials = Credentials.new @username, @password.to_s.to_secure_string
     @current_user = User.login(credentials)
-    logged_in unless current_user.nil?
+    logged_in #unless current_user.nil?
   end
     
 

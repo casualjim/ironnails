@@ -29,17 +29,13 @@ module IronNails
           nails_engine.add_observer :refreshing_view, controller_name do 
             setup_for_showing_view 
           end
-#          nails_engine.add_observer :reading_input, controller_name do |sender|
-#            
-#            synchronise_with_viewmodel sender
-#          end
           copy_vars
         #end
       end
       
       def synchronise_with_view_model
         nails_engine.synchronise_to_controller self
-        #refresh_instance_variables
+        refresh_instance_variables
       end 
       
       # setup the viewmodel for the current objects and command defintions
@@ -77,6 +73,10 @@ module IronNails
       def refresh_instance_variables
         objects.each do |k, v|
           instance_variable_set "@#{k}", v
+        end
+        view_properties.each do |k, v|
+          val = on_view v[:view], :from => v[:element], :get => v[:property]
+          instance_variable_set "@#{k}", val
         end
       end
       

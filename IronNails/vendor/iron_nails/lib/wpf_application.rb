@@ -5,7 +5,7 @@ class WpfApplication < System::Windows::Application
   attr_reader :nails_engine
   
   def initialize(&b)
-    logger.debug "Loading initial window", IRONNAILS_FRAMEWORKNAME
+    logger.debug "Starting application", IRONNAILS_FRAMEWORKNAME
     @nails_engine = NailsEngine.new
     #@nails_engine = TestViewManager.new
     controller = instance_eval &b

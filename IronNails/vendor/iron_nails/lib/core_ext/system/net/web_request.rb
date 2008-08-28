@@ -70,7 +70,7 @@ class System::Net::WebRequest
         parse_response.call(rdr)
       end unless parse_response.nil?
     rescue WebException => e
-      puts e
+      handle_exception e
     end 
   end
   
