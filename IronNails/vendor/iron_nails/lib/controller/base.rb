@@ -31,20 +31,20 @@ module IronNails
       end
       
       def on_view(name=nil, &b)
-        view_manager.on_view(controller_name, name, &b)
+        nails_engine.on_view(controller_name, name, &b)
       end
       
       def from_view(name, options)
         name ||= view_name.to_sym
-        view_manager.from_view(controller_name, name, options[:from], options[:get])
+        nails_engine.from_view(controller_name, name, options[:from], options[:get])
       end
       
       def child_view(view_name, options)
-        view_manager.register_child_view :controller => controller_name, :container => options[:in], :name => view_name
+        nails_engine.register_child_view :controller => controller_name, :container => options[:in], :name => view_name
       end
       
       def configure_viewmodel_for_showing
-        view_manager.configure_view_for_showing
+        nails_engine.configure_view_for_showing
       end
       
       def init_controller

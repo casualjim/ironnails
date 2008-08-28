@@ -115,6 +115,7 @@
     <Ruby Include="vendor\iron_nails\lib\models\base.rb" />
     <Ruby Include="vendor\iron_nails\lib\models\bindable_collection.rb" />
     <Ruby Include="vendor\iron_nails\lib\models\model_mixin.rb" />
+    <Ruby Include="vendor\iron_nails\lib\nails_engine.rb" />
     <Ruby Include="vendor\iron_nails\lib\observable.rb" />
     <Ruby Include="vendor\iron_nails\lib\security\secure_string.rb" />
     <Ruby Include="vendor\iron_nails\lib\version.rb" />
@@ -128,7 +129,6 @@
     <Ruby Include="vendor\iron_nails\lib\view\commands\timed_command.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\component_registry.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view.rb" />
-    <Ruby Include="vendor\iron_nails\lib\view\view_manager.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\xaml_proxy.rb" />
     <Ruby Include="vendor\iron_nails\lib\view\view_model.rb" />
     <Ruby Include="vendor\iron_nails\lib\wpf.rb" />

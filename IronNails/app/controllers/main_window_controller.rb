@@ -7,18 +7,22 @@ class MainWindowController < IronNails::Controller::Base
   view_object :password #, :type => :password
   
   view_action :authenticate
-  view_action :refresh_feeds  
+  view_action :refresh_feeds 
+  
+  def default_action
+    child_view :login, :in => :content
+    on_view(:login) { loaded { username.focus } }
+  end 
   
   def refresh_feeds
     logger.debug "refreshing feeds"
-    child_view :login, :in => :content
-    on_view(:login) { loaded { username.focus } }
+    #child_view :login, :in => :content
+    #on_view(:login) { loaded { username.focus } }
   end
   
   def logged_in
     password = from_view :login , :get => :password,  :from => :password
-    logger.debug "credentials: #{@username}, #{password}, from_objects: #{@objects[:username]}"
-    @tweets = Status.timeline_with_friends Credentials.new(@objects[:username], password.to_s.to_secure_string)
+    @tweets = Status.timeline_with_friends Credentials.new(@username, password.to_s.to_secure_string)
     on_view(:login) do    
       self.visibility= :hidden
     end

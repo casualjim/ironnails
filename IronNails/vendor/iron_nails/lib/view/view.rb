@@ -125,7 +125,7 @@ module IronNails
         child = children.find { |vw| vw.name == options[:name] }
         children.delete(child) unless child.nil?
         children << View.new(options.merge(:parent => self, :controller => controller))
-        logger.debug("added child view (#{options[:name]} to #{name}", IRONNAILS_FRAMEWORKNAME)
+        logger.debug("added child view (#{options[:name]} to #{name})", IRONNAILS_FRAMEWORKNAME)
         self
       end
       

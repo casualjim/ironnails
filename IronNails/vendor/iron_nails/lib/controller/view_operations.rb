@@ -6,7 +6,7 @@ module IronNails
     # view model in controllers.
     module ViewOperations
     
-      attr_accessor :view_manager
+      attr_accessor :nails_engine
       
       # gets the view name for the class that includes this module
       def view_name
@@ -18,18 +18,18 @@ module IronNails
         "#{view_name}_view_model"
       end
       
-      def view_manager=(value)
-        @view_manager = value
+      def nails_engine=(value)
+        @nails_engine = value
         init_view_manager
       end 
                   
       # initializes a new instance of the ViewManager      
       def init_view_manager
                                       
-          view_manager.add_observer :refreshing_view, controller_name do 
+          nails_engine.add_observer :refreshing_view, controller_name do 
             setup_for_showing_view 
           end
-#          view_manager.add_observer :reading_input, controller_name do |sender|
+#          nails_engine.add_observer :reading_input, controller_name do |sender|
 #            
 #            synchronise_with_viewmodel sender
 #          end
@@ -38,8 +38,8 @@ module IronNails
       end
       
       def synchronise_with_view_model
-        view_manager.synchronise_to_controller self
-        refresh_instance_variables
+        nails_engine.synchronise_to_controller self
+        #refresh_instance_variables
       end 
       
       # setup the viewmodel for the current objects and command defintions
@@ -52,7 +52,7 @@ module IronNails
               synchronise_with_view_model
             end
           end
-          view_manager.initialize_with cmds, objs
+          nails_engine.initialize_with cmds, objs
           logger.debug "initialized the view manager", IRONNAILS_FRAMEWORKNAME
         #end
       end
@@ -60,7 +60,7 @@ module IronNails
       def add_action(name, options, &b)
         options[:action] = b if block_given?
         cmd_def = { "#{name}".to_sym => options }
-        view_manager.add_command_to_view cmd_def
+        nails_engine.add_command_to_view cmd_def
       end
       
       def refresh_objects
@@ -76,8 +76,7 @@ module IronNails
       
       def refresh_instance_variables
         objects.each do |k, v|
-          instance_variable_set "@{k}", v
-          puts "set #{k} with value: #{instance_variable_get "@{k}"}"
+          instance_variable_set "@#{k}", v
         end
       end
       

@@ -111,7 +111,7 @@ module IronNails
       end
       
       def view_model
-        WpfApplication.current.view_manager
+        WpfApplication.current.nails_engine
       end
             
       # Generates the command definitions for our view model.

@@ -1,19 +1,20 @@
-require File.dirname(__FILE__) + "/collections"
-require File.dirname(__FILE__) + "/view_model"
-require File.dirname(__FILE__) + "/xaml_proxy"
+require File.dirname(__FILE__) + "/view/collections"
+require File.dirname(__FILE__) + "/view/view_model"
+require File.dirname(__FILE__) + "/view/xaml_proxy"
+require File.dirname(__FILE__) + "/observable"
 
 module IronNails
   
-  module View
-  
+  module Core
+    
     module ViewOperations
-          
+      
       def init_view_operations
       end
       
       def build_view(options)
         logger.debug "View to load: #{options[:name]}", IRONNAILS_FRAMEWORKNAME
-        vw = View.new(options)
+        vw = IronNails::View::View.new(options)
         #vw.add_observer(:loaded) { |sender| set_data_context_for(sender) }
         vw
       end
@@ -28,7 +29,7 @@ module IronNails
         vw.add_observer(:configuring) { |sender| configure_view(sender) }
         registry.register_view_for controller, vw
       end
-            
+      
       def on_view(controller, name = nil, &b)
         registry.view_for(controller).find(name).on_proxy(&b) #unless vw.nil?
       end
@@ -41,14 +42,14 @@ module IronNails
     end
     
     module ViewModelObjectOperations
-  
+      
       # gets or sets the models that wil be used in the view to bind to
       attr_accessor :model_queue
       
       def init_object_operations
         @model_queue = ModelCollection.new
       end
-
+      
       # flags the view model as in need of wiring up and 
       # sets the model collection
       def model_queue=(value)
@@ -72,25 +73,25 @@ module IronNails
       
       private 
       
-        def enqueue_model(model)
-          key = model.keys[0]
-          unless model_queue.has_model?(model) && model_queue[key] == model[key]
-            model_queue.add_model model
-            @configured = false
-          end
-        end   
+      def enqueue_model(model)
+        key = model.keys[0]
+        unless model_queue.has_model?(model) && model_queue[key] == model[key]
+          model_queue.add_model model
+          @configured = false
+        end
+      end   
       
     end
     
     module ViewModelCommandOperations
-
+      
       # gets or sets the command_queue to respond to user actions in the view.
       attr_accessor :command_queue
       
       def init_command_operations
         @command_queue = CommandCollection.new
       end 
-
+      
       # flags the view model as in need of wiring up and 
       # sets the command collection
       def command_queue=(value)
@@ -99,7 +100,7 @@ module IronNails
           @command_queue = value
         end
       end
-
+      
       # adds a command or a command collection to the queue
       def add_command_to_queue(cmd)
         if cmd.respond_to?(:has_command?)
@@ -111,27 +112,27 @@ module IronNails
         end
       end
       alias_method :add_commands_to_queue, :add_command_to_queue
-
+      
       private 
-
+      
       def enqueue_command(cmd)
         if !command_queue.has_command?(cmd) || cmd.changed?
           cmd.add_observer(:refreshing_view) do |sender| 
             refresh_view(registry.view_for(sender.controller))
           end
-#          cmd.add_observer(:reading_input) do |sender|
-#            puts "reading input"
-#            notify_observers :reading_input, sender.controller.controller_name, sender, sender.view
-#          end
+          #          cmd.add_observer(:reading_input) do |sender|
+          #            puts "reading input"
+          #            notify_observers :reading_input, sender.controller.controller_name, sender, sender.view
+          #          end
           command_queue << cmd 
           @configured = false 
         end
       end
-
+      
     end
     
     module ViewModelOperations
-
+      
       # gets the view model instance to manipulate with this builder
       attr_accessor :view_models
       
@@ -162,15 +163,67 @@ module IronNails
       
     end
     
-    class ViewManager
+    class ComponentRegistryItem
+      
+      attr_accessor :viewmodel
+      
+      attr_accessor :view
+      
+      def initialize(options={})
+        @view = options[:view]
+        @viewmodel = options[:viewmodel]
+      end    
+      
+    end
+    
+    class ComponentRegistry
+      
+      attr_accessor :components
+      
+      def initialize
+        @components = {}
+      end 
+      
+      def register(controller)
+        components[controller.controller_name] = ComponentRegistryItem.new
+      end
+      
+      def register_view_for(controller, view)
+        find_controller(controller).view = view
+      end
+      
+      def register_viewmodel_for(controller, model)
+        find_controller(controller).viewmodel = model
+      end
+      
+      def find_controller(controller)
+        con_name = controller.respond_to?(:controller_name) ? controller.controller_name : controller.to_sym
+        components[con_name]
+      end 
+      
+      def viewmodel_for(controller)
+        find_controller(controller).viewmodel
+      end
+      
+      def view_for(controller)
+        find_controller(controller).view
+      end
+    end
+    
+    # This could be viewed as the life support for the Nails framework
+    # It serves as the glue between the different components.
+    # One of its main functions is to manage communication between the controller,
+    # view model and view.
+    class NailsEngine
       
       include IronNails::Logging::ClassLogger
-      include IronNails::Core::ControllerObservable
-      include IronNails::View::ViewOperations
-      include IronNails::View::ViewModelOperations
+      include ControllerObservable
+      include ViewOperations
+      include ViewModelOperations
       
+      # Stores the registered components and does lookup on them
       attr_accessor :registry
-                   
+      
       # configures the properties for the view model
       def configure_models(model)
         model_queue.each do |o|
@@ -193,7 +246,7 @@ module IronNails
           end unless cmd.attached?
         end
       end
-       
+      
       # configures the view
       def configure_view(view)
         model = registry.viewmodel_for view.controller
@@ -202,14 +255,14 @@ module IronNails
         view.data_context = model unless view.has_datacontext? && !view.sets_datacontext?
         @configured = true
       end       
-              
+      
       # refreshes the data for the view.
       def refresh_view(view)
         notify_observers :refreshing_view, view.controller, self, view
         view.configure
         @configured = true
       end
-       
+      
       # synchronises the data in the viewmodel with the controller
       def synchronise_with_controller
         notify_observers :reading_input, self, view
@@ -218,19 +271,15 @@ module IronNails
       def add_command_to_view(commands)
         add_commands_to_queue commands
       end
-
+      
       def synchronise_to_controller(controller)
-        puts "synchronising to controller"
         objects = controller.instance_variable_get "@objects"
         model = registry.viewmodel_for controller #.objects.collect { |kvp| kvp.key.to_s.underscore.to_sym }
         objects.each do |k,v|
-          puts "object: #{k}"
           if model.objects.contains_key(k.to_s.camelize)
-            puts "vmobject: #{k.to_s.camelize}"
             val = model.objects.get_value(k.to_s.camelize).value
-            puts "vmobject value: #{val}"
             objects[k] = val
-            #controller.instance_variable_set "@{k}", val
+            controller.instance_variable_set "@#{k}", val
           end
         end
         
@@ -240,7 +289,7 @@ module IronNails
       def configured?
         !!@configured
       end
-            
+      
       def initialize
         @configured, @registry = false, ComponentRegistry.new
         init_viewmodel_operations
@@ -252,14 +301,16 @@ module IronNails
         registry.register(controller)
         register_viewmodel_for controller
         register_view_for controller
-        controller.view_manager = self    
+        controller.nails_engine = self    
         logger.debug "controller #{controller.controller_name} registered", IRONNAILS_FRAMEWORKNAME    
       end
       
       def show_initial_window(controller)
         logger.debug "setting up controller", IRONNAILS_FRAMEWORKNAME
-        controller.setup_for_showing_view
-        yield registry.view_for(controller).instance if block_given?
+        controller.setup_for_showing_view      
+        inst =   registry.view_for(controller).instance
+        controller.default_action
+        yield inst if block_given?
       end
       
       def initialize_with(command_definitions, models)
