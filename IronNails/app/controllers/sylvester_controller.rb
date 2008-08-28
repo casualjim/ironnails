@@ -1,11 +1,9 @@
 class SylvesterController < IronNails::Controller::Base
 
   view_object :status_bar_message
-  view_object :tweets, []
-  
+  view_object :tweets, []  
   view_object :username
-  view_object :password, :element => :password, :property => :password, :view => :login
-  
+  view_object :password, :element => :password, :property => :password, :view => :login  
   view_action :authenticate #, :mode => :asynchronous, :callback => :logged_in
   view_action :refresh_feeds 
   
@@ -18,9 +16,7 @@ class SylvesterController < IronNails::Controller::Base
   end 
   
   def refresh_feeds
-    logger.debug "refreshing feeds"
-    #child_view :login, :in => :content
-    #on_view(:login) { loaded { username.focus } }
+    @tweets.merge! Status.timeline_with_friends(credentials)
   end
   
   def logged_in

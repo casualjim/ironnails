@@ -19,7 +19,6 @@ module IronNails
       def add_model(k, v)
         key = k.to_s.camelize
         changed = false
-        logger.debug "trying to set model #{key} to value: #{v}", IRONNAILS_FRAMEWORKNAME
         wpf_value = unless objects.contains_key(key) 
           changed = true
           IronNails::Library::WpfValue.of(System::Object).new(v)
