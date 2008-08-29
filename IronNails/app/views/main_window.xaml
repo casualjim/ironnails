@@ -95,7 +95,7 @@
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                         </ListBox>
-                        <Border Height="21" Background="{StaticResource UpdateBackgroundBrush}" VerticalAlignment="Bottom" Padding="10,0,10,0" x:Name="update" BorderBrush="{DynamicResource PrimaryBackgroundBrush}" BorderThickness="0,0,0,1" ToolTip="Display update panel">
+                        <Border Height="21" behaviors:ClickBehavior.LeftClick="{Binding Commands[ToggleUpdate]}"  Background="{StaticResource UpdateBackgroundBrush}" VerticalAlignment="Bottom" Padding="10,0,10,0" x:Name="update" BorderBrush="{DynamicResource PrimaryBackgroundBrush}" BorderThickness="0,0,0,1" ToolTip="Display update panel">
                             <DockPanel OpacityMask="#FF000000" x:Name="dock_panel">
                                 <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Top" Text="Update" TextWrapping="Wrap" VerticalAlignment="Top" x:Name="update_text_block" Margin="0,2,0,0" />
                 <Grid Margin="0,5,0,10">

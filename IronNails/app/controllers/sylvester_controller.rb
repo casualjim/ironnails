@@ -4,10 +4,18 @@ class SylvesterController < IronNails::Controller::Base
   view_object :tweets, []  
   view_object :username
   view_object :password, :element => :password, :property => :password, :view => :login  
+  
   view_action :authenticate #, :mode => :asynchronous, :callback => :logged_in
   view_action :refresh_feeds 
+  #view_action :refresh_feeds_timer,
+  view_action :toggle_update
+  
   
   attr_accessor :current_user, :credentials
+  
+  def init_controller
+    @expanded = false
+  end
   
   def default_action
     @status_bar_message = "Please login"
@@ -35,11 +43,27 @@ class SylvesterController < IronNails::Controller::Base
     "main_window"
   end
   
+  def toggle_update
+    if @expanded
+      play_storyboard "CollapseUpdate"
+    else
+      play_storyboard "ExpandUpdate" 
+      on_view do
+        self.tweet_text_box.focus
+      end
+    end
+    @expanded = !@expanded
+  end 
+  
   def authenticate
     @status_bar_message = "Logging in"
     @credentials = Credentials.new @username, @password.to_s.to_secure_string
     @current_user = User.login(credentials)
     logged_in #unless current_user.nil?
+  end
+  
+  def logged_in?
+    !credentials.nil?
   end
     
 

@@ -31,11 +31,11 @@ module IronNails
       end
       
       def on_view(controller, name = nil, &b)
-        registry.view_for(controller).find(name).on_proxy(&b) #unless vw.nil?
+        find_view(controller, name).on_proxy(&b) #unless vw.nil?
       end
       
       def from_view(controller, name, target, method)
-        registry.view_for(controller).find(name).get_property(target, method)
+        find_view(controller, name).get_property(target, method)
       end
       
       def to_update_ui_after(controller, options, &b)
@@ -75,7 +75,20 @@ module IronNails
       end
       alias_method :on_ui_thread_with, :on_ui_thread
       
+      def play_storyboard(controller, name, storyboard)
+        logger.debug "finding controller #{controller.controller_name} and view #{name} to play #{storyboard}"
+        vw = find_view(controller, name)
+        logger.debug "view: #{vw}"
+        find_view(controller, name).play_storyboard(storyboard)
+      end 
       
+      def stop_storyboard(controller, view_name, storyboard)
+        find_view(controller, name).stop_storyboard(storyboard)
+      end
+      
+      def find_view(controller, name)
+        registry.view_for(controller).find(name)
+      end
     end
     
     module ViewModelObjectOperations

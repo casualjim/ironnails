@@ -73,6 +73,14 @@ module IronNails
         nails_engine.on_ui_thread self, options, &b
       end
       
+      def play_storyboard(name=nil, storyboard=nil)
+        nails_engine.play_storyboard self, (storyboard.nil? ? view_name : name), (storyboard.nil? ? name : storyboard)
+      end
+      
+      def stop_storyboard(name=nil, storyboard=nil)
+        nails_engine.stop_storyboard self,  (storyboard.nil? ? view_name : name), (storyboard.nil? ? name : storyboard)
+      end
+      
       def init_controller
       end
       
@@ -107,8 +115,6 @@ module IronNails
           end
           
         end
-        
-        
       
       end
     end

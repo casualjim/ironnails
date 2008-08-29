@@ -146,7 +146,7 @@ module IronNails
       
       # loads the view into the instance variable
       def load_view
-        @instance = XamlReader.load_from_path view_path if File.exists? view_path
+        @instance = XamlReader.load_from_path view_path         
       end 
       
       # returns the path to the file for the current view.
@@ -172,6 +172,16 @@ module IronNails
       
       def get_property(element, method, *args, &b)
         send(element.to_sym).send(method.to_sym, *args, &b)
+      end
+      
+      def play_storyboard(storyboard_name)
+        storyboard = Workarounds.get_resource instance.resources, storyboard_name
+        storyboard.begin instance unless storyboard.nil?
+      end
+      
+      def stop_storyboard(storyboard_name)
+        storyboard = Workarounds.get_resource instance.resources, storyboard_name
+        storyboard.stop instance unless storyboard.nil?
       end
       
       def method_missing(sym, *args, &blk)

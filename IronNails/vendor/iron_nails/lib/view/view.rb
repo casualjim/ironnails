@@ -11,7 +11,7 @@ module IronNails
       include IronNails::Core::Observable   
       extend Forwardable
       
-      def_delegators :@proxy, :add_control, :add_command, :add_timer, :invoke, :get_property
+      def_delegators :@proxy, :add_control, :add_command, :add_timer, :invoke, :get_property, :play_storyboard, :stop_storyboard
     
       # gets or sets the name of this view
       attr_accessor :name
@@ -163,7 +163,7 @@ module IronNails
       end
       
       def find(view_name)
-        return self if name == view_name || view_name.nil?
+        return self if name == view_name.to_sym || view_name.nil?
         children.find { |cv| cv.name == view_name }
       end
       
