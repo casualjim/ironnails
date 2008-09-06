@@ -40,8 +40,8 @@ public class DemoViewModel : IronNails.View.ViewModel { }
 </Window>
 
 If you want to run the project:
-update IronRuby to the latest revision (currently r.132)
-
+update IronRuby to the latest revision (currently r.140)
+update the build_conf.yml file in the config folder to point to your ironruby bin folder. We need to copy some assemblies there.
 type rake run in the ironnails directory ie. C:\projects\ironnails\ironnails\ > rake run
 
 all help is welcome: ivan@flanders.co.nz
@@ -53,3 +53,4 @@ Help is wanted for implementing the following items a.o.
 * Better xaml integration
 * Encapsulation of automatic refreshing of models.
 * support for multiple views tied to a controller
+* Create a host project in which is an application that hosts the ironruby runtime and executes our nails application.

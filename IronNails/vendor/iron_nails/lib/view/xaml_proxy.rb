@@ -50,6 +50,8 @@ module IronNails
           command.view = self
           @attached = false
           instance_variable_set "@#{command.timer_name}", DispatcherTimer.new
+          ti = get_timer_for command
+          ti.interval = command.interval.to_timespan
         end
         
         def start_timer(command)

@@ -7,6 +7,8 @@ module IronNails
       # gets the name to use for the timer     
       attr_reader :timer_name
       
+      attr_accessor :interval
+      
       alias_method :nails_base_command_read_options, :read_options
       def read_options(options)
         nails_base_command_read_options options

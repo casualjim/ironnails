@@ -31,7 +31,7 @@ module IronNails
           val          
         end
         if changed
-          logger.debug "setting objects entry: { #{key}: #{v} }", IRONNAILS_FRAMEWORKNAME
+          logger.debug "setting objects entry: #{key}", IRONNAILS_FRAMEWORKNAME
           objects.set_entry(key, wpf_value)
         end
       end

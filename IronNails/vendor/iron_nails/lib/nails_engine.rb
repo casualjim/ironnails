@@ -39,25 +39,32 @@ module IronNails
       end
       
       def to_update_ui_after(controller, options, &b)
-        if options.is_a? Hash
-          klass = options[:class]||BindableCollection
-          request = options[:request]
-        else
-          klass = BindableCollection
-          request = options
-        end
-        cb = System::Threading::WaitCallback.new do
-          begin
-            registry.view_for(controller).dispatcher.begin_invoke(DispatcherPriority.normal, Action.of(klass).new(&b), request.call)
-          rescue WebException => e
-            MessageBox.Show("There was a problem logging in to Twitter. #{e.message}");
-          rescue RequestLimitException => e
-            MessageBox.Show(e.message)
-          rescue SecurityException => e
-            MessageBox.Show("Incorrect username or password. Please try again");
-          end
-        end
-        System::Threading::ThreadPool.queue_user_work_item cb        
+#        if options.is_a? Hash
+#          klass = options[:class]||BindableCollection
+#          request = options[:request]
+#        else
+#          klass = BindableCollection
+#          request = options
+#        end
+#        cb = System::Threading::WaitCallback.new do
+#          begin
+#            registry.view_for(controller).dispatcher.begin_invoke(DispatcherPriority.normal, Action.of(klass).new(&b), request.call)
+#          rescue WebException => e
+#            MessageBox.Show("There was a problem logging in to Twitter. #{e.message}");
+#          rescue RequestLimitException => e
+#            MessageBox.Show(e.message)
+#          rescue SecurityException => e
+#            MessageBox.Show("Incorrect username or password. Please try again");
+#          end
+#        end
+#        System::Threading::ThreadPool.queue_user_work_item cb  
+        cb = nil
+        cb = options[:callback] unless options[:callback].nil?
+        options[:callback] = lambda do |vw|
+          b.call 
+          refresh_view(vw)
+        end     
+        find_view(controller, name).to_update_ui_after(options, &b)
       end 
       
       def on_ui_thread(controller, options=nil, &b)
@@ -78,7 +85,6 @@ module IronNails
       def play_storyboard(controller, name, storyboard)
         logger.debug "finding controller #{controller.controller_name} and view #{name} to play #{storyboard}"
         vw = find_view(controller, name)
-        logger.debug "view: #{vw}"
         find_view(controller, name).play_storyboard(storyboard)
       end 
       

@@ -44,7 +44,7 @@
             </Border.ContextMenu>
             <DockPanel LastChildFill="False">
                 <TextBlock Text="Sylvester" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource HeaderForegroundBrush}" />
-        <Button Content="Refresh" Height="20" behaviors:ClickBehavior.LeftClick="{Binding Commands[RefreshFeeds] }"  x:Name="refresh_button"  IsEnabled="True" MinWidth="25" MinHeight="20" FontSize="9" DockPanel.Dock="Right" Width="50" ToolTip="Refresh Tweets" />
+        <Button Content="Refresh" Height="20" behaviors:ClickBehavior.LeftClick="{Binding Commands[RefreshTweets] }"  x:Name="refresh_button"  IsEnabled="True" MinWidth="25" MinHeight="20" FontSize="9" DockPanel.Dock="Right" Width="50" ToolTip="Refresh Tweets" />
         <Button Content="Options" Height="20" x:Name="options_button" MinWidth="25" MinHeight="20" Visibility="Collapsed" FontSize="9" DockPanel.Dock="Right" Margin="0,0,10,0" IsEnabled="False" Width="50" ToolTip="Show Options Window" />
         <ToggleButton Content="Filter" Height="25" x:Name="filter_toggle_button" MinWidth="25" MinHeight="20" FontSize="9" IsEnabled="False" 
         Width="55" ToolTip="Display Filter Panel" DockPanel.Dock="Right" BorderThickness="1,1,1,1" 
@@ -103,10 +103,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
-                  <TextBox Text="" TextWrapping="Wrap" x:Name="tweet_text_box" SpellCheck.IsEnabled="True" />
+                  <TextBox Text="{Binding Objects[UpdateText].Value, Mode=TwoWay}" TextWrapping="Wrap" x:Name="tweet_text_box" SpellCheck.IsEnabled="True" />
                   <TextBlock Text="{Binding Path=Text.Length, Converter={StaticResource CharRemainingConverter}, ElementName=tweet_text_box, Mode=Default}" FontSize="18" 
                   Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" FontFamily="Georgia" x:Name="char_remaining_counter" Foreground="#FF52626F" />
-                  <Button VerticalAlignment="Bottom" Width="75" Height="23" Content="Update" Grid.Column="1" x:Name="update_button" Margin="10,0,0,0" IsDefault="True" />
+                  <Button VerticalAlignment="Bottom" Width="75" Height="23" Content="Update" Grid.Column="1" behaviors:ClickBehavior.LeftClick="{Binding Commands[UpdateStatus] }" x:Name="update_button" Margin="10,0,0,0" IsDefault="True" />
                 </Grid>
               </DockPanel>
                         </Border>

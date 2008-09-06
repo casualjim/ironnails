@@ -4,5 +4,4 @@ WpfApplication.new do
   
   set_skin :aero
   SylvesterController.new
-  #TestController.new
 end
