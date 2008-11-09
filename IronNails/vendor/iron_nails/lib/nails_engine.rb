@@ -317,6 +317,7 @@ module IronNails
       def refresh_view(view)
         notify_observers :refreshing_view, view.controller, self, view
         view.configure
+        view.proxy.refresh
         @configured = true
       end
       

@@ -1,12 +1,17 @@
 class SylvesterController < IronNails::Controller::Base
 
+  # TODO: introduce show_view also in the default action and make the controller responsible for showing that view
+  # TODO: introduce a way to start and stop timers
+  # TODO: Fix asynchronous execution.
+  #       make a command responsible for deciding on an asynchronous operation. Every command should be bound to a view
+  #       because multithreading seems to only work correctly from the xaml_proxy. 
+
   view_object :status_bar_message
   view_object :tweets, []  
   view_object :username
   view_object :password, :element => :password, :property => :password, :view => :login  
   view_object :update_text
   
-  # TODO: Fix asynchronous execution.
   view_action :authenticate #, :mode => :asynchronous, :callback => :logged_in
   view_action :refresh_tweets 
   view_action :refresh_tweets_timer, :action  => :refresh_tweets, :type => :timed, :interval => 2.minutes
@@ -32,7 +37,7 @@ class SylvesterController < IronNails::Controller::Base
   def default_action
     @status_bar_message = "Please login"
     child_view :login, :in => :content
-    on_view(:login) { loaded { username.focus } }
+    on_view(:login) { |proxy| proxy.loaded { proxy.username.focus } }
   end 
   
   def refresh_tweets
@@ -44,11 +49,12 @@ class SylvesterController < IronNails::Controller::Base
     unless @current_user.nil?
       @tweets = Status.timeline_with_friends credentials    
       @status_bar_message = "Received tweets"
-      on_view(:login) do    
-        self.visibility= :hidden
-        self.password.password = ""
+      on_view(:login) do |proxy|    
+        proxy.visibility= :hidden
+        proxy.password.password = ""
       end
       @username = ""
+      
     end
   end
   
@@ -62,8 +68,8 @@ class SylvesterController < IronNails::Controller::Base
         play_storyboard "CollapseUpdate"
       else
         play_storyboard "ExpandUpdate" 
-        on_view do
-          self.tweet_text_box.focus
+        on_view do |proxy|
+          proxy.tweet_text_box.focus
         end
       end
       @expanded = !@expanded
@@ -72,8 +78,10 @@ class SylvesterController < IronNails::Controller::Base
   
   def authenticate
     @status_bar_message = "Logging in"
+    refresh_view
     @credentials = Credentials.new @username, @password.to_s.to_secure_string
     @current_user = User.login(credentials)
+    
     logged_in #unless current_user.nil?
   end
   

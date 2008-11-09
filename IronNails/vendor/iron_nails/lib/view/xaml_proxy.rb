@@ -148,7 +148,9 @@ module IronNails
       
       # loads the view into the instance variable
       def load_view
-        @instance = XamlReader.load_from_path view_path         
+        @instance = XamlReader.load_from_path view_path if File.exists? view_path
+        @instance = view_name.to_s.classify.new if @instance.nil?
+        @instance
       end 
       
       # returns the path to the file for the current view.
@@ -185,6 +187,11 @@ module IronNails
         storyboard = Workarounds.get_resource instance.resources, storyboard_name
         storyboard.stop instance unless storyboard.nil?
       end
+      
+      # tells this proxy to render itself with the changed information
+      def refresh
+		  Workarounds.refresh @instance
+      end     
       
       def method_missing(sym, *args, &blk)
         # First we check if we can find a named control

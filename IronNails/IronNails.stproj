@@ -104,6 +104,7 @@
     <Ruby Include="vendor\iron_nails\lib\core_ext\system\net\web_request.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\system\security\secure_string.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\system\windows\markup\xaml_reader.rb" />
+    <Ruby Include="vendor\iron_nails\lib\core_ext\system\windows\ui_element.rb" />
     <Ruby Include="vendor\iron_nails\lib\core_ext\time.rb" />
     <Ruby Include="vendor\iron_nails\lib\errors.rb" />
     <Ruby Include="vendor\iron_nails\lib\iron_xml.rb" />

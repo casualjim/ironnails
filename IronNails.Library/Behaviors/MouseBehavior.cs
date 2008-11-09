@@ -5,7 +5,7 @@ using IronNails.Library.Behaviors;
 
 namespace IronNails.Library.Behaviors
 {
-    public static class MouseHoverBehavior
+    public class MouseHoverBehavior 
     {
         #region MouseEnter
         public static DependencyProperty MouseEnterCommandProperty =

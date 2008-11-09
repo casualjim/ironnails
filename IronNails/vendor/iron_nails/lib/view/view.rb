@@ -150,7 +150,8 @@ module IronNails
       # executes the code block on the view
       def on_proxy(&b)
         load 
-        proxy.instance_eval(&b)
+        #proxy.instance_eval(&b)
+        b.call proxy
       end
       
 #      def invoke(target, method)
