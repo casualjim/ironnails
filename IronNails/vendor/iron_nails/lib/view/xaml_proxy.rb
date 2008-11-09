@@ -1,9 +1,9 @@
 module IronNails
-
-  module View
   
-    module Extensions
+  module View
     
+    module Extensions
+      
       module ThreadingSupport
         
         def on_ui_thread(element=:instance, &b)
@@ -25,7 +25,7 @@ module IronNails
           end
           ThreadPool.queue_user_work_item cb        
         end
-         
+        
       end
       
       module CommandSupport
@@ -41,7 +41,7 @@ module IronNails
         end
         
       end
-  
+      
       module TimerSupport
         
         include IronNails::View::Extensions::CommandSupport
@@ -74,16 +74,16 @@ module IronNails
         
         private 
         
-          def get_timer_for(command)
-            instance_variable_get "@#{command.timer_name}"
-          end
+        def get_timer_for(command)
+          instance_variable_get "@#{command.timer_name}"
+        end
         
       end
       
       module EventSupport
-      
+        
         include IronNails::View::Extensions::CommandSupport
-              
+        
         # Adds the specified +command+ to this view
         def add_command(command)
           command.view = self
@@ -98,12 +98,12 @@ module IronNails
       end
       
       module SubViewSupport
-      
-#        def add_sub_view(command)
-#          command.view = self
-#          command.execute if command.can_execute?
-#        end
-                
+        
+        #        def add_sub_view(command)
+        #          command.view = self
+        #          command.execute if command.can_execute?
+        #        end
+        
         # Adds a subview to the current view.
         def add_control(target, view)
           parent = send(target)
@@ -116,7 +116,7 @@ module IronNails
         end
         
       end
-    
+      
     end
     
     # The IronNails::View::XamlProxy class wraps a xaml file and brings it alive
@@ -164,7 +164,7 @@ module IronNails
       def visibility=(visi)
         instance.visibility = visi.to_sym.to_visibility if instance.respond_to?(:visibility)
       end
-            
+      
       # shows the proxied view
       def show
         WpfApplication.current.has_main_window? ? instance.show : instance
@@ -190,7 +190,7 @@ module IronNails
       
       # tells this proxy to render itself with the changed information
       def refresh
-		  Workarounds.refresh @instance
+        Workarounds.refresh @instance
       end     
       
       def method_missing(sym, *args, &blk)
@@ -220,7 +220,7 @@ module IronNails
       end
       
     end
-  
+    
   end
   
 end

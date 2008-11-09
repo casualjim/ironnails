@@ -40,7 +40,7 @@ public class DemoViewModel : IronNails.View.ViewModel { }
 </Window>
 
 If you want to run the project:
-update IronRuby to the latest revision (currently r.140)
+update IronRuby to the latest revision (currently r.170)
 update the build_conf.yml file in the config folder to point to your ironruby bin folder. We need to copy some assemblies there.
 type rake run in the ironnails directory ie. C:\projects\ironnails\ironnails\ > rake run
 
