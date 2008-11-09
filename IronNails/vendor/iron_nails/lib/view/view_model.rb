@@ -9,7 +9,7 @@ module IronNails
       
       def initialize()
         initialize_dictionaries
-      end
+      end 
       
       def __view_model_name_
         self.class.demodulize.underscore
