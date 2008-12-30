@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace IronNails.Library.Behaviors
 {
-    public class ClickBehavior 
+    public class ClickBehavior : DependencyObject
     {
         public static DependencyProperty DoubleClickCommandProperty =
             DependencyProperty.RegisterAttached("DoubleClick",

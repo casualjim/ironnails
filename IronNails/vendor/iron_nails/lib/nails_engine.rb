@@ -206,7 +206,7 @@ module IronNails
         #       should work as normally. Will revisit this later to properly fix it.        
         vm_name = controller.view_model_name
         klass = Object.const_get vm_name.camelize
-        klass.include IronNails::View::ViewModelMixin
+        klass.send :include, IronNails::View::ViewModelMixin
         key = vm_name.to_sym
         view_models[key] = klass.new if view_models[key].nil?
         registry.register_viewmodel_for controller, view_models[key]

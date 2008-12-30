@@ -36,10 +36,10 @@ module IronNails
       def refresh_view(name=nil)
         name ||= view_name.to_sym
         setup_for_showing_view
-		nails_engine.refresh_view(nails_engine.find_view(controller_name, name))
-		on_view(name) do |proxy|
-		  proxy.refresh
-		end
+		    nails_engine.refresh_view(nails_engine.find_view(controller_name, name))
+        on_view(name) do |proxy|
+          proxy.refresh
+        end
       end
       
       def on_view(name=nil, options={}, &b)

@@ -224,3 +224,17 @@ module IronNails
   end
   
 end
+
+#module IronNails
+#
+#  module View
+  
+    class XamlProxy
+    
+      def initialize
+        puts "Hello world"
+      end 
+    end
+    
+#  end
+#end

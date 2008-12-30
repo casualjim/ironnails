@@ -4,8 +4,8 @@ module IronNails
   
   module Logging
     
-    FRAMEWORK_LOGGING = true
-    CONSOLE_LOGGING = true
+    FRAMEWORK_LOGGING = true unless defined? FRAMEWORK_LOGGING
+    CONSOLE_LOGGING = true unless defined? CONSOLE_LOGGING
     
     class BufferedLogger
       module Severity

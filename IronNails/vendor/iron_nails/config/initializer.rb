@@ -1,3 +1,7 @@
+  def include_global_namespaces(namespaces)
+    namespaces.each { |namespace| include(eval(namespace)) }
+  end
+
 module IronNails
 
   class << self
@@ -117,7 +121,8 @@ module IronNails
     
     def include_namespaces
       logger.debug "Including namespaces", IRONNAILS_FRAMEWORKNAME
-      configuration.namespaces.each { |namespace| Object.include eval(namespace) }
+      #include_global_namespaces configuration.namespaces
+      configuration.namespaces.each { |namespace| Object.send :include, eval(namespace) }
     end 
     
     def require_application_files
