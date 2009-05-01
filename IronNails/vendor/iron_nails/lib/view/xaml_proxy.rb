@@ -203,7 +203,7 @@ module IronNails
         obj = @instance.find_name(sym.to_s.to_clr_string)
         nmsym = sym.to_s.camelize.to_sym
         if @instance.respond_to?(nmsym) && obj.nil?
-          @instance.send sym, args, &blk
+          @instance.send sym, *args, &blk
         else
           obj.nil? ? super : obj
         end
