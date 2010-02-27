@@ -1,3 +1,4 @@
+require 'time'
 class Time
 
   def humanize
@@ -15,7 +16,7 @@ class Time
       when delta < (90 * 60)
         humanized_time = "about an hour ago"
       when delta < (86400)
-        humanized_time = "about #{(delta /3600 ).round } hours ago"
+        humanized_time = "about #{(delta / 3600 ).round } hours ago"
     when delta < (48 * 3600) 
       humanized_time = "1 day ago"
     else

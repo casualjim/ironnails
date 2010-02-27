@@ -30,7 +30,6 @@ module IronNails
         end
 
         def unsecure_string(input)
-          #return input.to_s unless input.is_a? System::Security::SecureString
           result = ""
           ptr = System::Runtime::InteropServices::Marshal.SecureStringToBSTR(input);
           begin

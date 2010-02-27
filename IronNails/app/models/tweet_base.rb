@@ -8,8 +8,13 @@ module IronNails
 
       attr_accessor :created_at, :humanized_time
 
+      def humanized_time
+        update_humanized_time
+      end
+
+
       def update_humanized_time
-        self.humanized_time = self.created_at.humanize unless created_at.nil?
+        @humanized_time = self.created_at.humanize if self.created_at
       end
 
       def self.collection
