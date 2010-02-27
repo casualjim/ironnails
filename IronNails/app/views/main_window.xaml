@@ -44,7 +44,7 @@
             </Border.ContextMenu>
             <DockPanel LastChildFill="False">
                 <TextBlock Text="Sylvester" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource HeaderForegroundBrush}" />
-        <Button Content="Refresh" Height="20" behaviors:ClickBehavior.LeftClick="{Binding Commands[RefreshTweets] }"  x:Name="refresh_button"  IsEnabled="True" MinWidth="25" MinHeight="20" FontSize="9" DockPanel.Dock="Right" Width="50" ToolTip="Refresh Tweets" />
+        <Button Content="Refresh" Height="20" behaviors:ClickBehavior.LeftClick="{Binding refresh_tweets }"  x:Name="refresh_button"  IsEnabled="True" MinWidth="25" MinHeight="20" FontSize="9" DockPanel.Dock="Right" Width="50" ToolTip="Refresh Tweets" />
         <Button Content="Options" Height="20" x:Name="options_button" MinWidth="25" MinHeight="20" Visibility="Collapsed" FontSize="9" DockPanel.Dock="Right" Margin="0,0,10,0" IsEnabled="False" Width="50" ToolTip="Show Options Window" />
         <ToggleButton Content="Filter" Height="25" x:Name="filter_toggle_button" MinWidth="25" MinHeight="20" FontSize="9" IsEnabled="False" 
         Width="55" ToolTip="Display Filter Panel" DockPanel.Dock="Right" BorderThickness="1,1,1,1" 
@@ -72,7 +72,7 @@
 
         <!-- status_bar -->
         <Border DockPanel.Dock="Bottom" Padding="5,2,5,2" Background="{DynamicResource StatusBackgroundBrush}" x:Name="status_bar">
-            <TextBlock x:Name="status_text_block" TextWrapping="NoWrap" Foreground="#FFE4E4E4" Text="{ Binding Objects[StatusBarMessage].Value }" TextTrimming="CharacterEllipsis" />
+            <TextBlock x:Name="status_text_block" TextWrapping="NoWrap" Foreground="#FFE4E4E4" Text="{ Binding status_bar_message }" TextTrimming="CharacterEllipsis" />
     </Border>
 
         <!-- Main Content -->
@@ -83,7 +83,7 @@
                 <TabItem Header="Recent" Padding="2,1,2,1" x:Name="recent_tab">
                     <Grid x:Name="recent">
                         <ListBox x:Name="tweet_list_box" ScrollViewer.CanContentScroll="False" IsSynchronizedWithCurrentItem="True" ItemTemplate="{DynamicResource TweetsTemplate}" 
-            ItemsSource="{Binding Objects[Tweets].Value, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,20" BorderThickness="0,0,0,0" >
+            ItemsSource="{Binding tweets, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,20" BorderThickness="0,0,0,0" >
                             <ListBox.ContextMenu>
                                 <ContextMenu Name="recent_context_menu">
                                     <MenuItem Header="Reply" x:Name="menu_reply" ></MenuItem>
@@ -95,7 +95,7 @@
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                         </ListBox>
-                        <Border Height="21" behaviors:ClickBehavior.LeftClick="{Binding Commands[ToggleUpdate]}"  Background="{StaticResource UpdateBackgroundBrush}" VerticalAlignment="Bottom" Padding="10,0,10,0" x:Name="update" BorderBrush="{DynamicResource PrimaryBackgroundBrush}" BorderThickness="0,0,0,1" ToolTip="Display update panel">
+                        <Border Height="21" behaviors:ClickBehavior.LeftClick="{Binding toggle_update}"  Background="{StaticResource UpdateBackgroundBrush}" VerticalAlignment="Bottom" Padding="10,0,10,0" x:Name="update" BorderBrush="{DynamicResource PrimaryBackgroundBrush}" BorderThickness="0,0,0,1" ToolTip="Display update panel">
                             <DockPanel OpacityMask="#FF000000" x:Name="dock_panel">
                                 <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Top" Text="Update" TextWrapping="Wrap" VerticalAlignment="Top" x:Name="update_text_block" Margin="0,2,0,0" />
                 <Grid Margin="0,5,0,10">
@@ -103,10 +103,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
-                  <TextBox Text="{Binding Objects[UpdateText].Value, Mode=TwoWay}" TextWrapping="Wrap" x:Name="tweet_text_box" SpellCheck.IsEnabled="True" />
+                  <TextBox Text="{Binding update_text, Mode=TwoWay}" TextWrapping="Wrap" x:Name="tweet_text_box" SpellCheck.IsEnabled="True" />
                   <TextBlock Text="{Binding Path=Text.Length, Converter={StaticResource CharRemainingConverter}, ElementName=tweet_text_box, Mode=Default}" FontSize="18" 
                   Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" FontFamily="Georgia" x:Name="char_remaining_counter" Foreground="#FF52626F" />
-                  <Button VerticalAlignment="Bottom" Width="75" Height="23" Content="Update" Grid.Column="1" behaviors:ClickBehavior.LeftClick="{Binding Commands[UpdateStatus] }" x:Name="update_button" Margin="10,0,0,0" IsDefault="True" />
+                  <Button VerticalAlignment="Bottom" Width="75" Height="23" Content="Update" Grid.Column="1" behaviors:ClickBehavior.LeftClick="{Binding update_status }" x:Name="update_button" Margin="10,0,0,0" IsDefault="True" />
                 </Grid>
               </DockPanel>
                         </Border>

@@ -2,7 +2,21 @@ module IronNails
   
   module Models
     
-    class DirectMessage 
+    class DirectMessage
+
+      @@properties = %w(created_at id text sender_id recipient_id sender_screen_name recipient_screen_name)
+      @@children = %w(sender recipient)
+
+      def self.properties
+        @@properties
+      end
+
+      def self.children
+        @@children
+      end
+
+      attr_accessor *properties
+      attr_accessor *children
       
       def self.all(credentials, &callback)
         options = { :url => Constants::Urls::DIRECT_MESSAGES, :credentials => credentials, :root_path => 'direct-messages/direct_message' }
@@ -35,13 +49,7 @@ module IronNails
         stat
       end
       
-      def self.properties
-        %w(created_at id text sender_id recipient_id sender_screen_name recipient_screen_name)
-      end
-      
-      def self.children
-        %w(sender recipient)
-      end
+
       
       
       

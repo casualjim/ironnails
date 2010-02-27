@@ -41,7 +41,6 @@ require "System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f
 # load IronNails static CLR helpers 
 puts "Loading IronNails.Library"
 require File.dirname(__FILE__) + '/bin/IronNails.Library.dll'
-include IronNails::Helpers
 
 # load IronRuby files of the IronNails framework
 puts "Loading the IronNails framework"

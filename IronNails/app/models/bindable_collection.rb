@@ -1,6 +1,6 @@
 module IronNails::Models
 
-  class BindableCollection 
+  class BindableCollection < System::Collections::ObjectModel::ObservableCollection[System::Object]
   
     def initialize(list)
       list.map { |item| self.add item }

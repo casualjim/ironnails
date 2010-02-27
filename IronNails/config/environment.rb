@@ -1,5 +1,5 @@
-IronNails::Logging::FRAMEWORK_LOGGING = false
-IronNails::Logging::CONSOLE_LOGGING = false
+IronNails::Logging::FRAMEWORK_LOGGING = true
+IronNails::Logging::CONSOLE_LOGGING = true
 
 IronNails::Initializer.run do |config|
   
@@ -7,7 +7,6 @@ IronNails::Initializer.run do |config|
           IronNails
           IronNails::Core
           IronNails::Models
-          IronNails::ViewModels
           System::Diagnostics
           System::Security
           System::Globalization

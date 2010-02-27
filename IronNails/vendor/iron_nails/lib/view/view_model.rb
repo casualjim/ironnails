@@ -7,33 +7,17 @@ module IronNails
     
       include IronNails::Logging::ClassLogger
       
-      def initialize()
-        initialize_dictionaries
-      end 
-      
       def __view_model_name_
         self.class.demodulize.underscore
       end
     
       # adds a model for the view in the dictionary
       def add_model(k, v)
-        key = k.to_s.camelize
-        changed = false
-        wpf_value = unless objects.contains_key(key) 
-          changed = true
-          IronNails::Library::WpfValue.of(System::Object).new(v)
-        else
-          val = objects.get_value(key)
-          unless v == val.value
-            val.value = v
-            changed = true
-          end
-          val          
+        unless self.respond_to?(k) && self.respond_to?(:"#{k}=")
+          logger.debug "adding object to the view model #{k}", IRONNAILS_FRAMEWORKNAME
+          self.class.attr_accessor k
         end
-        if changed
-          logger.debug "setting objects entry: #{key}", IRONNAILS_FRAMEWORKNAME
-          objects.set_entry(key, wpf_value)
-        end
+        self.send :"#{k}=", v if self.send(k) != v
       end
       alias_method :set_model, :add_model
       
@@ -45,11 +29,12 @@ module IronNails
       # Commands dictionary on the ViewModel class
       def add_command(cmd)
         dc = cmd.to_clr_command
-        cmd_name = cmd.name.to_s.camelize
-        unless commands.contains_key(cmd_name)
-          logger.debug "adding command to the view #{cmd.name}", IRONNAILS_FRAMEWORKNAME
-          commands.set_entry(cmd_name, dc) 
+        cmd_name = cmd.name.to_s
+        unless self.respond_to?(cmd_name.to_sym) && self.respond_to?(:"#{cmd_name}=")
+          logger.debug "adding command to the view model #{cmd_name}", IRONNAILS_FRAMEWORKNAME
+          self.class.attr_accessor cmd_name.to_sym
         end
+        self.send :"#{cmd_name}=", dc     
       end
             
     end

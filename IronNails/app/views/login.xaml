@@ -10,10 +10,10 @@
     <Border x:Name="layout_root" CornerRadius="5,5,5,5" BorderBrush="{DynamicResource PrimaryBorderBrush}" BorderThickness="1,0,1,1" Background="{DynamicResource LoginBackgroundBrush}">
         <StackPanel Width="150" VerticalAlignment="Center">
             <Label Content="Username:"/>
-            <TextBox HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="{Binding Objects[Username].Value}"  x:Name="username" TextWrapping="Wrap"/>
+            <TextBox HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="{Binding user_name}"  x:Name="username" TextWrapping="Wrap"/>
             <Label Content="Password:"/>
             <PasswordBox HorizontalAlignment="Stretch" Margin="5,0,0,0" x:Name="password"  Width="Auto"/>
-            <Button HorizontalAlignment="Stretch" Margin="10,15,10,0" behaviors:ClickBehavior.LeftClick="{Binding Commands[Authenticate] }" x:Name="login_button" Content="Login" IsDefault="True"/>
+            <Button HorizontalAlignment="Stretch" Margin="10,15,10,0" behaviors:ClickBehavior.LeftClick="{Binding authenticate }" x:Name="login_button" Content="Login" IsDefault="True"/>
         </StackPanel>
     </Border>
 </UserControl>

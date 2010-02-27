@@ -179,18 +179,18 @@ module IronNails
       end
       
       def play_storyboard(storyboard_name)
-        storyboard = Workarounds.get_resource instance.resources, storyboard_name
+        storyboard = instance.resources[storyboard_name]
         storyboard.begin instance unless storyboard.nil?
       end
       
       def stop_storyboard(storyboard_name)
-        storyboard = Workarounds.get_resource instance.resources, storyboard_name
+        storyboard = instance.resources[storyboard_name]
         storyboard.stop instance unless storyboard.nil?
       end
       
       # tells this proxy to render itself with the changed information
       def refresh
-        Workarounds.refresh @instance
+        @instance.refresh
       end     
       
       def method_missing(sym, *args, &blk)

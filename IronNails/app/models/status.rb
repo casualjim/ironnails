@@ -1,10 +1,24 @@
-
+require File.dirname(__FILE__) + "/tweet_base"
 module IronNails
   
   module Models
     
-    class Status
-      
+    class Status < TweetBase
+
+      @@properties = %w(created_at id text source truncated in_reply_to_status_id in_reply_to_user_id favorited)
+      @@children = %w(user)
+
+      def self.properties
+        @@properties
+      end
+
+      def self.children
+        @@children
+      end
+
+      attr_accessor *properties
+      attr_accessor *children
+
       class << self
       
         def timeline_with_friends(credentials, &callback)
@@ -35,13 +49,7 @@ module IronNails
           request.get
         end
         
-        def properties
-          %w(created_at id text source truncated in_reply_to_status_id in_reply_to_user_id favorited)
-        end
-        
-        def children
-          %w(user)
-        end
+
         
         def parse_post_response(reader, original_message)
           item = nil 

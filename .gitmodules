@@ -1,0 +1,3 @@
+[submodule "vendor/ironruby_inline"]
+	path = vendor/ironruby_inline
+	url = git://github.com/rvernagus/IronRubyInline.git

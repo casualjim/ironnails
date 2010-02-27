@@ -198,14 +198,15 @@ module IronNails
       end
       
       def register_viewmodel_for(controller)
-        # FIXME: The line below will be more useful when we can bind to IronRuby objects
-        # Object.const_set options[:class_name], Class.new(ViewModel) unless Object.const_defined? options[:class_name]     
+        vm_class_name = controller.view_model_name.camelize
+        Object.const_set vm_class_name, Class.new unless Object.const_defined? vm_class_name
         
         # TODO: There is an issue with namespacing and CLR classes, they aren't registered as constants with
         #       IronRuby. This makes it hard to namespace viewmodels. If the namespace is included everything 
         #       should work as normally. Will revisit this later to properly fix it.        
         vm_name = controller.view_model_name
-        klass = Object.const_get vm_name.camelize
+        klass = Object.const_get vm_class_name
+        klass.send :include, IronNails::Models::Databinding
         klass.send :include, IronNails::View::ViewModelMixin
         key = vm_name.to_sym
         view_models[key] = klass.new if view_models[key].nil?

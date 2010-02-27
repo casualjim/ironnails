@@ -1,14 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronNails.Contracts", "IronNails.Contracts\IronNails.Contracts.csproj", "{EE06546F-58C9-454D-95BD-F408084B2BB5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronNails.Library", "IronNails.Library\IronNails.Library.csproj", "{328B9941-D068-4EDE-9994-A59F1B1AE530}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{8546FE8D-18B4-4487-AB13-9AB3EB70F2BF}"
 	ProjectSection(SolutionItems) = preProject
 		README = README
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronNails.Contracts", "IronNails.Contracts\IronNails.Contracts.csproj", "{EE06546F-58C9-454D-95BD-F408084B2BB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronNails.Library", "IronNails.Library\IronNails.Library.csproj", "{328B9941-D068-4EDE-9994-A59F1B1AE530}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

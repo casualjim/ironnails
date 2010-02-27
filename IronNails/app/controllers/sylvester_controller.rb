@@ -77,11 +77,16 @@ class SylvesterController < IronNails::Controller::Base
   end 
   
   def authenticate
+    puts "authenticating"
+    logger.debug "Setting status message"
     @status_bar_message = "Logging in"
+    logger.debug "refreshing view"
     refresh_view
+    logger.debug "creating credentials"
     @credentials = Credentials.new @username, @password.to_s.to_secure_string
+    logger.debug "logging in"
     @current_user = User.login(credentials)
-    
+    logger.debug "logged in"
     logged_in #unless current_user.nil?
   end
   

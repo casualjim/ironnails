@@ -2,13 +2,13 @@ module IronNails
   
   module Security
     
-    # this doesn't work yet. There is a C# alternative IronNails::Library::SecureString
     class SecureString
       
-      ENCRYPTION_SALT = "SailsPasswordSalt"
+      ENCRYPTION_SALT = "SailsPasswordSalt".freeze
+
       
       
-      @@entropy = StaticTypingHelper.get_unicode_bytes("SailsPasswordSalt")
+      @@entropy = System::Text::Encoding.unicode.get_bytes(ENCRYPTION_SALT)
       
       class << self
         include System::Security::Cryptography
@@ -16,10 +16,10 @@ module IronNails
       
         def encrypt_string(input)
           encrypted_data = ProtectedData.protect(
-            StaticTypingHelper.get_unicode_bytes(unsecure_string(input)),
+            System::Text::Encoding.unicode.get_bytes(unsecure_string(input)),
             @@entropy,
             DataProtectionScope.current_user)
-          StaticTypingHelper.convert_to_base64_string(encrypted_data)
+          System::Convert.to_base64_string(encrypted_data)
         end 
         
         def secure_string(input)
@@ -46,7 +46,7 @@ module IronNails
               Convert.from_base64_string(encrypted_data),
               @@entropy,
               DataProtectionScope.current_user);
-            secure_string(StaticTypingHelper.get_unicode_bytes(decrypted_data));
+            secure_string(System::Text::Encoding.unicode.get_bytes(decrypted_data));
           rescue
             System::Security::SecureString.new
           end

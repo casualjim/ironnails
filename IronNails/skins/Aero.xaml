@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
   xmlns:aero="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" 
   xmlns:converters="clr-namespace:IronNails.Converters;assembly=IronNails.Contracts" 
@@ -68,13 +68,13 @@
         </Border>
       </Grid>
       <DockPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
-        <TextBlock Text="{Binding Path=User.ScreenName, FallbackValue=Screen Name}" FontWeight="Bold" FontSize="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" x:Name="ScreenName" Cursor="Hand" ToolTip="View this user's recent tweets" />
+        <TextBlock Text="{Binding Path=user.screen_name, FallbackValue=Screen Name}" FontWeight="Bold" FontSize="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" x:Name="ScreenName" Cursor="Hand" ToolTip="View this user's recent tweets" />
         <Button Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,5,0" Visibility="Collapsed" x:Name="ReplyButton">
             <TextBlock TextWrapping="Wrap" Text="@" VerticalAlignment="Center" x:Name="textBlock" />
         </Button>
       </DockPanel>
       <WrapPanel Grid.Column="1" Grid.Row="1">
-        <controls:TweetTextBlock x:Name="TweetText" TweetText="{Binding Path=Text, FallbackValue=Tweet Text}" TextWrapping="Wrap" Margin="0,0,5,0" />
+        <controls:TweetTextBlock x:Name="TweetText" TweetText="{Binding Path=text, FallbackValue=Tweet Text}" TextWrapping="Wrap" Margin="0,0,5,0" />
         <TextBlock Text="{Binding Path=HumanizedTime, FallbackValue=1 minute ago}" FontStyle="Italic" Margin="0,0,3.5,0" Foreground="{DynamicResource SubForegroundBrush}" ToolTip="{Binding Path=CreatedAt, Mode=Default}" />
         <TextBlock Text="{Binding Path=Source, Mode=Default, FallbackValue=from web}" FontStyle="Italic" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource SubForegroundBrush}" />
       </WrapPanel>
