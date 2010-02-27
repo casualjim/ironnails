@@ -1,6 +1,8 @@
 IronNails::Logging::FRAMEWORK_LOGGING = true
 IronNails::Logging::CONSOLE_LOGGING = true
 
+#require 'twitter'
+
 IronNails::Initializer.run do |config|
 
   config.namespaces.concat %w(

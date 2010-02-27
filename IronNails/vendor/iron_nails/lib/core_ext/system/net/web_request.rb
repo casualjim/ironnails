@@ -10,9 +10,9 @@ class System::Net::WebRequest
     self.content_type = "application/x-www-form-urlencoded"
     self.content_length = params.length
 
-    using (stream = StreamWriter.new(self.get_request_stream, System::Text::Encoding.ASCII)) {
-            stream.write params
-    }
+    using (stream = StreamWriter.new(self.get_request_stream, System::Text::Encoding.ASCII)) do
+      stream.write params
+    end
 
     params
   end

@@ -81,6 +81,7 @@
     <Compile Include="Behaviors\Helpers.cs" />
     <Compile Include="Behaviors\MouseBehavior.cs" />
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="ObservableDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

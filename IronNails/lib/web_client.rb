@@ -28,7 +28,7 @@ module IronNails
         raise ArgumentError.new("You need to provide me with parsing algorithm") if parse_response.nil?
 
         web_request.credentials = credentials.to_network_credentials
-        web_request.method = "GET"
+        web_request.Method = "GET"
         if block_given? || async
           web_request.perform_async_get parse_response, &callback
         else
@@ -40,7 +40,7 @@ module IronNails
         raise ArgumentError.new("You need to provide me with parsing algorithm") if parse_response.nil?
 
         web_request.credentials = credentials.to_network_credentials
-        web_request.method = "GET"
+        web_request.Method = "GET"
         if block_given?
           web_request.perform_async_get &callback
         else

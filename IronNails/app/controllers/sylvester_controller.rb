@@ -19,7 +19,7 @@ class SylvesterController < IronNails::Controller::Base
   view_action :update_status
 
 
-  attr_accessor :current_user, :credentials
+  attr_accessor :current_user
 
   def init_controller
     @expanded = false
@@ -41,13 +41,14 @@ class SylvesterController < IronNails::Controller::Base
   end
 
   def refresh_tweets
-    @tweets.merge! Status.timeline_with_friends(credentials)
+    @tweets.merge! Status.timeline_with_friends(@credentials)
     @status_bar_message = "Refreshed tweets"
   end
 
   def logged_in
     unless @current_user.nil?
-      @tweets = Status.timeline_with_friends credentials
+      logger.debug "Fetching timeline with friends: #{@credentials.username}"
+      @tweets = Status.timeline_with_friends @credentials
       @status_bar_message = "Received tweets"
       on_view(:login) do |proxy|
         proxy.visibility= :hidden
@@ -77,15 +78,11 @@ class SylvesterController < IronNails::Controller::Base
   end
 
   def authenticate
-    puts "authenticating"
-    logger.debug "Setting status message"
     @status_bar_message = "Logging in"
-    logger.debug "refreshing view"
     refresh_view
     logger.debug "creating credentials #{@username}, #{@password}"
     @credentials = Credentials.new @username, @password.to_s.to_secure_string
-    logger.debug "logging in"
-    @current_user = User.login(credentials)
+    @current_user = User.login(@credentials)
     logger.debug "logged in"
     logged_in #unless current_user.nil?
   end

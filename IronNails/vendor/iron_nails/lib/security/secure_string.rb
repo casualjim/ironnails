@@ -24,13 +24,13 @@ module IronNails
 
         def secure_string(input)
           secure = System::Security::SecureString.new
-          input.each {|c| secure.append_char c.to_clr_char }
+          input.to_s.to_clr_string.to_char_array.each {|c| secure.append_char c }
           secure.make_read_only
           secure
         end
 
         def unsecure_string(input)
-          return input.to_s unless input.is_a? System::Security::SecureString
+          #return input.to_s unless input.is_a? System::Security::SecureString
           result = ""
           ptr = System::Runtime::InteropServices::Marshal.SecureStringToBSTR(input);
           begin

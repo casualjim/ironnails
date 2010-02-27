@@ -17,7 +17,7 @@ class String
   end
 
   def to_created_time
-    Time.parse_exact self, Constants::DateFormats::CREATED_AT_FORMAT, CultureInfo.get_culture_info_by_ietf_language_tag("en-us"), DateTimeStyles.allow_white_spaces
+    DateTime.parse_exact self, Constants::DateFormats::CREATED_AT_FORMAT, CultureInfo.get_culture_info_by_ietf_language_tag("en-us"), DateTimeStyles.allow_white_spaces
   end
 
   def truncate_tweet
