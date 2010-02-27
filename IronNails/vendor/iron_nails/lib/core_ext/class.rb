@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/class/attribute_accessors' 
+require File.dirname(__FILE__) + '/class/attribute_accessors'
 
 class Class
 

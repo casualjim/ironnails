@@ -3,7 +3,7 @@ module IronNails
   module Models
 
 
-    
+
 
     class Base
 

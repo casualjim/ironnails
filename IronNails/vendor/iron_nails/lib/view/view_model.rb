@@ -1,16 +1,16 @@
 module IronNails
 
   module View
-    
+
     # The base class for view models in an IronNails application.
-    module ViewModelMixin 
-    
+    module ViewModelMixin
+
       include IronNails::Logging::ClassLogger
-      
+
       def __view_model_name_
         self.class.demodulize.underscore
       end
-    
+
       # adds a model for the view in the dictionary
       def add_model(k, v)
         unless self.respond_to?(k) && self.respond_to?(:"#{k}=")
@@ -19,8 +19,9 @@ module IronNails
         end
         self.send :"#{k}=", v if self.send(k) != v
       end
+
       alias_method :set_model, :add_model
-      
+
       # configures a command appropriately on the view.
       # for an EventCommand it will pass it to the view and the view will attach the
       # appropriate events
@@ -34,11 +35,11 @@ module IronNails
           logger.debug "adding command to the view model #{cmd_name}", IRONNAILS_FRAMEWORKNAME
           self.class.attr_accessor cmd_name.to_sym
         end
-        self.send :"#{cmd_name}=", dc     
+        self.send :"#{cmd_name}=", dc
       end
-            
+
     end
-      
+
   end
-  
+
 end

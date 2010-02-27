@@ -1,12 +1,12 @@
 # Inspired by the Buffered Logger from Ezra (Merb)
 # Taken from active_support
 module IronNails
-  
+
   module Logging
-    
+
     FRAMEWORK_LOGGING = true unless defined? FRAMEWORK_LOGGING
     CONSOLE_LOGGING = true unless defined? CONSOLE_LOGGING
-    
+
     class BufferedLogger
       module Severity
         DEBUG   = 0
@@ -17,13 +17,13 @@ module IronNails
         UNKNOWN = 5
       end
       include Severity
-      
+
       MAX_BUFFER_SIZE = 1000
-      
+
       # Set to false to disable the silencer
       cattr_accessor :silencer
       self.silencer = true
-      
+
       # Silences the logger for the duration of the block.
       def silence(temporary_level = ERROR)
         if silencer
@@ -37,17 +37,17 @@ module IronNails
           yield self
         end
       end
-      
+
       attr_accessor :level
       attr_reader :auto_flushing
       attr_reader :buffer
-      
+
       def initialize(log, level = DEBUG)
         @level         = level
         @buffer        = []
         @auto_flushing = 1
         @no_block = false
-        
+
         if log.respond_to?(:write)
           @log = log
         elsif File.exist?(log)
@@ -60,13 +60,13 @@ module IronNails
           @log.write("# Logfile created on %s" % [Time.now.to_s])
         end
       end
-      
+
       def set_non_blocking_io
         if !RUBY_PLATFORM.match(/java|mswin/) && !(@log == STDOUT) && @log.respond_to?(:write_nonblock)
           @no_block = true
         end
       end
-      
+
       def add(severity, message = nil, progname = nil, &block)
         from_framework = progname == IRONNAILS_FRAMEWORKNAME
         return if @level > severity || (from_framework && !IronNails::Logging::FRAMEWORK_LOGGING )
@@ -80,7 +80,7 @@ module IronNails
         auto_flush
         message
       end
-      
+
       for severity in Severity.constants
         class_eval <<-EOT, __FILE__, __LINE__
         def #{severity.downcase}(message = nil, progname = nil, &block)
@@ -90,23 +90,27 @@ module IronNails
         def #{severity.downcase}?
           #{severity} >= @level
         end
-      EOT
+        EOT
       end
-      
+
       # Set the auto-flush period. Set to true to flush after every log message,
       # to an integer to flush every N messages, or to false, nil, or zero to
       # never auto-flush. If you turn auto-flushing off, be sure to regularly
       # flush the log yourself -- it will eat up memory until you do.
       def auto_flushing=(period)
         @auto_flushing =
-        case period
-        when true;                1
-        when false, nil, 0;       MAX_BUFFER_SIZE
-        when Integer;             period
-        else raise ArgumentError, "Unrecognized auto_flushing period: #{period.inspect}"
-        end
+                case period
+                  when true;
+                    1
+                  when false, nil, 0;
+                    MAX_BUFFER_SIZE
+                  when Integer;
+                    period
+                  else
+                    raise ArgumentError, "Unrecognized auto_flushing period: #{period.inspect}"
+                end
       end
-      
+
       def flush
         unless buffer.empty?
           if @no_block
@@ -116,19 +120,19 @@ module IronNails
           end
         end
       end
-      
+
       def close
         flush
         @log.close if @log.respond_to?(:close)
         @log = nil
       end
-      
+
       protected
-        def auto_flush
-          flush if buffer.size >= @auto_flushing
-        end
+      def auto_flush
+        flush if buffer.size >= @auto_flushing
+      end
     end
-    
+
   end
-  
+
 end

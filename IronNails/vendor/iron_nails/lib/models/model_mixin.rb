@@ -4,7 +4,7 @@ module IronNails
 
     module ModelMixin
 
-      include IronNails::Logging::ClassLogger      
+      include IronNails::Logging::ClassLogger
 
     end
 

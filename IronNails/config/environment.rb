@@ -2,7 +2,7 @@ IronNails::Logging::FRAMEWORK_LOGGING = true
 IronNails::Logging::CONSOLE_LOGGING = true
 
 IronNails::Initializer.run do |config|
-  
+
   config.namespaces.concat %w(
           IronNails
           IronNails::Core

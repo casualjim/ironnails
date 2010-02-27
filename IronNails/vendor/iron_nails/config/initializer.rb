@@ -1,6 +1,6 @@
-  def include_global_namespaces(namespaces)
-    namespaces.each { |namespace| include(eval(namespace)) }
-  end
+def include_global_namespaces(namespaces)
+  namespaces.each { |namespace| include(eval(namespace)) }
+end
 
 module IronNails
 
@@ -9,15 +9,15 @@ module IronNails
     def configuration
       @@configuration
     end
-    
+
     def configuration=(configuration)
       @@configuration = configuration
     end
-    
+
     def logger
       IRONNAILS_DEFAULT_LOGGER
     end
-    
+
     def root
       if defined?(IRONNAILS_ROOT)
         IRONNAILS_ROOT
@@ -25,17 +25,17 @@ module IronNails
         nil
       end
     end
-    
+
     def env
       IRONNAILS_ENV
     end
-    
+
     def version
       IronNails::VERSION::STRING
     end
-    
+
   end
-  
+
   # This structure has been heavily inspired by the rails framework.
   # The Configuration class holds all the parameters for the Initializer
   # Usually, you'll create a Configuration file implicitly through the block
@@ -46,32 +46,32 @@ module IronNails
   #   config = IronNails::Configuration.new
   #   IronNails::Initializer.run(config)
   class Initializer
-        
+
     def initialize(configuration)
       IronNails.configuration = configuration
-      
+
       initialize_logger
-      
+
       set_constants
       require_binaries
       include_namespaces
       require_application_files
     end
-    
+
     def self.run(configuration = Configuration.new)
       yield configuration if block_given?
       initializer = new configuration
       initializer
     end
-    
+
     def configuration
       IronNails.configuration
-    end 
-    
+    end
+
     def set_constants
       logger.debug "setting application constants", IRONNAILS_FRAMEWORKNAME
     end
-    
+
     # If the IRONNAILS_DEFAULT_LOGGER constant is already set, this initialization
     # routine does nothing. If the constant is not set, and Configuration#logger
     # is not +nil+, this also does nothing. Otherwise, a new logger instance
@@ -83,7 +83,7 @@ module IronNails
     def initialize_logger
       # if the environment has explicitly defined a logger, use it
       return if defined?(IRONNAILS_DEFAULT_LOGGER)
-      
+
       unless logr = configuration.logger
         begin
           logr = IronNails::Logging::BufferedLogger.new(configuration.log_path)
@@ -96,49 +96,49 @@ module IronNails
           logr = IronNails::Logging::BufferedLogger.new(STDERR)
           logr.level = IronNails::Logging::BufferedLogger::WARN
           logr.warn(
-            "IronNails Error: Unable to access log file. Please ensure that #{configuration.log_path} exists and is chmod 0666. " +
-            "The log level has been raised to WARN and the output directed to STDERR until the problem is fixed. #{e}" 
+                  "IronNails Error: Unable to access log file. Please ensure that #{configuration.log_path} exists and is chmod 0666. " +
+                          "The log level has been raised to WARN and the output directed to STDERR until the problem is fixed. #{e}"
           )
         end
         logr.debug "initializing logger", IRONNAILS_FRAMEWORKNAME
       end
-      
+
       silence_warnings { Object.const_set "IRONNAILS_DEFAULT_LOGGER", logr }
     end
-    
+
     def logger
       IRONNAILS_DEFAULT_LOGGER
     end
-    
-    
+
+
     def require_binaries
       logger.debug "requiring binaries from bin", IRONNAILS_FRAMEWORKNAME
       configuration.assembly_paths.each do |path|
         require_files path, :dll
       end
     end
-    
-    
+
+
     def include_namespaces
       logger.debug "Including namespaces", IRONNAILS_FRAMEWORKNAME
       #include_global_namespaces configuration.namespaces
       configuration.namespaces.each { |namespace| Object.send :include, eval(namespace) }
-    end 
-    
+    end
+
     def require_application_files
       logger.debug "requiring application files", IRONNAILS_FRAMEWORKNAME
       configuration.application_paths.each do |path|
         require_files path, :rb
       end
-    end 
-    
+    end
+
     def require_files(path, extension)
-      Dir.glob("#{File.expand_path(path)}/*.#{extension}").each do |file| 
+      Dir.glob("#{File.expand_path(path)}/*.#{extension}").each do |file|
         # puts "#{file}"
         require "#{file}" unless configuration.excluded_file? file
       end
     end
-    
+
   end
-  
+
 end

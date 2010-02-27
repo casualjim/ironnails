@@ -1,14 +1,14 @@
 puts "initializing ruby libraries and gems"
 begin
-  require 'logger' 
+  require 'logger'
   require 'fileutils'
   require 'forwardable'
 rescue LoadError => e
   msg = "It looks like you tried to load the application without passing the"
-  msg << " library paths to IronRuby.\n" 
+  msg << " library paths to IronRuby.\n"
   msg << "You can fix that by passing the following switch to ir\n(replace C:\\tools\\ruby and c:\\tools\\ironruby with the paths for your configuration):\n"
   msg << "ir -I 'C:\\tools\\ironruby\\libs;C:\\tools\\ruby\\lib\\ruby\\site_ruby\\1.8;C:\\tools\\ruby\\lib\\ruby\\1.8'\n"
-  msg << "or you could change the first line of the rake file (Rakefile.rb) to reflect your configuration\n" 
+  msg << "or you could change the first line of the rake file (Rakefile.rb) to reflect your configuration\n"
   raise LoadError.new(msg)
 end
 

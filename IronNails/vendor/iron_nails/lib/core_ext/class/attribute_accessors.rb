@@ -28,7 +28,7 @@ class Class
       EOS
     end
   end
-  
+
   def cattr_writer(*syms)
     options = syms.extract_options!
     syms.flatten.each do |sym|
@@ -49,7 +49,7 @@ class Class
       EOS
     end
   end
-  
+
   def cattr_accessor(*syms)
     cattr_reader(*syms)
     cattr_writer(*syms)

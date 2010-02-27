@@ -13,7 +13,7 @@ module Kernel
   ensure
     $VERBOSE = old_verbose
   end
-  
+
   def using(o)
     begin
       yield if block_given?
@@ -23,6 +23,6 @@ module Kernel
       o.dispose true if o
     end
   end
-  
+
 
 end
