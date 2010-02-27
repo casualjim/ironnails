@@ -15,9 +15,9 @@ module IronNails
       def add_model(k, v)
         unless self.respond_to?(k) && self.respond_to?(:"#{k}=")
           logger.debug "adding object to the view model #{k}", IRONNAILS_FRAMEWORKNAME
-          self.class.attr_accessor k
+          self.class.send :attr_accessor, k
         end
-        self.send :"#{k}=", v if self.send(k) != v
+        self.send :"#{k}=", v
       end
 
       alias_method :set_model, :add_model
@@ -33,7 +33,7 @@ module IronNails
         cmd_name = cmd.name.to_s
         unless self.respond_to?(cmd_name.to_sym) && self.respond_to?(:"#{cmd_name}=")
           logger.debug "adding command to the view model #{cmd_name}", IRONNAILS_FRAMEWORKNAME
-          self.class.attr_accessor cmd_name.to_sym
+          self.class.send :attr_accessor, cmd_name.to_sym
         end
         self.send :"#{cmd_name}=", dc
       end

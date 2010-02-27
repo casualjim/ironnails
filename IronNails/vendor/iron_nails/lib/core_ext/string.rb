@@ -36,7 +36,7 @@ class String
   end
 
   def to_secure_string
-    IronNails::Security::SecureString.to_secure_string self
+    IronNails::Security::SecureString.secure_string self
   end
 
   def decrypt

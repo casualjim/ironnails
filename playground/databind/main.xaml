@@ -6,7 +6,7 @@
 	>
 	
 	<StackPanel >
-		<ListView x:Name="people_list">
+		<ListView x:Name="people_list" ItemsSource="{Binding people}">
 			<ListView.View>
 				<GridView>
 				  <GridViewColumn Width="140" Header="Name" 
@@ -16,6 +16,7 @@
 				</GridView>
 			  </ListView.View>
 		</ListView>
+		<TextBox x:Name="tb_new_name" Text="{Binding new_name}" />
 		<Button x:Name="change_name" Content="Click Me!" />
 	</StackPanel>
 </Window>

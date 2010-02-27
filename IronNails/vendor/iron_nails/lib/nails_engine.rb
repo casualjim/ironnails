@@ -336,10 +336,14 @@ module IronNails
 
       def synchronise_to_controller(controller)
         objects = controller.instance_variable_get "@objects"
-        model = registry.viewmodel_for controller #.objects.collect { |kvp| kvp.key.to_s.underscore.to_sym }
+        #model = registry.viewmodel_for controller #.objects.collect { |kvp| kvp.key.to_s.underscore.to_sym }
+        vw = registry.view_for controller
+        model = vw.proxy.data_context
         objects.each do |k, v|
-          if model.objects.contains_key(k.to_s.camelize)
-            val = model.objects.get_value(k.to_s.camelize).value
+          if model.respond_to?(k.to_sym)
+            val = model.send k.to_sym
+
+            logger.debug "synchronising #{k}, with value #{val}", IRONNAILS_FRAMEWORKNAME
             objects[k] = val
             controller.instance_variable_set "@#{k}", val
           end
@@ -347,6 +351,7 @@ module IronNails
         view_properties = controller.instance_variable_get "@view_properties"
         view_properties.each do |k, v|
           val = from_view controller, (v[:view]||controller.view_name), v[:element], v[:property]
+          logger.debug "synchronising #{k}, with value #{val}", IRONNAILS_FRAMEWORKNAME
           instance_variable_set "@#{k}", val
         end
       end

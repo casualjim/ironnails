@@ -82,7 +82,7 @@ class SylvesterController < IronNails::Controller::Base
     @status_bar_message = "Logging in"
     logger.debug "refreshing view"
     refresh_view
-    logger.debug "creating credentials"
+    logger.debug "creating credentials #{@username}, #{@password}"
     @credentials = Credentials.new @username, @password.to_s.to_secure_string
     logger.debug "logging in"
     @current_user = User.login(credentials)

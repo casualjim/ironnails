@@ -5,7 +5,7 @@ module System
     class SecureString
 
       def to_insecure_string
-        IronNails::Security::SecureString.to_insecure_string self
+        IronNails::Security::SecureString.unsecure_string self
       end
 
       def encrypt
