@@ -12,6 +12,7 @@ applications with IronRuby and Windows Presentation Foundation (WPF).}
     gem.homepage = "http://github.com/casualjim/ironnails"
     gem.authors = ["Ivan Porto Carrero"]
     gem.add_development_dependency "rspec", ">= 0"
+    gem.files = FileList["[A-Z]*", "{lib}/**/*"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

@@ -6,8 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		README = README
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronNails.Contracts", "IronNails.Contracts\IronNails.Contracts.csproj", "{EE06546F-58C9-454D-95BD-F408084B2BB5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronNails.Library", "IronNails.Library\IronNails.Library.csproj", "{328B9941-D068-4EDE-9994-A59F1B1AE530}"
 EndProject
 Global
@@ -20,16 +18,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{EE06546F-58C9-454D-95BD-F408084B2BB5}.Release|x86.ActiveCfg = Release|Any CPU
 		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{328B9941-D068-4EDE-9994-A59F1B1AE530}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
