@@ -1,4 +1,3 @@
-# A wrapper module that will contain all the relevant objects for our twitter application
 module IronNails
 
   # This structure has been heavily inspired by the rails framework.
