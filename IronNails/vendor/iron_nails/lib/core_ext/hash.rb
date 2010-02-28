@@ -6,7 +6,7 @@ class Hash
 
     self.each do |k, v|
       params += "&" unless params.empty?
-      params += "#{k}=#{HttpUtility.url_encode(v)}"
+      params += "#{k}=#{HttpUtility.url_encode(v.to_s.to_clr_string)}"
     end
 
     params

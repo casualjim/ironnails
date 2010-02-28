@@ -19,7 +19,7 @@ class SylvesterController < IronNails::Controller::Base
   view_action :update_status
 
 
-  attr_accessor :current_user
+  attr_accessor :current_user, :credentials
 
   def init_controller
     @expanded = false
@@ -88,7 +88,7 @@ class SylvesterController < IronNails::Controller::Base
   end
 
   def logged_in?
-    !credentials.nil?
+    !current_user.nil?
   end
 
 

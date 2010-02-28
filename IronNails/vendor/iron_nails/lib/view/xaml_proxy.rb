@@ -179,12 +179,12 @@ module IronNails
       end
 
       def play_storyboard(storyboard_name)
-        storyboard = instance.resources[storyboard_name]
+        storyboard = instance.resources[storyboard_name.to_s.to_clr_string]
         storyboard.begin instance unless storyboard.nil?
       end
 
       def stop_storyboard(storyboard_name)
-        storyboard = instance.resources[storyboard_name]
+        storyboard = instance.resources[storyboard_name.to_s.to_clr_string]
         storyboard.stop instance unless storyboard.nil?
       end
 
@@ -224,17 +224,3 @@ module IronNails
   end
 
 end
-
-#module IronNails
-#
-#  module View
-
-class XamlProxy
-
-  def initialize
-    puts "Hello world"
-  end
-end
-
-#  end
-#end

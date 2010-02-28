@@ -6,7 +6,7 @@ class System::Net::WebRequest
 
     params = parameters.to_post_parameters
 
-    self.method = "POST"
+    self.clr_member(:Method=).call "POST"
     self.content_type = "application/x-www-form-urlencoded"
     self.content_length = params.length
 
@@ -18,7 +18,7 @@ class System::Net::WebRequest
   end
 
   def prepare_for_async_post(parameters = {}, &callback)
-    self.method = "POST"
+    self.clr_member(:Method=).call "POST"
     self.content_type = "application/x-www-form-urlencoded"
     self.content_length = parameters.to_post_parameters.length
 

@@ -17,6 +17,7 @@ module IronNails
       attr_accessor :web_request
 
       def initialize(url, credentials)
+        System::Net::ServicePointManager.expect_100_continue = false
         @url = url
         @credentials = credentials
         @web_request = System::Net::WebRequest.create url
@@ -28,7 +29,7 @@ module IronNails
         raise ArgumentError.new("You need to provide me with parsing algorithm") if parse_response.nil?
 
         web_request.credentials = credentials.to_network_credentials
-        web_request.Method = "GET"
+        web_request.clr_member(:Method=).call "GET"
         if block_given? || async
           web_request.perform_async_get parse_response, &callback
         else
@@ -40,7 +41,7 @@ module IronNails
         raise ArgumentError.new("You need to provide me with parsing algorithm") if parse_response.nil?
 
         web_request.credentials = credentials.to_network_credentials
-        web_request.Method = "GET"
+        web_request.clr_member(:Method=).call "GET"
         if block_given?
           web_request.perform_async_get &callback
         else
