@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:aero="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                     xmlns:local="clr-namespace:Witty"
-                    xmlns:converters="clr-namespace:Common.Converters;assembly=Common"
+                    xmlns:nails="clr-namespace:IronNails.Library;assembly=IronNails.Library"
                     xmlns:controls="clr-namespace:Common.Controls;assembly=Common">
 
-  <converters:IndexToIsAlternateRowConverter x:Key="IndexToIsAlternateRowConverter"/>
-  <converters:ImageConverter x:Key="ImageConverter"/>
+  <nails:IronNailsConverter x:Key="IndexToIsAlternateRowConverter" ConverterName="index_to_is_alternate_row" />
+  <nails:IronNailsConverter x:Key="ImageConverter" ConverterName="image" />
 
   <LinearGradientBrush x:Key="PrimaryBackgroundBrush" StartPoint="0.5,1" EndPoint="0.5,0">
     <GradientStop Color="#FF000104" Offset="0"/>

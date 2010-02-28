@@ -91,10 +91,6 @@
       <DependentUpon>FilterText.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TweetTextBlock.cs" />
-    <Compile Include="Converters\CharRemainingValueConverter.cs" />
-    <Compile Include="Converters\ImageConverter.cs" />
-    <Compile Include="Converters\IndexToIsAlternateRowConverter.cs" />
-    <Compile Include="Converters\RoundConverter.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

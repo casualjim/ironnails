@@ -49,24 +49,24 @@
     </DoubleAnimationUsingKeyFrames>
   </Storyboard>
   <Storyboard x:Key="ShowLogin">
-    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="login_control"
+    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LoginControl"
                                    Storyboard.TargetProperty="(FrameworkElement.Height)">
       <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0" KeySpline="0,0,0,1"/>
       <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0" KeySpline="0,0,0,1"/>
       <SplineDoubleKeyFrame KeyTime="00:00:00.7000000" Value="3" KeySpline="0,0,0,1"/>
       <SplineDoubleKeyFrame KeyTime="00:00:01.1000000" Value="270" KeySpline="0,0,0,1"/>
     </DoubleAnimationUsingKeyFrames>
-    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="login_control"
+    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LoginControl"
                                    Storyboard.TargetProperty="(FrameworkElement.Width)">
       <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0" KeySpline="0,0,0,1"/>
       <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0" KeySpline="0,0,0,1"/>
       <SplineDoubleKeyFrame KeyTime="00:00:00.7000000" Value="225" KeySpline="0,0,0,1"/>
     </DoubleAnimationUsingKeyFrames>
-    <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="Tabs"
+    <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="tabs"
                                     Storyboard.TargetProperty="(UIElement.IsEnabled)">
       <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
     </BooleanAnimationUsingKeyFrames>
-    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="login_control"
+    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LoginControl"
                                    Storyboard.TargetProperty="(UIElement.Visibility)">
       <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
       <DiscreteObjectKeyFrame KeyTime="00:00:00.5000000" Value="{x:Static Visibility.Visible}"/>
@@ -83,13 +83,13 @@
     </BooleanAnimationUsingKeyFrames>
   </Storyboard>
   <Storyboard x:Key="HideLogin">
-    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="login_control"
+    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LoginControl"
                                    Storyboard.TargetProperty="(FrameworkElement.Height)">
       <SplineDoubleKeyFrame KeyTime="00:00:00" Value="270"/>
       <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="3"/>
       <SplineDoubleKeyFrame KeyTime="00:00:00.6000000" Value="0"/>
     </DoubleAnimationUsingKeyFrames>
-    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="login_control"
+    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LoginControl"
                                    Storyboard.TargetProperty="(FrameworkElement.Width)">
       <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="225"/>
       <SplineDoubleKeyFrame KeyTime="00:00:00.6000000" Value="0"/>
@@ -99,7 +99,7 @@
       <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
       <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1"/>
     </DoubleAnimationUsingKeyFrames>
-    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="login_control"
+    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LoginControl"
                                    Storyboard.TargetProperty="(UIElement.Visibility)">
       <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
       <DiscreteObjectKeyFrame KeyTime="00:00:00.4000000" Value="{x:Static Visibility.Hidden}"/>
@@ -110,7 +110,7 @@
                                     Storyboard.TargetProperty="(UIElement.IsEnabled)">
       <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
     </BooleanAnimationUsingKeyFrames>
-    <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Tabs"
+    <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="tabs"
                                     Storyboard.TargetProperty="(UIElement.IsEnabled)" Duration="00:00:00.0010000">
       <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
     </BooleanAnimationUsingKeyFrames>

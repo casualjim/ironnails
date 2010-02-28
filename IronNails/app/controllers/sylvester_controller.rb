@@ -37,7 +37,9 @@ class SylvesterController < IronNails::Controller::Base
   def default_action
     @status_bar_message = "Please login"
     child_view :login, :in => :content
-    on_view(:login) { |proxy| proxy.loaded { proxy.username.focus } }
+    on_view(:login) do |proxy|
+      proxy.loaded { proxy.username.focus;  }
+    end
   end
 
   def refresh_tweets
@@ -54,6 +56,7 @@ class SylvesterController < IronNails::Controller::Base
       on_view(:login) do |proxy|
         proxy.visibility= :hidden
         proxy.password.password = ""
+        #proxy.play_storyboard "HideLogin"
       end
       @username = ""
 
@@ -81,10 +84,8 @@ class SylvesterController < IronNails::Controller::Base
   def authenticate
     @status_bar_message = "Logging in"
     refresh_view
-    logger.debug "creating credentials #{@username}, #{@password}"
     @credentials = Credentials.new @username, @password.to_s.to_secure_string
     @current_user = User.login(@credentials)
-    logger.debug "logged in"
     logged_in #unless current_user.nil?
   end
 

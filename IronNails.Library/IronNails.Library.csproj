@@ -52,6 +52,21 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IronRuby">
+      <HintPath>..\libs\IronRuby.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries">
+      <HintPath>..\libs\IronRuby.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries.Yaml">
+      <HintPath>..\libs\IronRuby.Libraries.Yaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>..\libs\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Core">
+      <HintPath>..\libs\Microsoft.Scripting.Core.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -81,7 +96,11 @@
     <Compile Include="Behaviors\Helpers.cs" />
     <Compile Include="Behaviors\MouseBehavior.cs" />
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="ObservableDictionary.cs" />
+    <Compile Include="DlrHelper.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Inflector.cs" />
+    <Compile Include="IronNailsConverter.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

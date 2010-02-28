@@ -1,9 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:controls="clr-namespace:Common.Controls;assembly=Common"
-                    xmlns:converters="clr-namespace:Common.Converters;assembly=Common"
+                    xmlns:nails="clr-namespace:IronNails.Library;assembly=IronNails.Library"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Witty">
 
-  <converters:IndexToIsAlternateRowConverter x:Key="IndexToIsAlternateRowConverter"/>
+  <nails:IronNailsConverter x:Key="IndexToIsAlternateRowConverter" ConverterName="index_to_is_alternate_row" />
+  <nails:IronNailsConverter x:Key="ImageConverter" ConverterName="image" />
 
   <SolidColorBrush x:Key="PrimaryBackgroundBrush" Color="#FF52626F"/>
 

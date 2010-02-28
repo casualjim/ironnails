@@ -64,6 +64,8 @@ module IronNails
           app
           app/models
           app/controllers
+          app/converters
+          app/helpers
       ).map { |dir| "#{root_path}/#{dir}" }.select { |dir| File.directory?(dir) }
     end
 
@@ -120,14 +122,14 @@ module IronNails
 
       @root_path =
               # Pathname is incompatible with Windows, but Windows doesn't have
-      # real symlinks so File.expand_path is safe.
-      if RUBY_PLATFORM =~ /(:?mswin|mingw)/
-        File.expand_path(::IRONNAILS_ROOT)
+              # real symlinks so File.expand_path is safe.
+              if ENV['OS'] == 'Windows_NT'.freeze
+                File.expand_path(::IRONNAILS_ROOT)
 
-        # Otherwise use Pathname#realpath which respects symlinks.
-      else
-        Pathname.new(::IRONNAILS_ROOT).realpath.to_s
-      end
+                # Otherwise use Pathname#realpath which respects symlinks.
+              else
+                Pathname.new(::IRONNAILS_ROOT).realpath.to_s
+              end
 
       Object.const_set(:RELATIVE_SAILS_ROOT, ::IRONNAILS_ROOT.dup) unless defined?(::RELATIVE_SYLVESTER_ROOT)
 

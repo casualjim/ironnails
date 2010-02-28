@@ -1,4 +1,5 @@
-IronNails::Logging::FRAMEWORK_LOGGING = true
+require File.dirname(__FILE__) + "/boot"
+# IronNails::Logging::FRAMEWORK_LOGGING = false
 IronNails::Logging::CONSOLE_LOGGING = true
 
 #require 'twitter'

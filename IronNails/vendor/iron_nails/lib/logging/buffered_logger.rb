@@ -4,8 +4,6 @@ module IronNails
 
   module Logging
 
-    FRAMEWORK_LOGGING = true unless defined? FRAMEWORK_LOGGING
-    CONSOLE_LOGGING = true unless defined? CONSOLE_LOGGING
 
     class BufferedLogger
       module Severity
@@ -69,9 +67,10 @@ module IronNails
 
       def add(severity, message = nil, progname = nil, &block)
         from_framework = progname == IRONNAILS_FRAMEWORKNAME
-        return if @level > severity || (from_framework && !IronNails::Logging::FRAMEWORK_LOGGING )
+        fw_logging = defined?(IronNails::Logging::FRAMEWORK_LOGGING) && IronNails::Logging::FRAMEWORK_LOGGING
+        return if @level > severity || (from_framework && !fw_logging )
         message = (message || (block && block.call) || progname).to_s
-        puts message if IronNails::Logging::CONSOLE_LOGGING
+        puts message if defined?(IronNails::Logging::CONSOLE_LOGGING) && IronNails::Logging::CONSOLE_LOGGING
         # If a newline is necessary then create a new message ending with a newline.
         # Ensures that the original message is not mutated.
         message = "IRONNAILS: #{Severity.constants[severity]}: #{message}" if from_framework

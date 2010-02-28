@@ -74,7 +74,7 @@ module IronNails
             when HttpStatusCode.BadRequest: # rate limit exceeded
               raise RequestLimitException.new;
             when HttpStatusCode.Unauthorized: # unauthorized
-              raise SecurityException.new("Not Authorized.");
+              raise SecurityException.new("Not Authorized.")
             else
               raise
           end
