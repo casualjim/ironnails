@@ -14,7 +14,7 @@ module IronNails
 
 
       def update_humanized_time
-        @humanized_time = self.created_at.humanize if self.created_at
+        self.humanized_time = self.created_at.humanize if self.created_at
       end
 
       def self.collection

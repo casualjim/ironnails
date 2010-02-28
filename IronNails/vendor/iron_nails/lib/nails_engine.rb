@@ -164,7 +164,6 @@ module IronNails
 
         if cmd.respond_to?(:has_command?)
           cmd.each do |c|
-            logger.debug "Enqueing command: #{c.class}, #{c.name}"
             enqueue_command(c)
           end
         elsif cmd.respond_to?(:execute) && cmd.respond_to?(:refresh_view) # define some sort of contract
@@ -345,8 +344,6 @@ module IronNails
         objects.each do |k, v|
           if model.respond_to?(k.to_sym)
             val = model.send k.to_sym
-
-            logger.debug "synchronising #{k}, with value #{val}", IRONNAILS_FRAMEWORKNAME
             objects[k] = val
             controller.instance_variable_set "@#{k}", val
           end
@@ -354,7 +351,6 @@ module IronNails
         view_properties = controller.instance_variable_get "@view_properties"
         view_properties.each do |k, v|
           val = from_view controller, (v[:view]||controller.view_name), v[:element], v[:property]
-          logger.debug "synchronising #{k}, with value #{val}", IRONNAILS_FRAMEWORKNAME
           instance_variable_set "@#{k}", val
         end
       end

@@ -5,7 +5,7 @@ module IronNails
     class ModelBase
 
       include IronNails::Models::ModelMixin
-      #include IronNails::Models::Databinding
+      include IronNails::Models::Databinding
       include IronNails::Core::FeedParser
       extend IronNails::Core::FeedParser::ClassMethods
 

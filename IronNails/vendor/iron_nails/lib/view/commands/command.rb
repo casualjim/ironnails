@@ -198,9 +198,7 @@ module IronNails
       end
 
       def create_command_from(definition)
-        k = definition[:type]||:behavior
-        puts "*** command type: #{k}"
-        command_mapping[k].new definition
+        command_mapping[definition[:type]||:behavior].new definition
       end
 
     end
