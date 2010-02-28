@@ -1,7 +1,25 @@
-#libs_include = "-I 'C:\\tools\\ironruby\\libs;C:\\tools\\ruby\\lib\\ruby\\site_ruby\\1.8;C:\\tools\\ruby\\lib\\ruby\\1.8'"
+require 'rubygems'
+require 'rake'
 require 'yaml'
 require 'ftools'
-libs_include = "" #= "-I 'C:\tools\ironruby\merlin\external\languages\ruby\redist-libs\ruby;C:\tools\ironruby\merlin\external\languages\ironruby"
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    gem.name = "testgem"
+    gem.summary = %Q{IronNails brings rails like development to IronRuby and WPF}
+    gem.description = %Q{IronNails is a framework inspired by the Rails and rucola frameworks. It offers a rails-like way of developing
+applications with IronRuby and Windows Presentation Foundation (WPF).}
+    gem.email = "ivan@flanders.co.nz"
+    gem.homepage = "http://github.com/casualjim/ironnails"
+    gem.authors = ["Ivan Porto Carrero"]
+    gem.add_development_dependency "rspec", ">= 0"
+    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+end
 
 
 def exec_sys(cmd)
@@ -40,7 +58,6 @@ namespace :build do
   task :copy_assemblies do
     puts "Coping files to install locations"
     ir_path = File.expand_path(File.dirname(__FILE__) + "/bin")
-    File.copy("../libs/IronNails.Library.dll", ir_path )
     File.copy("../libs/J832.Common.dll", ir_path )
     File.copy("../libs/J832.Wpf.BagOTricksLib.dll", ir_path )
   end
