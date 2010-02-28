@@ -41,13 +41,14 @@ class SylvesterController < IronNails::Controller::Base
   end
 
   def refresh_tweets
+    logger.debug "refreshing tweets"
     @tweets.merge! Status.timeline_with_friends(@credentials)
     @status_bar_message = "Refreshed tweets"
   end
 
   def logged_in
     unless @current_user.nil?
-      logger.debug "Fetching timeline with friends: #{@credentials.username}"
+      logger.debug "Fetching timeline with friends: #{credentials.username}"
       @tweets = Status.timeline_with_friends @credentials
       @status_bar_message = "Received tweets"
       on_view(:login) do |proxy|

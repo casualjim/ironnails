@@ -145,7 +145,6 @@ module IronNails
         act = options[:action]||name
         action = act
         action = controller.method(act) if act.is_a?(Symbol) || act.is_a?(String)
-
         if options.has_key?(:triggers) && !options[:triggers].nil?
           triggers = options[:triggers]
 
@@ -159,13 +158,13 @@ module IronNails
                             :type    => :event
                     }
                   elsif triggers.is_a?(Hash)
-                    triggers.merge({:action => action, :mode => mode, :type => :event })
+                    {:action => action, :mode => mode, :type => :event }.merge triggers
                   elsif triggers.is_a?(Array)
                     defs = []
                     triggers.each do |trig|
                       trig = { :element => trig, :event => :click } unless trig.is_a? Hash
                       trig[:event] = :click unless trig.has_key? :event
-                      defs << trig.merge({ :action => action, :mode => mode, :type => :event })
+                      defs << { :action => action, :mode => mode, :type => :event }.merge(trig)
                     end
                     defs
                   end
@@ -177,13 +176,15 @@ module IronNails
           callback = options[:callback]
           callback = controller.method(callback) if callback.is_a?(Symbol) || callback.is_a?(String)
           controller_action, controller_condition = execute || action, options[:condition]
-          {
+          res = {
                   :action => controller_action,
                   :condition => controller_condition,
                   :mode => mode,
                   :callback => callback,
-                  :type => :behavior
+                  :type => options[:type] || :behavior
           }
+          res[:interval] = options[:interval] if options.key? :interval
+          res
         end
       end
 
@@ -197,7 +198,9 @@ module IronNails
       end
 
       def create_command_from(definition)
-        command_mapping[definition[:type]||:behavior].new definition
+        k = definition[:type]||:behavior
+        puts "*** command type: #{k}"
+        command_mapping[k].new definition
       end
 
     end

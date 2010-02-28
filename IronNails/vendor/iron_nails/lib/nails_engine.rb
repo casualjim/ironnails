@@ -161,8 +161,10 @@ module IronNails
 
       # adds a command or a command collection to the queue
       def add_command_to_queue(cmd)
+
         if cmd.respond_to?(:has_command?)
           cmd.each do |c|
+            logger.debug "Enqueing command: #{c.class}, #{c.name}"
             enqueue_command(c)
           end
         elsif cmd.respond_to?(:execute) && cmd.respond_to?(:refresh_view) # define some sort of contract
@@ -302,6 +304,7 @@ module IronNails
               view.add_command(cmd)
             when cmd.is_a?(TimedCommand)
               view.add_timer(cmd)
+              view.proxy.start_timer(cmd)
             when cmd.is_a?(BehaviorCommand)
               model.add_command cmd
           end unless cmd.attached?
