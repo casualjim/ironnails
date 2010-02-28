@@ -20,7 +20,6 @@ namespace IronNails.Library
         private const string Forward = "convert";
         private const string Back = "convert_back";
         private const string Suffix = "_converter";
-//        private const string appPath = "app/converters";
         private object _converter;
         private DlrHelper _helper;
         public string ConverterName { get; set; }
@@ -48,7 +47,7 @@ namespace IronNails.Library
         {
             if (_helper.IsNull()) _helper = new DlrHelper();
             if (_converter.IsNull())
-                _converter = _helper.LoadObject(ConverterName + Suffix);//_helper.RootPath(appPath, ConverterName + Suffix + ".rb"));
+                _converter = _helper.LoadObject(ConverterName + Suffix);
         }
     }
 }

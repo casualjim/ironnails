@@ -24,9 +24,6 @@ class DemoController < IronNails::Controller::Base
   end
 end
 
-# file name: DemoViewModel.cs
-public class DemoViewModel : IronNails.View.ViewModel { }
-
 # file name: demo.xaml
 <Window 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -34,15 +31,14 @@ public class DemoViewModel : IronNails.View.ViewModel { }
     xmlns:behaviors="clr-namespace:IronNails.Library.Behaviors;assembly=IronNails.Library"
     Title="Window1" Height="300" Width="300">
     <StackPanel>
-        <TextBlock Text="{Binding Objects[StatusBarMessage].Value}" ></TextBlock>
-        <Button Content="Click me" behaviors:ClickBehavior.LeftClick="{Binding Commands[ChangeMessage]}" />
+        <TextBlock Text="{Binding status_bar_message }" ></TextBlock>
+        <Button Content="Click me" behaviors:ClickBehavior.LeftClick="{Binding change_message }" />
     </StackPanel>
 </Window>
 
 If you want to run the project:
-update IronRuby to the latest revision (currently r.170)
-update the build_conf.yml file in the config folder to point to your ironruby bin folder. We need to copy some assemblies there.
-type rake run in the ironnails directory ie. C:\projects\ironnails\ironnails\ > rake run
+update IronRuby to the latest revision
+type rake run in the ironnails directory ie. C:\dev\ironnails\ > rake run
 
 all help is welcome: ivan@flanders.co.nz
 
@@ -51,6 +47,5 @@ Help is wanted for implementing the following items a.o.
 * RSpec stories
 * Predefined behaviors
 * Better xaml integration
-* Encapsulation of automatic refreshing of models.
 * support for multiple views tied to a controller
 * Create a host project in which is an application that hosts the ironruby runtime and executes our nails application.

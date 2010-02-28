@@ -11,7 +11,7 @@ end
 
 desc "Run the application"
 task :run => [:build] do
-  exec_sys "ir lib/main.rb"
+  sh "ir lib/main.rb"
 end
 
 namespace :run do
@@ -38,11 +38,11 @@ namespace :build do
 
   desc "Copies the library assembly to the ironruby directory"
   task :copy_assemblies do
-#    puts "Coping files to install locations"
-#    ir_path = YAML::load_file('config/build_config.yml')[:ironruby_path.to_s]
-#    File.copy("../libs/IronNails.Library.dll", "#{ir_path}" )
-#    File.copy("../libs/J832.Common.dll", "#{ir_path}" )
-#    File.copy("../libs/J832.Wpf.BagOTricksLib.dll", "#{ir_path}" )
+    puts "Coping files to install locations"
+    ir_path = File.expand_path(File.dirname(__FILE__) + "/bin")
+    File.copy("../libs/IronNails.Library.dll", ir_path )
+    File.copy("../libs/J832.Common.dll", ir_path )
+    File.copy("../libs/J832.Wpf.BagOTricksLib.dll", ir_path )
   end
 
   desc "Build the helpers project"

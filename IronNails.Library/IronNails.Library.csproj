@@ -36,7 +36,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\IronNails\vendor\iron_nails\bin\</OutputPath>
+    <OutputPath>..\IronNails\vendor\iron_nails\lib\ironnails\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -129,6 +129,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) ..\..\..\..\libs\IronNails.Library.dll</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) ..\..\..\..\..\..\libs\IronNails.Library.dll</PostBuildEvent>
   </PropertyGroup>
 </Project>

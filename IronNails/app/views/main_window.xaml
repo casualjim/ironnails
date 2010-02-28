@@ -21,7 +21,6 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="..\..\assets\Storyboards.xaml"/>
       </ResourceDictionary.MergedDictionaries>
-      <nails:IronNailsConverter x:Key="CharRemainingConverter" ConverterName="char_remaining_value" />
     </ResourceDictionary>
   </Window.Resources>
   <Window.Triggers>
@@ -123,7 +122,7 @@
                   <TextBox Text="{Binding update_text, Mode=TwoWay}" TextWrapping="Wrap" x:Name="tweet_text_box"
                            SpellCheck.IsEnabled="True"/>
                   <TextBlock
-                          Text="{Binding Path=Text.Length, Converter={StaticResource CharRemainingConverter}, ElementName=tweet_text_box, Mode=Default}"
+                          Text="{Binding Path=Text.Length, Converter={nails:IronNailsConverter ConverterName=char_remaining_value}, ElementName=tweet_text_box, Mode=Default}"
                           FontSize="18"
                           Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"
                           FontFamily="Georgia" x:Name="char_remaining_counter" Foreground="#FF52626F"/>
