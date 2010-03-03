@@ -1,5 +1,10 @@
 require File.dirname(__FILE__) + "/boot"
 
+if File.exist? root_path("lib/<%= @class_name %>.Controls.dll")
+  require '<%= @class_name %>.Controls.dll'
+  include <%= @class_name %>::Controls
+end
+
 IronNails::Logging::CONSOLE_LOGGING = true
 
 IronNails::Initializer.run do |config|

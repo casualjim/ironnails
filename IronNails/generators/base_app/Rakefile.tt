@@ -1,12 +1,12 @@
 desc "Build the helpers project"
 task :helpers do
   puts "Building the helpers project"
-  SLN = ENV['SLN'].blank? ? Dir['./*.sln'].first : ENV['SLN']
-  system "msbuild /clp:ErrorsOnly;WarningsOnly /nologo SLN
+  sln = ENV['SLN'] || Dir['./*.sln'].first 
+  system "msbuild /clp:ErrorsOnly;WarningsOnly /nologo #{sln}"
 end
 
 desc "Runs the application"
-task :run => :build do
+task :run => :helpers do
   sh "ir lib/main.rb"
 end
 

@@ -45,7 +45,7 @@ require 'System.Security, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5
 require "System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
 
 # load IronNails static CLR helpers
-require 'IronNails.Library.dll'
+require 'ironnails/bin/IronNails.Library.dll'
 lst = System::Collections::Generic::List.of(System::String).new
 $:.each {|pth| lst.add pth.to_clr_string }
 IronNails::Library::DlrHelper.load_paths = lst

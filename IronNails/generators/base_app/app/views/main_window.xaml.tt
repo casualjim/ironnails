@@ -13,6 +13,6 @@
         WindowStyle="SingleBorderWindow"
         Left="100" Top="50">
 
-        <TextBlock Text="Hello from IronNails" />
+        <TextBlock Text="{Binding greeting}" />
         
 </Window>

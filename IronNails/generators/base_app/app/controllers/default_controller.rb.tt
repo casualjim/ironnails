@@ -1,5 +1,15 @@
 module <%= @class_name %>
     class DefaultController < ApplicationController
-      #Code here
+      
+      view_object :greeting
+
+      def default_action
+        @greeting = "Hello from IronNails!"
+      end
+
+      def view_name
+        :main_window
+      end
+    
     end
 end

@@ -25,18 +25,21 @@ rescue LoadError => le
   require 'ironnails'
 end
 
-class <%= @class_name %>::Application < WpfApplication
-    # Attempts to require all dependencies with bundler, if this fails, bundle and then try again
-  def bundler_require_dependencies(environment='default')
-    require 'bundler'
-    Bundler.setup(environment.to_sym)
-    Bundler.require(environment.to_sym)
-  rescue LoadError => e
-    puts "Bundler must be run to resolve dependencies!"
-    system("cd #{ROOT_DIR}; bundle install")
-    puts "Retrying with dependencies resolved..."
-    retry
+
+module <%= @class_name %>
+
+  class Application < WpfApplication
+      # Attempts to require all dependencies with bundler, if this fails, bundle and then try again
+    def bundler_require_dependencies(environment='default')
+      require 'bundler'
+      Bundler.setup(environment.to_sym)
+      Bundler.require(environment.to_sym)
+    rescue LoadError => e
+      puts "Bundler must be run to resolve dependencies!"
+      system("cd #{ROOT_DIR}; bundle install")
+      puts "Retrying with dependencies resolved..."
+      retry
+    end
+
   end
-
-
 end

@@ -1,4 +1,4 @@
-#/usr/bin/env ir
+#! /usr/bin/env ir
 %w[rubygems active_support thor thor/group].each { |gem| require gem }
 require File.dirname(__FILE__) + "/../generators/skeleton_generator"
 arguments = ARGV.any? ? ARGV : ['-h']
