@@ -19,6 +19,7 @@ IRONNAILS_FRAMEWORKNAME = "IronNails Framework" unless defined?(IRONNAILS_FRAMEW
 nails_vendor_lib = File.join(IRONNAILS_ROOT, "vendor/ironnails")
 $:.unshift nails_vendor_lib if File.exist? nails_vendor_lib
 $:.unshift File.expand_path(File.dirname(__FILE__))
+$:.unshift File.expand_path(File.dirname(__FILE__) + "ironnails/bin")
 
 %w(app/views app/helpers app/converters app/controllers app/models lib bin).each do |pth|
   $:.unshift File.join(IRONNAILS_ROOT, pth)
@@ -44,7 +45,7 @@ require 'System.Security, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5
 require "System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
 
 # load IronNails static CLR helpers
-require 'ironnails/bin/IronNails.Library.dll'
+require 'IronNails.Library.dll'
 lst = System::Collections::Generic::List.of(System::String).new
 $:.each {|pth| lst.add pth.to_clr_string }
 IronNails::Library::DlrHelper.load_paths = lst

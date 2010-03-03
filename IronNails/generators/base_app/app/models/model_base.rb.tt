@@ -1,0 +1,8 @@
+module <%= @class_name %>
+  class ModelBase
+
+    include IronNails::Models::ModelMixin
+    include IronNails::Models::Databinding
+
+  end
+end  

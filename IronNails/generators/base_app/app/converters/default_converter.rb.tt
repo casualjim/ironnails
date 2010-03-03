@@ -1,0 +1,14 @@
+module <%= @class_name %>
+  class DefaultConverter
+
+    include System::Windows::Data::IValueConverter
+
+    def convert(value, target_type, parameter, culture)
+      value
+    end
+
+    def convert_back(value, target_type, parameter, culture)
+      raise NotImplementedError
+    end
+  end
+end

@@ -1,0 +1,7 @@
+# A sample Gemfile
+source :gemcutter
+
+gem 'thor'
+gem 'uuidtools'
+#
+# gem "rails"

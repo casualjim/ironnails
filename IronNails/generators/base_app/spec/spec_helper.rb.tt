@@ -1,0 +1,5 @@
+IRONNAILS_ENV = 'test' unless defined?(IRONNAILS_ENV)
+require File.dirname(__FILE__) + "/../config/boot"
+Bundler.require(:default, :testing)
+
+# Spec configuration

@@ -130,7 +130,7 @@ module IronNails
                 Pathname.new(::IRONNAILS_ROOT).realpath.to_s
               end
 
-      Object.const_set(:RELATIVE_SAILS_ROOT, ::IRONNAILS_ROOT.dup) unless defined?(::RELATIVE_SYLVESTER_ROOT)
+      Object.const_set(:RELATIVE_IRONNAILS_ROOT, ::IRONNAILS_ROOT.dup) unless defined?(::RELATIVE_IRONNAILS_ROOT)
 
       ::IRONNAILS_ROOT.replace @root_path
     end

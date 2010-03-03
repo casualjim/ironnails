@@ -7,7 +7,6 @@ class WpfApplication < System::Windows::Application
   def initialize(&b)
     logger.debug "Starting application", IRONNAILS_FRAMEWORKNAME
     @nails_engine = NailsEngine.new
-    #@nails_engine = TestViewManager.new
     controller = instance_eval &b
     nails_engine.register_controller controller
     nails_engine.show_initial_window controller do |view_instance|
@@ -24,7 +23,7 @@ class WpfApplication < System::Windows::Application
     self.resources.merged_dictionaries.add load_skin(name)
   end
 
-  def load_skin(name)
-    XamlReader.load_from_path "#{IRONNAILS_ROOT}/skins/#{name}.xaml"
+  def load_skin(name=:default)
+    XamlReader.load_from_path skins_path("#{name}.xaml")
   end
 end

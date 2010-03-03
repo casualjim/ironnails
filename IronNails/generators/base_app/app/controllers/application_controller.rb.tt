@@ -1,0 +1,5 @@
+module <%= @class_name %>
+  class ApplicationController < IronNails::Controller::Base
+
+  end
+end

@@ -1,0 +1,8 @@
+require File.dirname(__FILE__) + "/../config/environment"
+
+<%= @class_name %>::Application.new do
+  bundler_require_dependencies 
+
+  set_skin :default
+  <%= @class_name %>::DefaultController.new
+end

@@ -1,0 +1,42 @@
+IRONNAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+
+# Helper method for file references.
+# root_path("config", "settings.yml")
+def root_path(*args)
+  File.join(IRONNAILS_ROOT, *args)
+end
+
+# Returns the full path to the assets folder along with any given additions
+# assets_path("images")
+def assets_path(*args)
+  root_path('assets', *args)
+end
+
+# Returns the full path to the assets folder along with any given additions
+# assets_path("images")
+def skins_path(*args)
+  assets_path('skins', *args)
+end
+
+begin
+  require 'ironnails'
+rescue LoadError => le
+  require 'rubygems'
+  require 'ironnails'
+end
+
+class <%= @class_name %>::Application < WpfApplication
+    # Attempts to require all dependencies with bundler, if this fails, bundle and then try again
+  def bundler_require_dependencies(environment='default')
+    require 'bundler'
+    Bundler.setup(environment.to_sym)
+    Bundler.require(environment.to_sym)
+  rescue LoadError => e
+    puts "Bundler must be run to resolve dependencies!"
+    system("cd #{ROOT_DIR}; bundle install")
+    puts "Retrying with dependencies resolved..."
+    retry
+  end
+
+
+end
