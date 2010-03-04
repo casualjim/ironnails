@@ -31,7 +31,7 @@ namespace IronNails.Library
         }
 
         public static string AppRoot { get; set; }
-        public static IEnumerable<string> LoadPaths { get; set; }
+        public static ICollection<string> LoadPaths { get; set; }
 
         public ScriptEngine Engine { get; private set; }
         public RubyContext Context { get; private set; }
@@ -40,7 +40,7 @@ namespace IronNails.Library
         public object LoadObject(string fileName)
         {
             var nm = Path.GetFileNameWithoutExtension(fileName).Underscore();
-            Engine.RequireRubyFile(fileName);
+            Engine.RequireFile(fileName);
             var klass = Runtime.Globals.GetVariable<RubyClass>(nm.Pascalize());
             return Operations.CreateInstance(klass);
         }
@@ -57,7 +57,7 @@ namespace IronNails.Library
 
         private void AddLoadPaths()
         {
-            Context.Loader.SetLoadPaths(LoadPaths);
+            Engine.SetSearchPaths(LoadPaths);
         }
 
         public object ExecuteScript(string script)
@@ -68,7 +68,6 @@ namespace IronNails.Library
         private void InitializeRubyEngine()
         {
             Engine = Ruby.GetEngine(Runtime);
-            Context = Ruby.GetExecutionContext(Engine);
             Operations = Engine.CreateOperations();
         }
     }
