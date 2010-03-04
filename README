@@ -2,12 +2,11 @@ IronNails
 =========
 
 IronNails is a framework inspired by the Rails and rucola frameworks. It offers a rails-like way of developing applications with IronRuby and Windows Presentation Foundation (WPF).
-This framework uses the pattern Model - ViewModel - View - Controller (M-VM-V-C). It should eventually be able to run on both WPF and Silverlight.
+This framework uses the pattern Model - ViewModel - View - Controller (M-VM-V-C). It should eventually be able to run on both WPF and Silverlight but currently only works with WPF.
 The idea is that the views can be created using a design tool like Blend for example and just save that xaml as is. The designer should not need to use anything else than drag and drop to create a GUI design. The behaviors are then added to the view by using predefined behaviors in the framework or by defining your own behavior.
 The framework then generates a proxy for the view which will be used to transparently wire up the commands in the behaviors to controller actions. 
 
-As this project evolves and IronRuby becomes more complete we will start to take on dependencies to other rubygems.
-At this moment we only have a dependency to get logging going and we need to be able to do require 'logger' and require 'fileutils'. In controllers, viewmodels, models and view proxies you now have the ability to log things in the same way Rails does.
+In controllers, viewmodels, models and view proxies you now have the ability to log things in the same way Rails does.
 
 You can run the application by giving the command rake run inside the application directory
 
@@ -38,7 +37,11 @@ end
 
 If you want to run the project:
 update IronRuby to the latest revision
-type rake run in the ironnails directory ie. C:\dev\ironnails\ > rake run
+
+  ir -S gem install ironnails
+  ir -S ironnails my_cool_application
+  cd my_cool_application
+  rake 
 
 all help is welcome: ivan@flanders.co.nz
 
