@@ -13,18 +13,20 @@ You can run the application by giving the command rake run inside the applicatio
 You are now able to write the following code for a controller:
 
 # file name: demo_controller.rb
-class DemoController < IronNails::Controller::Base
-  view_object :status_bar_message, "The status bar message"
+
+  class DemoController < IronNails::Controller::Base
+    view_object :status_bar_message, "The status bar message"
   
-  view_action :change_message
+    view_action :change_message
   
-  def change_message
-    @status_bar_message = "#@status_bar_message appended"
+    def change_message
+      @status_bar_message = "#@status_bar_message appended"
+    end
   end
-end
 
 # file name: demo.xaml
-<Window 
+  
+  <Window 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:IronNails.Library.Behaviors;assembly=IronNails.Library"
@@ -33,7 +35,7 @@ end
         <TextBlock Text="{Binding status_bar_message }" ></TextBlock>
         <Button Content="Click me" behaviors:ClickBehavior.LeftClick="{Binding change_message }" />
     </StackPanel>
-</Window>
+  </Window>
 
 If you want to run the project:
 update IronRuby to the latest revision
