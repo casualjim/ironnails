@@ -75,11 +75,10 @@ module IronNails
       # executes this command (it calls the action)
       def execute
         #log_on_error do
-        puts "calling the action"
         synchronise_viewmodel_with_controller
         action.call
         refresh_view unless asynchronous?
-        #end if can_execute?
+         #end if can_execute?
       end
 
       def ==(command)

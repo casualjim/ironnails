@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ironnails}
-  s.version = "0.0.3"
+  s.version = "0.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ivan Porto Carrero"]
-  s.date = %q{2010-03-03}
+  s.date = %q{2010-03-04}
   s.default_executable = %q{ironnails}
   s.description = %q{IronNails is a framework inspired by the Rails and rucola frameworks. It offers a rails-like way of developing
 applications with IronRuby and Windows Presentation Foundation (WPF).}
@@ -50,6 +50,7 @@ applications with IronRuby and Windows Presentation Foundation (WPF).}
      "lib/iron_nails.rb",
      "lib/ironnails.rb",
      "lib/ironnails/bin/IronNails.Library.dll",
+     "lib/ironnails/bin/IronNails.Library.pdb",
      "lib/ironnails/bin/IronRuby.Libraries.Yaml.dll",
      "lib/ironnails/bin/IronRuby.Libraries.dll",
      "lib/ironnails/bin/IronRuby.dll",
