@@ -1,0 +1,54 @@
+IronNails
+=========
+
+IronNails is a framework inspired by the Rails and rucola frameworks. It offers a rails-like way of developing applications with IronRuby and Windows Presentation Foundation (WPF).
+This framework uses the pattern Model - ViewModel - View - Controller (M-VM-V-C). It should eventually be able to run on both WPF and Silverlight but currently only works with WPF.
+The idea is that the views can be created using a design tool like Blend for example and just save that xaml as is. The designer should not need to use anything else than drag and drop to create a GUI design. The behaviors are then added to the view by using predefined behaviors in the framework or by defining your own behavior.
+The framework then generates a proxy for the view which will be used to transparently wire up the commands in the behaviors to controller actions. 
+
+In controllers, viewmodels, models and view proxies you now have the ability to log things in the same way Rails does.
+
+You can run the application by giving the command rake run inside the application directory
+
+You are now able to write the following code for a controller:
+
+# file name: demo_controller.rb
+class DemoController < IronNails::Controller::Base
+  view_object :status_bar_message, "The status bar message"
+  
+  view_action :change_message
+  
+  def change_message
+    @status_bar_message = "#@status_bar_message appended"
+  end
+end
+
+# file name: demo.xaml
+<Window 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:IronNails.Library.Behaviors;assembly=IronNails.Library"
+    Title="Window1" Height="300" Width="300">
+    <StackPanel>
+        <TextBlock Text="{Binding status_bar_message }" ></TextBlock>
+        <Button Content="Click me" behaviors:ClickBehavior.LeftClick="{Binding change_message }" />
+    </StackPanel>
+</Window>
+
+If you want to run the project:
+update IronRuby to the latest revision
+
+  ir -S gem install ironnails
+  ir -S ironnails my_cool_application
+  cd my_cool_application
+  rake 
+
+all help is welcome: ivan@flanders.co.nz
+
+Help is wanted for implementing the following items a.o.
+
+* RSpec stories
+* Predefined behaviors
+* Better xaml integration
+* support for multiple views tied to a controller
+* Create a host project in which is an application that hosts the ironruby runtime and executes our nails application.
